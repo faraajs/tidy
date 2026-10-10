@@ -1,0 +1,31 @@
+# Android build and tooling output
+.gradle/
+.idea/
+*.iml
+local.properties
+**/build/
+.externalNativeBuild/
+.cxx/
+.DS_Store
+
+# Signing material and credentials: never commit
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.pem
+*.key
+keystore.properties
+signing.properties
+.env
+.env.*
+
+# Binary release assets stay local until redistribution is cleared
+*.apk
+*.aab
+*.apks
+*.so
+
+# Recovery-tool working directories and logs
+.jadx/
+*.log
