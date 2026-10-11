@@ -8,7 +8,7 @@ Automatic screenshot and photo conversion to AVIF or WebP on Android.
 
 **2.3.0 is a newly authored, source-buildable Android app**, not the recovered original project or a byte-identical rebuild of 2.2.0. It uses Java/platform Views and source-built libavif/libaom. Historical `sources/`, `bytecode/`, and `resources/` are references only and are not compiled into the app.
 
-**Publication status:** the [v2.3.0 release page](https://github.com/faraajs/tidy/releases/tag/v2.3.0) is the intended download location after verification and publication; this document does not assert that assets have already been uploaded. The original 2.2.0 APK remains withheld because its preferred source and matching native provenance are unresolved. See [historical recovery notes](docs/RECOVERY-NOTES.md) and [2.2.0 release notes](releases/v2.2.0/RELEASE-NOTES.md).
+**Publication status:** [Tidy 2.3.0 is published](https://github.com/faraajs/tidy/releases/tag/v2.3.0) with the signed universal APK, complete corresponding-source archive and `SHA256SUMS.txt`. The original 2.2.0 APK remains withheld because its preferred source and matching native provenance are unresolved. See [historical recovery notes](docs/RECOVERY-NOTES.md) and [2.2.0 release notes](releases/v2.2.0/RELEASE-NOTES.md).
 
 ## What it does
 
@@ -27,11 +27,11 @@ Conversion is **lossy**. Screenshots retain their oriented dimensions; photos ca
 
 Deletion requires a separate confirmation for each category. It is permitted only after a verified smaller output, unchanged source checks, and a fresh consent check. Existing output files are not overwritten. Errors retain the source or its recoverable backup; an interrupted or contested restore may leave a hidden `.<original>.tidy-source-backup-<UUID>` file beside the source. External writers and process death still create limits: these checks are not a transaction or a backup guarantee. **Keep an independent backup before enabling monitoring, especially before opting into irreversible original deletion.** Pause stops new dispatch; in-flight work may finish or preserve its source. Read [conversion safety limits](docs/ARCHITECTURE.md#authored-23-publication-and-source-safety).
 
-## Local download and installation
+## Download and installation
 
 Requirements: **Android 11/API 30+** and a **64-bit `arm64-v8a` or `x86_64`** device. The universal APK means these two ABIs, not every CPU or device; 32-bit ARM/x86 are unsupported.
 
-After publication, download these assets together from the [official v2.3.0 page](https://github.com/faraajs/tidy/releases/tag/v2.3.0), not an untrusted mirror:
+Download these assets together from the [official v2.3.0 page](https://github.com/faraajs/tidy/releases/tag/v2.3.0), not an untrusted mirror:
 
 - `tidy-v2.3.0-universal.apk`
 - `tidy-v2.3.0-corresponding-source.tar.gz`
@@ -69,6 +69,8 @@ Use `install -r` only when an existing installation has a compatible certificate
 Both ABIs have been source-built. **12 host policy/state tests passed; the signed release passed all 19 Android conversion/state scenarios on an API 30 full AOSP x86_64 emulator.** These exercised real AVIF/WebP, alpha, all eight EXIF pixel orientations, metadata removal, bounded targets, collisions, guarded deletion/retention, rollback conflicts, live consent, migration and millisecond activation/fingerprint boundaries. A separate private native-library-omitted fixture proved real WebP fallback for both categories. The empty-CREATE regression failed its 12-second wait before correction and produced verified WebP **440 ms after close-write** on the final release; this is an observation, not a latency guarantee.
 
 Actual dashboard smoke covered dark/light rendering and cold-relaunch theme persistence, a serial screenshot burst, moved-to input, old-media/category exclusion, pause-backlog exclusion, durable restart deduplication, photo activation and actual boot restoration before opening the Activity. Explicit Pause remained stopped after another real reboot. The APK signature and APK/ELF **16 KiB** alignment passed; artifact identity is recorded in [release notes](releases/v2.3.0/RELEASE-NOTES.md). Earlier Android 36 ATD codec checks are separate evidence. There is **no physical arm64 or all-OEM runtime verification claim**, background-survival guarantee, exhaustive accessibility certification or byte-for-byte app/compiler/runtime reproducibility claim.
+
+The corresponding-source archive was extracted outside the checkout and `assembleRelease` completed successfully for both ABIs (52 tasks executed). All three published assets were downloaded without authentication; both checksums, the APK signature and 16 KiB ZIP alignment passed. A clean installation of that downloaded APK on the isolated API 30 emulator followed the actual Android all-files permission flow and converted a new synthetic screenshot to verified 128 × 96 AVIF, retaining the unchanged original with zero reclaimed bytes.
 
 ## Permissions
 
