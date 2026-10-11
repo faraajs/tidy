@@ -2,9 +2,17 @@
 
 ## Scope and provenance
 
-Tidy's original Kotlin/Gradle checkout was lost. The earlier 2.2.0 recovery patched a preserved installed APK rather than rebuilding the original project. This repository documents that recovery and preserves application code and resources from the final r3 artifact; it does not reconstruct the original build environment or change recovered application behavior.
+Tidy's original Kotlin/Gradle checkout was lost. The earlier 2.2.0 recovery patched a preserved installed APK rather than rebuilding the original project. The historical sections below preserve that evidence. Tidy 2.3.0 is a separate, newly authored and buildable Java/native reconstruction; it neither recovers the original build environment nor establishes corresponding source for the old binary.
 
 The historical record below is transcribed from the prior recovery workspace's `RECOVERY-NOTES.md`. Artifact names identify the sequence, not additional public releases. The patch revisions retained version name `2.2.0`; no earlier release history or original release date has been reconstructed.
+
+### Current 2.3.0 cutover
+
+`app/src/main/` is the maintained application source. Historical `sources/`, `bytecode/` and `resources/` are not compiled. New authored vectors replace historical artwork; no recovered opaque native libraries are shipped. Source-built libavif/AOM replace the old HeifCoder/HEVC-linked chain. The current package remains `id.eska.tidy`, with version 2.3.0/code 3, minimum API 30, target API 36 and arm64-v8a/x86_64. See [build instructions](BUILD-FROM-SOURCE.md) for exact tools, source pins, signing and evidence limits.
+
+The new release certificate SHA-256 is `27c165f0a6f13f8b01ed6628bd1a2e8f61daeb3b33438c6808f41f331aa45389`, not the old debug certificate. A 2.2.0 installation cannot be updated in place with that new signature. Back up media/settings before manually uninstalling if switching; the app does not uninstall anything itself.
+
+The original 2.2.0 APK remains withheld despite this cutover. Its original preferred source and matching native source/build provenance remain unresolved. The intended 2.3.0 APK and corresponding-source release is a distinct artifact, subject to the integration owner's publication gates. Its source archive includes authored build inputs, full native sources, Java preferred-source JARs and conservative NDK runtime inputs/Android recipes and patches, not the original 2.2.0 APK or a full compiler/SDK; see [runtime provenance](THIRD-PARTY-NOTICES.md#current-source-built-components).
 
 ### Preserved final artifact
 
@@ -62,7 +70,7 @@ The historical notes report that `tidy-v2.2.0-ui-dark-arm64-r3.apk` was installe
 ## Repository extraction and Java recovery
 
 - **apktool 2.10.0** decoded the final r3 APK. `bytecode/id/eska/screenshotwebp/` preserves the 92 application smali files, and `resources/` preserves the decoded manifest, Android resources, and assets from that artifact. Dependency resources are present too; the directory is not exclusively application-authored material.
-- **jadx 1.5.6** is the Java recovery tool. Its output belongs in `sources/`; generation status, warnings, and incomplete-method limitations are recorded in [DECOMPILATION.md](DECOMPILATION.md). Do not infer that readable Java is complete or recompilable from the existence of the directory.
+- **JADX 1.5.6** produced the Java recovery references in `sources/`. The full attempt returned exit code **3**, ending `ERROR - finished with errors, count: 240` after progress `4405 of 4406 (99%)`; that aggregate covers the whole APK, not 240 application failures. The targeted `ScreenshotConverter` simple-mode attempt also returned **3**, with two errors and a method-not-decompiled body. Separate raw-instruction fallback attempts for `ScreenshotConverter` and `MediaMonitor` returned **0**; their `.fallback.java.txt` listings are instruction evidence, not runnable Java or repaired original source. Exact commands and limitations are retained in [DECOMPILATION.md](DECOMPILATION.md).
 - Where Java recovery is incomplete, the matching smali from the final APK is the authoritative recovered application representation. Decompiler-generated exception bodies are not evidence that the original application threw those exceptions.
 - The package ID and implementation namespace differ intentionally; they describe one application, not separate packages to install.
 
@@ -79,13 +87,13 @@ These commands describe extraction, not a supported source build, and do not by 
 
 The recovered baseline used the original `Screenshot WebP` signing certificate. Its private keystore was no longer present after cleanup. The repacked artifacts therefore used a local Android debug keystore; the original signing key has not been recovered and no private key is published.
 
-Android rejects an in-place update when the installed application and APK have different signing certificates. Unless the original key is recovered, switching from the original-signed baseline requires uninstalling it first, which removes local app settings. Historical updates between same-debug-certificate recovery revisions did not require uninstalling. See the [installation instructions](../README.md#local-download-and-installation). Back up important media: conversion is lossy and can replace originals.
+Android rejects an in-place update when the installed application and APK have different signing certificates. Switching from an original-signed baseline or the historical debug-signed recovery to the new 2.3.0 certificate requires manually uninstalling first, which removes local app settings. Historical updates between same-debug-certificate recovery revisions did not require uninstalling. See the [current installation instructions](../README.md). Back up important media: conversion is lossy and optional original deletion is irreversible.
 
 ## Evidence boundaries and current verification
 
 The launch results and regression checks above are **historical evidence from the earlier recovery**, not checks repeated for the current public-source preparation. The SM-G770F is the only device named by that historical record; no current device compatibility sweep is claimed.
 
-Current source-publication preparation observed:
+Historical source-publication preparation observed:
 
 - The original APK and local release copy match the recorded SHA-256; `sha256sum -c SHA256SUMS.txt` returns `OK`.
 - Android `apksigner verify --verbose --print-certs` verifies the preserved APK's v3 signature and the Android Debug certificate fingerprint recorded above.
@@ -93,12 +101,12 @@ Current source-publication preparation observed:
 - Packaged assets match their extracted bytes; the recovered manifest declares no Internet permission and disables Android backup.
 - Signing-material, local-property, native-binary and APK paths are excluded by `.gitignore`; commits use the public GitHub username and a GitHub noreply address rather than a personal email.
 
-These are artifact and publication checks, not a new app launch, conversion test, or source build. Final source/decompiler results are recorded in [DECOMPILATION.md](DECOMPILATION.md); do not infer warning-free Java recovery from file existence.
+These historical observations are artifact/publication checks, not runtime verification of the old APK. Its final decompiler results are recorded in [DECOMPILATION.md](DECOMPILATION.md); file existence does not prove warning-free recovery. The separately authored 2.3.0 app built both ABIs and passed 12 host tests. Its signed release passed 19 Android conversion/state scenarios on API 30 full AOSP x86_64 and separately passed real unavailable-codec fallback and close-write checks. The final close-write output arrived after 440 ms; the pre-fix 12-second wait failed. Android 11 File/NIO truncation was corrected using `Os.stat` milliseconds. Actual theme/monitor/restart/boot smoke and signature/APK/ELF 16 KiB checks passed; [new release notes](../releases/v2.3.0/RELEASE-NOTES.md) identify that artifact. Earlier Android 36 ATD results do not retrospectively verify 2.2. No physical-arm64, all-OEM or byte-identical app/compiler/runtime reproduction is claimed.
 
 ## Public binary release gate
 
-The approved publication path is **safe recovered source and documentation only if corresponding-source obligations remain unresolved**. Application-owned recovered code and documentation are licensed GPL-3.0-only; third-party components retain their own terms. That license choice is not proof that the APK can be redistributed compliantly.
+For the historical 2.2.0 artifact, the approved publication path remains **safe recovered source and documentation only while corresponding-source obligations remain unresolved**. Application-owned recovered code and documentation use GPL-3.0-only; third-party components retain their own terms. That license choice is not proof that the old APK can be redistributed compliantly.
 
 Recovered application Java is not necessarily the preferred form for modifying the program. The original Kotlin/Gradle project is missing. In addition, no pinned native source/patch/build bundle matching the packaged libraries has yet been proven. Decompiled application code, upstream project links, library names, and a checksum alone do not establish complete corresponding source.
 
-**No APK is to be publicly uploaded unless complete corresponding-source obligations for the exact binary can be established**, including the application's appropriate preferred source, the native components' matching source and patches, build/install materials, and required license notices. If that gate remains unresolved, retain the APK locally and publish only safe recovery source/docs. See [third-party provenance](THIRD-PARTY-NOTICES.md) and the [local-only release notes](../releases/v2.2.0/RELEASE-NOTES.md). There is no current public APK download promised by this repository.
+**The historical 2.2.0 APK must not be publicly uploaded unless complete corresponding-source obligations for that exact binary are established**, including appropriate preferred application source, matching native source/patches, build/install materials and required notices. Retain it locally while that gate is unresolved. See [third-party provenance](THIRD-PARTY-NOTICES.md) and the [local-only release notes](../releases/v2.2.0/RELEASE-NOTES.md). The separate new 2.3.0 release pairs its source-built APK with exact corresponding source and full notices; its intended public release is not evidence that the historical gate passed.

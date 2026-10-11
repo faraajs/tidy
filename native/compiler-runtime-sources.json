@@ -1,0 +1,1404 @@
+{
+  "schemaVersion": 1,
+  "ndkVersion": "27.1.12297006",
+  "applicationLicense": "GPL-3.0-only",
+  "scope": "Conservative additional preferred-source provenance for NDK-provided statically linked C++/ABI/unwind/compiler-rt runtimes, not a compiler or SDK rebuild project.",
+  "llvmBaseRevision": "3c92011b600bdf70424e2547594dd461fe411a41",
+  "androidToolchainPatchesRevision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+  "androidClangVersion": "r522817b, patch level 2",
+  "sourceInformation": {
+    "path": ".native-sources/toolchain/clang_source_info.md",
+    "sha256": "6a54c4d726e77ac02d372b8c7d5139d164967747ab7b24b0ede432729e9a1604",
+    "listedPatchCount": 71,
+    "ordering": "The source_info list is alphabetically sorted, NOT application order. Use the exact PATCHES.json array order and version_range.from <= 522817 < version_range.until (null means unbounded). All 71 selected entries match source_info after the single documented link correction.",
+    "linkCorrection": {
+      "listed": "patches/79a32609759af317a62184c2c7b1300263a336c8-v0.patch",
+      "actual": "patches/cherry/79a32609759af317a62184c2c7b1300263a336c8-v0.patch",
+      "evidence": "source_manager.py format_patch_line regex recognizes hex[_vN].patch but not hex-v0.patch; exact PATCHES.json locates this patch under cherry."
+    }
+  },
+  "inputs": [
+    {
+      "kind": "gitiles-subtree-archive",
+      "url": "https://android.googlesource.com/toolchain/llvm-project/+archive/3c92011b600bdf70424e2547594dd461fe411a41/libcxx.tar.gz",
+      "archive": ".native-sources/toolchain/runtime-inputs/llvm-3c92011b600bdf70424e2547594dd461fe411a41-libcxx.tar.gz",
+      "sha256": "d6f5026ac734883136bd443b9817fbd8535bfc17a23b881cda5757ca59c94393",
+      "bytes": 7120925,
+      "unpackedSource": ".native-sources/toolchain/llvm-runtime-3c92011b600bdf70424e2547594dd461fe411a41/libcxx",
+      "revision": "3c92011b600bdf70424e2547594dd461fe411a41",
+      "runtimeSubtree": "libcxx"
+    },
+    {
+      "kind": "gitiles-subtree-archive",
+      "url": "https://android.googlesource.com/toolchain/llvm-project/+archive/3c92011b600bdf70424e2547594dd461fe411a41/libcxxabi.tar.gz",
+      "archive": ".native-sources/toolchain/runtime-inputs/llvm-3c92011b600bdf70424e2547594dd461fe411a41-libcxxabi.tar.gz",
+      "sha256": "b71d079eb295ef3cbfd1d0ad59eaa22ed9e2325bdf7a4a115317cfc00232e4d0",
+      "bytes": 799318,
+      "unpackedSource": ".native-sources/toolchain/llvm-runtime-3c92011b600bdf70424e2547594dd461fe411a41/libcxxabi",
+      "revision": "3c92011b600bdf70424e2547594dd461fe411a41",
+      "runtimeSubtree": "libcxxabi"
+    },
+    {
+      "kind": "gitiles-subtree-archive",
+      "url": "https://android.googlesource.com/toolchain/llvm-project/+archive/3c92011b600bdf70424e2547594dd461fe411a41/libunwind.tar.gz",
+      "archive": ".native-sources/toolchain/runtime-inputs/llvm-3c92011b600bdf70424e2547594dd461fe411a41-libunwind.tar.gz",
+      "sha256": "85752ef2eddaf5b01f38d6ac6a905d0847be3bb011d798c9aaedc6a7bf961f93",
+      "bytes": 164055,
+      "unpackedSource": ".native-sources/toolchain/llvm-runtime-3c92011b600bdf70424e2547594dd461fe411a41/libunwind",
+      "revision": "3c92011b600bdf70424e2547594dd461fe411a41",
+      "runtimeSubtree": "libunwind"
+    },
+    {
+      "kind": "gitiles-subtree-archive",
+      "url": "https://android.googlesource.com/toolchain/llvm-project/+archive/3c92011b600bdf70424e2547594dd461fe411a41/compiler-rt.tar.gz",
+      "archive": ".native-sources/toolchain/runtime-inputs/llvm-3c92011b600bdf70424e2547594dd461fe411a41-compiler-rt.tar.gz",
+      "sha256": "0246f3e1ce5717fb2db54ea01c058b6abf5fe9073760f33861cfa49e4b63ebd2",
+      "bytes": 4282356,
+      "unpackedSource": ".native-sources/toolchain/llvm-runtime-3c92011b600bdf70424e2547594dd461fe411a41/compiler-rt",
+      "revision": "3c92011b600bdf70424e2547594dd461fe411a41",
+      "runtimeSubtree": "compiler-rt"
+    },
+    {
+      "kind": "gitiles-subtree-archive",
+      "url": "https://android.googlesource.com/toolchain/llvm-project/+archive/3c92011b600bdf70424e2547594dd461fe411a41/cmake.tar.gz",
+      "archive": ".native-sources/toolchain/runtime-inputs/llvm-3c92011b600bdf70424e2547594dd461fe411a41-cmake.tar.gz",
+      "sha256": "65d9a3171ba87c7783289e5536218dd86cc33ffa07748fdd88c3462c82bf03fb",
+      "bytes": 9548,
+      "unpackedSource": ".native-sources/toolchain/llvm-runtime-3c92011b600bdf70424e2547594dd461fe411a41/cmake",
+      "revision": "3c92011b600bdf70424e2547594dd461fe411a41",
+      "runtimeSubtree": "cmake"
+    },
+    {
+      "kind": "gitiles-subtree-archive",
+      "url": "https://android.googlesource.com/toolchain/llvm-project/+archive/3c92011b600bdf70424e2547594dd461fe411a41/runtimes.tar.gz",
+      "archive": ".native-sources/toolchain/runtime-inputs/llvm-3c92011b600bdf70424e2547594dd461fe411a41-runtimes.tar.gz",
+      "sha256": "49ff1fecd0096437324cba7cd7ec02540f7bc62b23bb0397ef7ae9092c5f396e",
+      "bytes": 7433,
+      "unpackedSource": ".native-sources/toolchain/llvm-runtime-3c92011b600bdf70424e2547594dd461fe411a41/runtimes",
+      "revision": "3c92011b600bdf70424e2547594dd461fe411a41",
+      "runtimeSubtree": "runtimes"
+    },
+    {
+      "kind": "gitiles-subtree-archive",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+archive/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a.tar.gz",
+      "archive": ".native-sources/toolchain/runtime-inputs/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a.tar.gz",
+      "sha256": "0878bc964c53e449fefcf6e0e9cbb48cf26f3aea298046380d4776c387d5fe0d",
+      "bytes": 480049,
+      "unpackedSource": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a"
+    },
+    {
+      "kind": "gitiles-subtree-archive",
+      "url": "https://android.googlesource.com/toolchain/llvm-project/+archive/3c92011b600bdf70424e2547594dd461fe411a41/llvm/cmake.tar.gz",
+      "archive": ".native-sources/toolchain/runtime-inputs/llvm-3c92011b600bdf70424e2547594dd461fe411a41-llvm-cmake.tar.gz",
+      "sha256": "22bc8c77275be2658e443414cbf50d09d11b991639a232f801ae6c60d7e03562",
+      "bytes": 175352,
+      "unpackedSource": ".native-sources/toolchain/llvm-runtime-3c92011b600bdf70424e2547594dd461fe411a41/llvm/cmake",
+      "revision": "3c92011b600bdf70424e2547594dd461fe411a41",
+      "runtimeSubtree": "llvm/cmake"
+    },
+    {
+      "kind": "gitiles-subtree-archive",
+      "url": "https://android.googlesource.com/toolchain/llvm-project/+archive/3c92011b600bdf70424e2547594dd461fe411a41/llvm/include.tar.gz",
+      "archive": ".native-sources/toolchain/runtime-inputs/llvm-3c92011b600bdf70424e2547594dd461fe411a41-llvm-include.tar.gz",
+      "sha256": "4440859ef362a294b3d25ab54ab72d5dca4781de6f2b3023696dbfacc4219e04",
+      "bytes": 4287823,
+      "unpackedSource": ".native-sources/toolchain/llvm-runtime-3c92011b600bdf70424e2547594dd461fe411a41/llvm/include",
+      "revision": "3c92011b600bdf70424e2547594dd461fe411a41",
+      "runtimeSubtree": "llvm/include"
+    },
+    {
+      "kind": "gitiles-subtree-archive",
+      "url": "https://android.googlesource.com/toolchain/llvm-project/+archive/3c92011b600bdf70424e2547594dd461fe411a41/llvm/utils.tar.gz",
+      "archive": ".native-sources/toolchain/runtime-inputs/llvm-3c92011b600bdf70424e2547594dd461fe411a41-llvm-utils.tar.gz",
+      "sha256": "a5f96a20b0ad5b37429c180cddde7b5ae453dc19ac872bf9b3caf05b6f414b06",
+      "bytes": 1252639,
+      "unpackedSource": ".native-sources/toolchain/llvm-runtime-3c92011b600bdf70424e2547594dd461fe411a41/llvm/utils",
+      "revision": "3c92011b600bdf70424e2547594dd461fe411a41",
+      "runtimeSubtree": "llvm/utils"
+    },
+    {
+      "kind": "gitiles-subtree-archive",
+      "url": "https://android.googlesource.com/toolchain/llvm-project/+archive/3c92011b600bdf70424e2547594dd461fe411a41/third-party.tar.gz",
+      "archive": ".native-sources/toolchain/runtime-inputs/llvm-3c92011b600bdf70424e2547594dd461fe411a41-third-party.tar.gz",
+      "sha256": "47ea6c85b0faca5ed1859a2c800c869e9ea9dd67583b76165109f84385655cf9",
+      "bytes": 558242,
+      "unpackedSource": ".native-sources/toolchain/llvm-runtime-3c92011b600bdf70424e2547594dd461fe411a41/third-party",
+      "revision": "3c92011b600bdf70424e2547594dd461fe411a41",
+      "runtimeSubtree": "third-party"
+    },
+    {
+      "kind": "gitiles-subtree-archive",
+      "url": "https://android.googlesource.com/toolchain/llvm-project/+archive/3c92011b600bdf70424e2547594dd461fe411a41/utils.tar.gz",
+      "archive": ".native-sources/toolchain/runtime-inputs/llvm-3c92011b600bdf70424e2547594dd461fe411a41-utils.tar.gz",
+      "sha256": "ca84635de58599131aca4be4168fa8297d02a0c9ad03ab554f20d11255d4be8e",
+      "bytes": 126938,
+      "unpackedSource": ".native-sources/toolchain/llvm-runtime-3c92011b600bdf70424e2547594dd461fe411a41/utils",
+      "revision": "3c92011b600bdf70424e2547594dd461fe411a41",
+      "runtimeSubtree": "utils"
+    },
+    {
+      "kind": "gitiles-file-decoded",
+      "url": "https://android.googlesource.com/toolchain/llvm-project/+/3c92011b600bdf70424e2547594dd461fe411a41/LICENSE.TXT?format=TEXT",
+      "path": ".native-sources/toolchain/llvm-runtime-3c92011b600bdf70424e2547594dd461fe411a41/LICENSE.TXT",
+      "sha256": "8d85c1057d742e597985c7d4e6320b015a9139385cff4cbae06ffc0ebe89afee",
+      "bytes": 15141,
+      "revision": "3c92011b600bdf70424e2547594dd461fe411a41",
+      "runtimeFile": "LICENSE.TXT"
+    },
+    {
+      "kind": "gitiles-file-decoded",
+      "url": "https://android.googlesource.com/toolchain/llvm-project/+/3c92011b600bdf70424e2547594dd461fe411a41/README.md?format=TEXT",
+      "path": ".native-sources/toolchain/llvm-runtime-3c92011b600bdf70424e2547594dd461fe411a41/README.md",
+      "sha256": "a03cf076767edf3ebd9a34f709fec507fcb776fc192f80999dec1bceeaa26145",
+      "bytes": 1880,
+      "revision": "3c92011b600bdf70424e2547594dd461fe411a41",
+      "runtimeFile": "README.md"
+    },
+    {
+      "kind": "gitiles-file-decoded",
+      "url": "https://android.googlesource.com/toolchain/llvm-project/+/3c92011b600bdf70424e2547594dd461fe411a41/llvm/LICENSE.TXT?format=TEXT",
+      "path": ".native-sources/toolchain/llvm-runtime-3c92011b600bdf70424e2547594dd461fe411a41/llvm/LICENSE.TXT",
+      "sha256": "8d85c1057d742e597985c7d4e6320b015a9139385cff4cbae06ffc0ebe89afee",
+      "bytes": 15141,
+      "revision": "3c92011b600bdf70424e2547594dd461fe411a41",
+      "runtimeFile": "llvm/LICENSE.TXT"
+    },
+    {
+      "kind": "gitiles-file-decoded",
+      "url": "https://android.googlesource.com/toolchain/llvm-project/+/3c92011b600bdf70424e2547594dd461fe411a41/llvm/CMakeLists.txt?format=TEXT",
+      "path": ".native-sources/toolchain/llvm-runtime-3c92011b600bdf70424e2547594dd461fe411a41/llvm/CMakeLists.txt",
+      "sha256": "9664b363b78fc3ce1433a7a5697951ae1800c12ff885ec364960aff1bc844c36",
+      "bytes": 56080,
+      "revision": "3c92011b600bdf70424e2547594dd461fe411a41",
+      "runtimeFile": "llvm/CMakeLists.txt"
+    },
+    {
+      "kind": "gitiles-subtree-archive",
+      "url": "https://android.googlesource.com/platform/external/toolchain-utils/+archive/d71e320ab860721f764fe7403588641c8a7bc65d/llvm_tools.tar.gz",
+      "archive": ".native-sources/toolchain/runtime-inputs/toolchain-utils-d71e320ab860721f764fe7403588641c8a7bc65d-llvm-tools.tar.gz",
+      "sha256": "7651f5b29c8902455a675a12d7ae42b3ab10dc43fd927521d0a4c540237e051a",
+      "bytes": 152527,
+      "unpackedSource": ".native-sources/toolchain/toolchain-utils-reference-d71e320ab860721f764fe7403588641c8a7bc65d/llvm_tools",
+      "revision": "d71e320ab860721f764fe7403588641c8a7bc65d",
+      "scope": "Ordering-mechanics reference only; not asserted to be the toolchain build revision."
+    },
+    {
+      "kind": "gitiles-file-decoded",
+      "url": "https://android.googlesource.com/platform/external/toolchain-utils/+/d71e320ab860721f764fe7403588641c8a7bc65d/LICENSE?format=TEXT",
+      "path": ".native-sources/toolchain/toolchain-utils-reference-d71e320ab860721f764fe7403588641c8a7bc65d/LICENSE",
+      "sha256": "2c8274ef3d17b3fab68fff8fb400597cbb582095642284e8a7aeabd53ad6b571",
+      "bytes": 1543,
+      "revision": "d71e320ab860721f764fe7403588641c8a7bc65d",
+      "scope": "Ordering-mechanics reference only; not asserted to be the toolchain build revision."
+    },
+    {
+      "kind": "gitiles-file-decoded",
+      "url": "https://android.googlesource.com/platform/external/toolchain-utils/+/d71e320ab860721f764fe7403588641c8a7bc65d/LICENSE?format=TEXT",
+      "path": ".native-sources/toolchain/toolchain-utils-reference-d71e320ab860721f764fe7403588641c8a7bc65d/LICENSE",
+      "sha256": "2c8274ef3d17b3fab68fff8fb400597cbb582095642284e8a7aeabd53ad6b571",
+      "bytes": 1543,
+      "revision": "d71e320ab860721f764fe7403588641c8a7bc65d",
+      "scope": "Ordering-mechanics reference only; not asserted to be the toolchain build revision."
+    }
+  ],
+  "patchesInApplicationOrder": [
+    {
+      "applicationSequence": 1,
+      "metadataArrayIndex": 41,
+      "relativePatchPath": "cherry/02347fc7191ff4d073f439dde6523add3f5496de.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/02347fc7191ff4d073f439dde6523add3f5496de.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/02347fc7191ff4d073f439dde6523add3f5496de.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "6f396d7ca5cb7c6c6a7dbd24c7490f6697a8962cf90853574cdcc72ba47a03b9",
+      "versionRange": {
+        "from": 522817,
+        "until": 522920
+      },
+      "retainedPathsChanged": [
+        "libcxx/test/libcxx/utilities/expected/expected.expected/transform_error.mandates.verify.cpp",
+        "libcxx/test/libcxx/utilities/expected/expected.void/transform_error.mandates.verify.cpp"
+      ]
+    },
+    {
+      "applicationSequence": 2,
+      "metadataArrayIndex": 42,
+      "relativePatchPath": "cherry/4e347b4e38b95bc455d0e620e11ac58fc0172a94.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/4e347b4e38b95bc455d0e620e11ac58fc0172a94.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/4e347b4e38b95bc455d0e620e11ac58fc0172a94.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "bd896c4a2c469613fe996499e601c8d53699f2c0bb561a44f4624c9b627d3e13",
+      "versionRange": {
+        "from": 522809,
+        "until": 522987
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 3,
+      "metadataArrayIndex": 43,
+      "relativePatchPath": "cherry/ece1359857c547a156ed743643bccbfd0f09bf2a.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/ece1359857c547a156ed743643bccbfd0f09bf2a.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/ece1359857c547a156ed743643bccbfd0f09bf2a.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "1b14f1b230fcf50702e62c6eeacf693546e125ed14d0349a636571eaec7c26fb",
+      "versionRange": {
+        "from": 522817,
+        "until": 523041
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 4,
+      "metadataArrayIndex": 44,
+      "relativePatchPath": "cherry/c4146121e940b6b853148c780568dee38b97382f.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/c4146121e940b6b853148c780568dee38b97382f.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/c4146121e940b6b853148c780568dee38b97382f.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "6a1887d2300ae58499b55660f8308fc2aa7c5d57b3e4277b1c80b9a8453729d7",
+      "versionRange": {
+        "from": 522817,
+        "until": 523042
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 5,
+      "metadataArrayIndex": 45,
+      "relativePatchPath": "cherry/f3f4387e02b0ed637b5d843e8937116334329a65.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/f3f4387e02b0ed637b5d843e8937116334329a65.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/f3f4387e02b0ed637b5d843e8937116334329a65.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "0be4ac17c9972aed69bc89983b064efccaed7909dc7d64d16aaf7336863982d1",
+      "versionRange": {
+        "from": 522817,
+        "until": 523089
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 6,
+      "metadataArrayIndex": 46,
+      "relativePatchPath": "cherry/a831a21e4d8d41b044edaf61a90debb2ad756bda.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/a831a21e4d8d41b044edaf61a90debb2ad756bda.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/a831a21e4d8d41b044edaf61a90debb2ad756bda.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "d6ac2fad1208f838f4b268f203e7710a4c41a50d2e00d4d0aac9a49d55302620",
+      "versionRange": {
+        "from": 510928,
+        "until": 523405
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 7,
+      "metadataArrayIndex": 47,
+      "relativePatchPath": "cherry/d218092543b3f9ba2204d7c8fe5ac70befa3d772.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/d218092543b3f9ba2204d7c8fe5ac70befa3d772.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/d218092543b3f9ba2204d7c8fe5ac70befa3d772.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "6c38d11babfa87d476d090445b57d428673b0824facd43e76d7391cd451b6c54",
+      "versionRange": {
+        "from": 522817,
+        "until": 523414
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 8,
+      "metadataArrayIndex": 48,
+      "relativePatchPath": "cherry/3fa17954dedd59bfad9cef1778719fb6312a5949.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/3fa17954dedd59bfad9cef1778719fb6312a5949.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/3fa17954dedd59bfad9cef1778719fb6312a5949.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "dea751af2677a9e9de5a9850412cd31544781b44460c8143572c29cecc082b9b",
+      "versionRange": {
+        "from": 522817,
+        "until": 523507
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 9,
+      "metadataArrayIndex": 49,
+      "relativePatchPath": "cherry/6c207ee5d20d2b054509123e6d0507df1332b376.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/6c207ee5d20d2b054509123e6d0507df1332b376.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/6c207ee5d20d2b054509123e6d0507df1332b376.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "d58918fde2202f0a514be45bd423cf90d626e0bc42372ad83b070737ac11a631",
+      "versionRange": {
+        "from": 522817,
+        "until": 523615
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 10,
+      "metadataArrayIndex": 50,
+      "relativePatchPath": "cherry/18473eb108e29c7c9d9fcb5d0d8c271948aca330.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/18473eb108e29c7c9d9fcb5d0d8c271948aca330.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/18473eb108e29c7c9d9fcb5d0d8c271948aca330.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "e6b6fcd609d815fd041bf33cdcef5ec8f3e2e7fa50cf93b4d6dde3c0ed057074",
+      "versionRange": {
+        "from": 522817,
+        "until": 523832
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 11,
+      "metadataArrayIndex": 51,
+      "relativePatchPath": "cherry/d21fb06a6e36048e6729c51c351ff8c4055e8381.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/d21fb06a6e36048e6729c51c351ff8c4055e8381.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/d21fb06a6e36048e6729c51c351ff8c4055e8381.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "e0bd90f9b63da392795993ea315549159edfc00c8af8a8a0f90347f6f8f58f76",
+      "versionRange": {
+        "from": 520377,
+        "until": 523844
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 12,
+      "metadataArrayIndex": 52,
+      "relativePatchPath": "cherry/5ce067d592b78fd3142364e06bae4da2a3a1e944.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/5ce067d592b78fd3142364e06bae4da2a3a1e944.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/5ce067d592b78fd3142364e06bae4da2a3a1e944.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "20afd203ebcbb99d1bd5d1d69d90994c07a87b9873b8349a8bfd258898f851f4",
+      "versionRange": {
+        "from": 522817,
+        "until": 523871
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 13,
+      "metadataArrayIndex": 53,
+      "relativePatchPath": "cherry/39b2104b4a4e0990eddc763eab99b28e8deab953.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/39b2104b4a4e0990eddc763eab99b28e8deab953.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/39b2104b4a4e0990eddc763eab99b28e8deab953.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "7f48d8dd813efb60276ed98ca0be8dac522ee0fcbaf5a6e9f0e26a49c8675ccb",
+      "versionRange": {
+        "from": 522817,
+        "until": 523953
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 14,
+      "metadataArrayIndex": 54,
+      "relativePatchPath": "cherry/4967d98eda48bed4a6f382d240f5a33177bc654c.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/4967d98eda48bed4a6f382d240f5a33177bc654c.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/4967d98eda48bed4a6f382d240f5a33177bc654c.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "b1aeed196b516dad5d58ade633fc29ba11485c9c7ae8f0e7c5847eb64938860a",
+      "versionRange": {
+        "from": 520136,
+        "until": 524265
+      },
+      "retainedPathsChanged": [
+        "libunwind/src/libunwind.cpp"
+      ]
+    },
+    {
+      "applicationSequence": 15,
+      "metadataArrayIndex": 55,
+      "relativePatchPath": "cherry/5133a8f5590d74d9d15631742a3d84f978394dbd.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/5133a8f5590d74d9d15631742a3d84f978394dbd.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/5133a8f5590d74d9d15631742a3d84f978394dbd.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "352b8f54f5c19fe91c33158c7cd4a00681fbecd443a92645df7b1a5931f0c515",
+      "versionRange": {
+        "from": 510928,
+        "until": 524498
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 16,
+      "metadataArrayIndex": 56,
+      "relativePatchPath": "cherry/c9f5b5c935bd12d76d4bafff61d8116cb3229972.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/c9f5b5c935bd12d76d4bafff61d8116cb3229972.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/c9f5b5c935bd12d76d4bafff61d8116cb3229972.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "6b8e111c7fe523970c5bb7cf0eebf786fa64fede287cc07390a220dece631e71",
+      "versionRange": {
+        "from": 522817,
+        "until": 524963
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 17,
+      "metadataArrayIndex": 57,
+      "relativePatchPath": "cherry/e390bda9782b461f10433aa6728acf87521e22a5.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/e390bda9782b461f10433aa6728acf87521e22a5.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/e390bda9782b461f10433aa6728acf87521e22a5.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "7969019e9960f00043525c578e8e77bf2524ae075451c6c7e262150371d3650a",
+      "versionRange": {
+        "from": 522817,
+        "until": 525045
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 18,
+      "metadataArrayIndex": 58,
+      "relativePatchPath": "cherry/1be0d9d7d88a9bdabe6ef4d81720ddf4cf6f71c1.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/1be0d9d7d88a9bdabe6ef4d81720ddf4cf6f71c1.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/1be0d9d7d88a9bdabe6ef4d81720ddf4cf6f71c1.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "a6e0a1329e6dd8c7ff69a90371e462c226f50e9529d91bc41bdc4c86c32b1bff",
+      "versionRange": {
+        "from": 522817,
+        "until": 525059
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 19,
+      "metadataArrayIndex": 59,
+      "relativePatchPath": "cherry/3ea92ea2f9d236569f82825cdba6d59bcc22495c.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/3ea92ea2f9d236569f82825cdba6d59bcc22495c.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/3ea92ea2f9d236569f82825cdba6d59bcc22495c.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "b2d4db333949d3686f095a96bf96efc850f1af6c32c313c6abe4567e9ed4b67c",
+      "versionRange": {
+        "from": 510928,
+        "until": 525168
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 20,
+      "metadataArrayIndex": 60,
+      "relativePatchPath": "cherry/179ba129f50aefe6e670800aec7091d958aa6f90.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/179ba129f50aefe6e670800aec7091d958aa6f90.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/179ba129f50aefe6e670800aec7091d958aa6f90.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "7e7865989d89adbe02bd031c2407e7d3b8dd79c2861efb6c20fbc0f57d273d91",
+      "versionRange": {
+        "from": 522817,
+        "until": 525237
+      },
+      "retainedPathsChanged": [
+        "compiler-rt/lib/builtins/cpu_model/aarch64.c",
+        "compiler-rt/lib/builtins/cpu_model/aarch64/fmv/mrs.inc",
+        "compiler-rt/lib/builtins/cpu_model/aarch64/hwcap.inc",
+        "llvm/include/llvm/TargetParser/AArch64TargetParser.h"
+      ]
+    },
+    {
+      "applicationSequence": 21,
+      "metadataArrayIndex": 61,
+      "relativePatchPath": "cherry/03a61d34ebf4f8eeaa6861bec3ab39c75bb41778.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/03a61d34ebf4f8eeaa6861bec3ab39c75bb41778.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/03a61d34ebf4f8eeaa6861bec3ab39c75bb41778.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "a4e5029df0b149313a8304310867cd17b815201d2d4f96447d92289ca7525e51",
+      "versionRange": {
+        "from": 522817,
+        "until": 525314
+      },
+      "retainedPathsChanged": [
+        "llvm/include/llvm/BinaryFormat/ELFRelocs/RISCV.def",
+        "llvm/include/llvm/CodeGen/CommandFlags.h",
+        "llvm/include/llvm/Target/TargetMachine.h",
+        "llvm/include/llvm/Target/TargetOptions.h",
+        "llvm/include/llvm/TargetParser/Triple.h"
+      ]
+    },
+    {
+      "applicationSequence": 22,
+      "metadataArrayIndex": 62,
+      "relativePatchPath": "cherry/79a32609759af317a62184c2c7b1300263a336c8-v0.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/79a32609759af317a62184c2c7b1300263a336c8-v0.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/79a32609759af317a62184c2c7b1300263a336c8-v0.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "8e851af432f1f5526e67ee01a8ad06a5b75bc7b0f33d32db5cd424ff9a7403b8",
+      "versionRange": {
+        "from": 522817,
+        "until": 525365
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 23,
+      "metadataArrayIndex": 63,
+      "relativePatchPath": "cherry/bb65f5a5d95736cf08b282c1ded7f5cceed5fd7e.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/bb65f5a5d95736cf08b282c1ded7f5cceed5fd7e.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/bb65f5a5d95736cf08b282c1ded7f5cceed5fd7e.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "cad5f57b24bff096ed4eb68eb0352139a4535859668224ae525f3f117235edc5",
+      "versionRange": {
+        "from": 522817,
+        "until": 525444
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 24,
+      "metadataArrayIndex": 64,
+      "relativePatchPath": "cherry/1f454ede4660477c3782595975def90c26c19881.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/1f454ede4660477c3782595975def90c26c19881.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/1f454ede4660477c3782595975def90c26c19881.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "01910fc6eff53a9d476b33dacfaa59e3db6f92e6abfaac2ab55a70e58c34ed53",
+      "versionRange": {
+        "from": 522817,
+        "until": 525559
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 25,
+      "metadataArrayIndex": 65,
+      "relativePatchPath": "cherry/ccb99f221422b8de5e1ae04d3427f15878f7cd93.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/ccb99f221422b8de5e1ae04d3427f15878f7cd93.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/ccb99f221422b8de5e1ae04d3427f15878f7cd93.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "9f9411aaf7e49bbeed7e961ca7f02b0f13183b34a82164b6347d0cbd5e5336cc",
+      "versionRange": {
+        "from": 522817,
+        "until": 525571
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 26,
+      "metadataArrayIndex": 66,
+      "relativePatchPath": "cherry/849951f8759171cb6c74d3ccbcf154506fc1f0ae.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/849951f8759171cb6c74d3ccbcf154506fc1f0ae.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/849951f8759171cb6c74d3ccbcf154506fc1f0ae.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "0c288979f038a21586fb6cfd12dfdf6aa2ac7c0937ab4aea287f88894c8e044c",
+      "versionRange": {
+        "from": 522817,
+        "until": 525574
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 27,
+      "metadataArrayIndex": 67,
+      "relativePatchPath": "cherry/7b4622514d232ce5f7110dd8b20d90e81127c467.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/7b4622514d232ce5f7110dd8b20d90e81127c467.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/7b4622514d232ce5f7110dd8b20d90e81127c467.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "d3ba8cbc56ce8ec469b82ef49f7bc8d6159bdacf586e28e511fe0ef492b6fdd9",
+      "versionRange": {
+        "from": 510928,
+        "until": 525596
+      },
+      "retainedPathsChanged": [
+        "libcxx/include/__algorithm/unwrap_iter.h",
+        "libcxx/include/__config",
+        "libcxx/test/libcxx/system_reserved_names.gen.py"
+      ]
+    },
+    {
+      "applicationSequence": 28,
+      "metadataArrayIndex": 68,
+      "relativePatchPath": "cherry/1117fdd7c16873eb389e988c6a39ad922bae0fd0.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/1117fdd7c16873eb389e988c6a39ad922bae0fd0.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/1117fdd7c16873eb389e988c6a39ad922bae0fd0.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "a558bdce9777e0fe0c2a123335d603a8bfe0821513c8048adb816a0cf1756520",
+      "versionRange": {
+        "from": 522817,
+        "until": 525603
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 29,
+      "metadataArrayIndex": 69,
+      "relativePatchPath": "cherry/f6290e0daf5aff7132cab097fb13aad8a20ad070.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/f6290e0daf5aff7132cab097fb13aad8a20ad070.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/f6290e0daf5aff7132cab097fb13aad8a20ad070.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "a91e2764a26bb7c18e1aa95a49645b5df26e50f22e501e5fadcb062b7ad5082b",
+      "versionRange": {
+        "from": 522817,
+        "until": 525665
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 30,
+      "metadataArrayIndex": 70,
+      "relativePatchPath": "cherry/36b4a9ccd9f7e04010476e6b2a311f2052a4ac20.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/36b4a9ccd9f7e04010476e6b2a311f2052a4ac20.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/36b4a9ccd9f7e04010476e6b2a311f2052a4ac20.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "b3b8ae99ca3362f2159d9d0a3fb151f60e6e4e296445b4be594cbdde4eabb97e",
+      "versionRange": {
+        "from": 522817,
+        "until": 525716
+      },
+      "retainedPathsChanged": [
+        "llvm/include/llvm/TargetParser/Triple.h"
+      ]
+    },
+    {
+      "applicationSequence": 31,
+      "metadataArrayIndex": 71,
+      "relativePatchPath": "cherry/915c3d9e5a2d1314afe64cd6116a3b6c9809ec90.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/915c3d9e5a2d1314afe64cd6116a3b6c9809ec90.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/915c3d9e5a2d1314afe64cd6116a3b6c9809ec90.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "1aec727afef7dfd494fdc63f16ca573c603e6923fe26af401d3ca20aa6b95786",
+      "versionRange": {
+        "from": 522817,
+        "until": 525817
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 32,
+      "metadataArrayIndex": 72,
+      "relativePatchPath": "cherry/a0b6747804e46665ecfd00295b60432bfe1775b6.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/a0b6747804e46665ecfd00295b60432bfe1775b6.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/a0b6747804e46665ecfd00295b60432bfe1775b6.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "7fbc8acb87359ea470402256ac1b2fb34baac6dc966818216985a105a2fec7a1",
+      "versionRange": {
+        "from": 522817,
+        "until": 525833
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 33,
+      "metadataArrayIndex": 73,
+      "relativePatchPath": "cherry/f214933bc538c719403804069941de301487c39b.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/f214933bc538c719403804069941de301487c39b.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/f214933bc538c719403804069941de301487c39b.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "535c0cfbcff542462fabe2e6c171c79ba7c4090fb7220c61f0fd47e095869b56",
+      "versionRange": {
+        "from": 522817,
+        "until": 525974
+      },
+      "retainedPathsChanged": [
+        "llvm/include/llvm/TargetParser/AArch64TargetParser.h"
+      ]
+    },
+    {
+      "applicationSequence": 34,
+      "metadataArrayIndex": 74,
+      "relativePatchPath": "cherry/1b87ebce924e507cbc27c2e0dc623941d16388c9.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/1b87ebce924e507cbc27c2e0dc623941d16388c9.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/1b87ebce924e507cbc27c2e0dc623941d16388c9.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "7f452ddf26a78cb66ee06d0efa0de389f77b03a88fc8f04efbb0451a8a0bdb41",
+      "versionRange": {
+        "from": 510928,
+        "until": 526891
+      },
+      "retainedPathsChanged": [
+        "llvm/include/llvm/ObjCopy/CommonConfig.h"
+      ]
+    },
+    {
+      "applicationSequence": 35,
+      "metadataArrayIndex": 75,
+      "relativePatchPath": "cherry/d6c2cbbc6513bd412b34f3bf70e21b5a363b2fd9.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/d6c2cbbc6513bd412b34f3bf70e21b5a363b2fd9.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/d6c2cbbc6513bd412b34f3bf70e21b5a363b2fd9.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "0e22e2a2e521e1f2b4cfaf48200b3aab297db78b9c295ba93eafa1276d6ec3c3",
+      "versionRange": {
+        "from": 518518,
+        "until": 526967
+      },
+      "retainedPathsChanged": [
+        "llvm/utils/UpdateTestChecks/common.py"
+      ]
+    },
+    {
+      "applicationSequence": 36,
+      "metadataArrayIndex": 76,
+      "relativePatchPath": "cherry/06c89bd59ca2279f76a41e851b7b2df634a6191e.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/06c89bd59ca2279f76a41e851b7b2df634a6191e.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/06c89bd59ca2279f76a41e851b7b2df634a6191e.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "c5c15d61def5c88b454fc35b7278c2a1e6a6df8bae8a72c50e14f523e08e8620",
+      "versionRange": {
+        "from": 513157,
+        "until": 527083
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 37,
+      "metadataArrayIndex": 77,
+      "relativePatchPath": "cherry/99d743320c5dddb780f1fb2f49414b10e6a52a05.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/99d743320c5dddb780f1fb2f49414b10e6a52a05.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/99d743320c5dddb780f1fb2f49414b10e6a52a05.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "99f3e72feddadd967c981c3779eae42208b1a369a4789a6737e3034e6202016c",
+      "versionRange": {
+        "from": 522817,
+        "until": 527155
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 38,
+      "metadataArrayIndex": 78,
+      "relativePatchPath": "cherry/070848c17c2944afa494d42d3ad42929f3379842.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/070848c17c2944afa494d42d3ad42929f3379842.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/070848c17c2944afa494d42d3ad42929f3379842.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "f383d02c8ca7fa150d32649e80a527da59cb45b4dc109b59939e7ca3f49624af",
+      "versionRange": {
+        "from": 522817,
+        "until": 527460
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 39,
+      "metadataArrayIndex": 79,
+      "relativePatchPath": "cherry/ec516ff3e6122069b36f32a6db8bb3dc672133fc.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/ec516ff3e6122069b36f32a6db8bb3dc672133fc.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/ec516ff3e6122069b36f32a6db8bb3dc672133fc.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "5cddb2be6d78db60acb8c04405df535cc13dcf801e9250b6a842154ff1b0fe54",
+      "versionRange": {
+        "from": 522817,
+        "until": 528245
+      },
+      "retainedPathsChanged": [
+        "compiler-rt/lib/builtins/os_version_check.c"
+      ]
+    },
+    {
+      "applicationSequence": 40,
+      "metadataArrayIndex": 80,
+      "relativePatchPath": "cherry/b42b7c8a123863d86db9abc8b6a1340b920f6573.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/b42b7c8a123863d86db9abc8b6a1340b920f6573.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/b42b7c8a123863d86db9abc8b6a1340b920f6573.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "e9dd1c84671526ce1eb7660e7419f7b1215d89184e1a9bf1caa7ec05cd653bf0",
+      "versionRange": {
+        "from": 522817,
+        "until": 528964
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 41,
+      "metadataArrayIndex": 81,
+      "relativePatchPath": "cherry/6afda56faa6260cff4e6e9264226737d96d952c1.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/6afda56faa6260cff4e6e9264226737d96d952c1.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/6afda56faa6260cff4e6e9264226737d96d952c1.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "cb592fe79bd34a03bcfb92ab57aa771ef08db73dda770ab946edbaf1978c7de8",
+      "versionRange": {
+        "from": 522817,
+        "until": 529091
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 42,
+      "metadataArrayIndex": 82,
+      "relativePatchPath": "cherry/e81ef463f10851bfbcd56a4f3450821f1e7c862f.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/e81ef463f10851bfbcd56a4f3450821f1e7c862f.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/e81ef463f10851bfbcd56a4f3450821f1e7c862f.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "ff47b65e69bea9873ee59cedcf39d2396cdb19ae134a9048b0fee23edc295103",
+      "versionRange": {
+        "from": 522817,
+        "until": 529162
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 43,
+      "metadataArrayIndex": 83,
+      "relativePatchPath": "cherry/55c466da2f2f0baa509eb709b8de8926bd498b9b.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/55c466da2f2f0baa509eb709b8de8926bd498b9b.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/55c466da2f2f0baa509eb709b8de8926bd498b9b.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "c3b2563469be895ac7046dbece324eab3b3707644bb4cdda8e3799fe348e92be",
+      "versionRange": {
+        "from": 522817,
+        "until": 529623
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 44,
+      "metadataArrayIndex": 84,
+      "relativePatchPath": "cherry/9fe5aa31eccff49632e40bcdad6e64fc00190889.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/9fe5aa31eccff49632e40bcdad6e64fc00190889.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/9fe5aa31eccff49632e40bcdad6e64fc00190889.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "c0a7d203855a59e513fc7801a9e3ce3b301114d9c4ef7e059885f32be1007ceb",
+      "versionRange": {
+        "from": 522817,
+        "until": 529789
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 45,
+      "metadataArrayIndex": 85,
+      "relativePatchPath": "cherry/b433076fcbacba8a3b91446390bbea5843322bcd.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/b433076fcbacba8a3b91446390bbea5843322bcd.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/b433076fcbacba8a3b91446390bbea5843322bcd.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "2522a7d29c15b63a728364e39d9fca5d0edc905cdf5be71fa4f5fd419fd559b1",
+      "versionRange": {
+        "from": 522817,
+        "until": 530567
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 46,
+      "metadataArrayIndex": 91,
+      "relativePatchPath": "cherry/b20360abeb3a80281dc082f1e093abd13cb1ee4c.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/b20360abeb3a80281dc082f1e093abd13cb1ee4c.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/b20360abeb3a80281dc082f1e093abd13cb1ee4c.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "24ac485245fcac93b3ce419ba77829aa91d6958f28229983bb47a8e59fe5ca0b",
+      "versionRange": {
+        "from": 522817,
+        "until": 531316
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 47,
+      "metadataArrayIndex": 94,
+      "relativePatchPath": "cherry/0f6ed4c394fd8f843029f6919230bf8df8618529.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/0f6ed4c394fd8f843029f6919230bf8df8618529.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/0f6ed4c394fd8f843029f6919230bf8df8618529.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "5fd0b11d1d348f55700802f4ec5e83202d3142f51e7179abd9b7b8b689b13257",
+      "versionRange": {
+        "from": 522817,
+        "until": 532220
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 48,
+      "metadataArrayIndex": 97,
+      "relativePatchPath": "cherry/73ed2153beb529973741344874c0084d24c2f268.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/73ed2153beb529973741344874c0084d24c2f268.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/73ed2153beb529973741344874c0084d24c2f268.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "d79d0ac1bba0f1b5aea0c4500f0e7034f7d78680367cd67b6f0c7f361dd6db34",
+      "versionRange": {
+        "from": 522817,
+        "until": 534384
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 49,
+      "metadataArrayIndex": 98,
+      "relativePatchPath": "cherry/487967af82053cd08022635a2ff768385d936c80.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/487967af82053cd08022635a2ff768385d936c80.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/487967af82053cd08022635a2ff768385d936c80.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "d729ab48703d54ccb4b7fb79ddb0b9c8bb39dda4345714b9f290815a436bde9a",
+      "versionRange": {
+        "from": 522817,
+        "until": 535006
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 50,
+      "metadataArrayIndex": 101,
+      "relativePatchPath": "cherry/3d361b225fe89ce1d8c93639f27d689082bd8dad.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/3d361b225fe89ce1d8c93639f27d689082bd8dad.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/3d361b225fe89ce1d8c93639f27d689082bd8dad.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "76304dc1d4e2cda6fa998f2ae5fef6b0c17765e3736189617c432c7158ca6aca",
+      "versionRange": {
+        "from": 522817,
+        "until": 538556
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 51,
+      "metadataArrayIndex": 102,
+      "relativePatchPath": "cherry/e9adcc488f96a9f2b8c4344f5e3c7ca6639b9562.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/e9adcc488f96a9f2b8c4344f5e3c7ca6639b9562.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/e9adcc488f96a9f2b8c4344f5e3c7ca6639b9562.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "4ff1cd2a122ecafc3d8920386bc3387b22c9b01e541931f9096b0f3d1047849d",
+      "versionRange": {
+        "from": 522817,
+        "until": 539017
+      },
+      "retainedPathsChanged": [
+        "libcxx/include/regex",
+        "libcxx/test/std/re/re.alg/re.alg.replace/zero_length_matches.pass.cpp",
+        "libcxx/test/std/re/re.iter/re.regiter/re.regiter.incr/post.pass.cpp"
+      ]
+    },
+    {
+      "applicationSequence": 52,
+      "metadataArrayIndex": 103,
+      "relativePatchPath": "cherry/12f77e811b49b48df2c37f5036b05b5801a0535f.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/12f77e811b49b48df2c37f5036b05b5801a0535f.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/cherry/12f77e811b49b48df2c37f5036b05b5801a0535f.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "700c2cf3602782248f7dfeb2385afb059634156af0626732c5014d7858c76d70",
+      "versionRange": {
+        "from": 522817,
+        "until": 539669
+      },
+      "retainedPathsChanged": [
+        "compiler-rt/lib/hwasan/hwasan_flags.inc",
+        "compiler-rt/lib/hwasan/hwasan_linux.cpp",
+        "compiler-rt/test/hwasan/TestCases/Linux/fixed-shadow.c"
+      ]
+    },
+    {
+      "applicationSequence": 53,
+      "metadataArrayIndex": 104,
+      "relativePatchPath": "Add-stubs-and-headers-for-nl_types-APIs.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/Add-stubs-and-headers-for-nl_types-APIs.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/Add-stubs-and-headers-for-nl_types-APIs.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "bba2c01db66c2e29d29b600c342a258b6bb0cb5a0428d22870385bb1065263fe",
+      "versionRange": {
+        "from": 370808,
+        "until": null
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 54,
+      "metadataArrayIndex": 105,
+      "relativePatchPath": "Ensure-that-we-use-our-toolchain-s-lipo-and-not-the-.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/Ensure-that-we-use-our-toolchain-s-lipo-and-not-the-.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/Ensure-that-we-use-our-toolchain-s-lipo-and-not-the-.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "be814908517462677660c8aff7485e5867c1cd1e6e91bc6aeaa57a7c22f7497b",
+      "versionRange": {
+        "from": 407598,
+        "until": null
+      },
+      "retainedPathsChanged": [
+        "compiler-rt/cmake/Modules/AddCompilerRT.cmake",
+        "compiler-rt/cmake/Modules/CompilerRTDarwinUtils.cmake",
+        "llvm/cmake/modules/LLVMExternalProjectUtils.cmake"
+      ]
+    },
+    {
+      "applicationSequence": 55,
+      "metadataArrayIndex": 106,
+      "relativePatchPath": "BOLT-Increase-max-allocation-size-to-allow-BOLTing-clang-and-rustc.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/BOLT-Increase-max-allocation-size-to-allow-BOLTing-clang-and-rustc.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/BOLT-Increase-max-allocation-size-to-allow-BOLTing-clang-and-rustc.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "f296dee815f856aefb4eefb736588cb9441940742c2d03d197a7f5c9e675695f",
+      "versionRange": {
+        "from": 450784,
+        "until": null
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 56,
+      "metadataArrayIndex": 107,
+      "relativePatchPath": "Revert-Enable-IAS-In-Backend-v2.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/Revert-Enable-IAS-In-Backend-v2.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/Revert-Enable-IAS-In-Backend-v2.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "e8b7656917b56a30244d6e3dc9c5e6eaf64ff3783e215fbb228335ee281a5e80",
+      "versionRange": {
+        "from": 484093,
+        "until": null
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 57,
+      "metadataArrayIndex": 108,
+      "relativePatchPath": "Disable-vfork-fork-events.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/Disable-vfork-fork-events.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/Disable-vfork-fork-events.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "a6e4d97d059894bae82a6af7c26b2af4c97a0a3c3c1255c98e8a1fa475ef65e9",
+      "versionRange": {
+        "from": 468909,
+        "until": null
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 58,
+      "metadataArrayIndex": 110,
+      "relativePatchPath": "Revert-Driver-Allow-target-override-containing-.-in-executable-name-v2.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/Revert-Driver-Allow-target-override-containing-.-in-executable-name-v2.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/Revert-Driver-Allow-target-override-containing-.-in-executable-name-v2.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "0aa4e90dff039eec1c942f8704d63377eb50bb3c70379b25868f95fd5dcfc883",
+      "versionRange": {
+        "from": 521684,
+        "until": null
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 59,
+      "metadataArrayIndex": 112,
+      "relativePatchPath": "Support-for-WASM-as-native-IR.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/Support-for-WASM-as-native-IR.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/Support-for-WASM-as-native-IR.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "5df3f02faed412eefd160b643f2ec5a81b58467798612377d163b92a5f88ed89",
+      "versionRange": {
+        "from": 510928,
+        "until": null
+      },
+      "retainedPathsChanged": [
+        "llvm/include/llvm/TargetParser/Triple.h"
+      ]
+    },
+    {
+      "applicationSequence": 60,
+      "metadataArrayIndex": 113,
+      "relativePatchPath": "compiler-rt-Allow-finding-LLVMConfig-if-CMAKE_FIND_ROOT_PATH_MODE_PACKAGE-is-set-to-ONLY.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/compiler-rt-Allow-finding-LLVMConfig-if-CMAKE_FIND_ROOT_PATH_MODE_PACKAGE-is-set-to-ONLY.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/compiler-rt-Allow-finding-LLVMConfig-if-CMAKE_FIND_ROOT_PATH_MODE_PACKAGE-is-set-to-ONLY.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "3e1e2a5cec77206efb39c0c90d5ab692abbfb26d9f169fed8025ae7a76e1491c",
+      "versionRange": {
+        "from": 487747,
+        "until": null
+      },
+      "retainedPathsChanged": [
+        "compiler-rt/cmake/Modules/CompilerRTUtils.cmake"
+      ]
+    },
+    {
+      "applicationSequence": 61,
+      "metadataArrayIndex": 115,
+      "relativePatchPath": "move-cxa-demangle-into-libcxxdemangle.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/move-cxa-demangle-into-libcxxdemangle.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/move-cxa-demangle-into-libcxxdemangle.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "6a8879953b2133491d4bc6be97332d4d031b837e0175227969f4ef7f7d6ef8b9",
+      "versionRange": {
+        "from": 475365,
+        "until": null
+      },
+      "retainedPathsChanged": [
+        "libcxxabi/CMakeLists.txt",
+        "libcxxabi/src/CMakeLists.txt"
+      ]
+    },
+    {
+      "applicationSequence": 62,
+      "metadataArrayIndex": 116,
+      "relativePatchPath": "avoid-triggering-fdsan-in-filebuf-test.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/avoid-triggering-fdsan-in-filebuf-test.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/avoid-triggering-fdsan-in-filebuf-test.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "4e1524cacdb74e6998b0ca127cbdd93bad8ef7e10494d78cfe1cba38bf23116a",
+      "versionRange": {
+        "from": 475365,
+        "until": null
+      },
+      "retainedPathsChanged": [
+        "libcxx/test/std/input.output/file.streams/fstreams/filebuf.members/close.pass.cpp"
+      ]
+    },
+    {
+      "applicationSequence": 63,
+      "metadataArrayIndex": 117,
+      "relativePatchPath": "disable-symlink-resolve-test-on-android.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/disable-symlink-resolve-test-on-android.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/disable-symlink-resolve-test-on-android.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "43da3d11f2b648967ddc12a72a88bee2506be3c81629245faacccbb138b61b53",
+      "versionRange": {
+        "from": 498229,
+        "until": null
+      },
+      "retainedPathsChanged": [
+        "libcxx/test/std/input.output/filesystems/fs.op.funcs/fs.op.permissions/permissions.pass.cpp"
+      ]
+    },
+    {
+      "applicationSequence": 64,
+      "metadataArrayIndex": 118,
+      "relativePatchPath": "avoid-fifo-socket-hardlink-in-libcxx-tests.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/avoid-fifo-socket-hardlink-in-libcxx-tests.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/avoid-fifo-socket-hardlink-in-libcxx-tests.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "a2ef134dd468076fe3a18a97ca42dce8a17919e66491182b0f470c1bf5299769",
+      "versionRange": {
+        "from": 498229,
+        "until": null
+      },
+      "retainedPathsChanged": [
+        "libcxx/test/std/input.output/filesystems/class.directory_entry/directory_entry.obs/file_size.pass.cpp",
+        "libcxx/test/std/input.output/filesystems/class.directory_entry/directory_entry.obs/file_type_obs.pass.cpp",
+        "libcxx/test/std/input.output/filesystems/class.directory_entry/directory_entry.obs/hard_link_count.pass.cpp",
+        "libcxx/test/std/input.output/filesystems/fs.op.funcs/fs.op.copy/copy.pass.cpp",
+        "libcxx/test/std/input.output/filesystems/fs.op.funcs/fs.op.copy_file/copy_file.pass.cpp",
+        "libcxx/test/std/input.output/filesystems/fs.op.funcs/fs.op.create_hard_link/create_hard_link.pass.cpp",
+        "libcxx/test/std/input.output/filesystems/fs.op.funcs/fs.op.equivalent/equivalent.pass.cpp",
+        "libcxx/test/std/input.output/filesystems/fs.op.funcs/fs.op.hard_lk_ct/hard_link_count.pass.cpp",
+        "libcxx/test/std/input.output/filesystems/fs.op.funcs/fs.op.is_empty/is_empty.pass.cpp",
+        "libcxx/test/std/input.output/filesystems/fs.op.funcs/fs.op.status/status.pass.cpp",
+        "libcxx/test/std/input.output/filesystems/fs.op.funcs/fs.op.symlink_status/symlink_status.pass.cpp"
+      ]
+    },
+    {
+      "applicationSequence": 65,
+      "metadataArrayIndex": 119,
+      "relativePatchPath": "Add-cmake-c-cxx-asm-linker-flags.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/Add-cmake-c-cxx-asm-linker-flags.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/Add-cmake-c-cxx-asm-linker-flags.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "82db3a79b15b628560e212a5097183333e2efab41a94a2dae70d7ccd81e8084a",
+      "versionRange": {
+        "from": 510928,
+        "until": null
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 66,
+      "metadataArrayIndex": 120,
+      "relativePatchPath": "Remove-inline_asm-tests-for-now.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/Remove-inline_asm-tests-for-now.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/Remove-inline_asm-tests-for-now.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "6351e1e58adf250c1244287cd1378b2b710c19cd3e5754092efd334545159bfb",
+      "versionRange": {
+        "from": 510928,
+        "until": null
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 67,
+      "metadataArrayIndex": 121,
+      "relativePatchPath": "Ignore-flags-that-typically-get-used-with-bpf-but-ar.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/Ignore-flags-that-typically-get-used-with-bpf-but-ar.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/Ignore-flags-that-typically-get-used-with-bpf-but-ar.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "6dc9e769fe4e635690364c46ef70a49664f9fd2c6a47f795851a40e4bddc1281",
+      "versionRange": {
+        "from": 510928,
+        "until": null
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 68,
+      "metadataArrayIndex": 122,
+      "relativePatchPath": "hide-locale-lit-features-for-bionic-v2.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/hide-locale-lit-features-for-bionic-v2.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/hide-locale-lit-features-for-bionic-v2.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "8a2631e1b4eefd87f5f580f65bb901e509fbafef7f84cd723bfea14ecc0df29e",
+      "versionRange": {
+        "from": 510928,
+        "until": null
+      },
+      "retainedPathsChanged": [
+        "libcxx/utils/libcxx/test/dsl.py"
+      ]
+    },
+    {
+      "applicationSequence": 69,
+      "metadataArrayIndex": 123,
+      "relativePatchPath": "bionic-includes-plus-sign-for-nan-v2.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/bionic-includes-plus-sign-for-nan-v2.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/bionic-includes-plus-sign-for-nan-v2.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "c14fe8535d167cb1c619e2890109a862c5289c457500b16854c56a8b15fab8bb",
+      "versionRange": {
+        "from": 510928,
+        "until": 530511
+      },
+      "retainedPathsChanged": [
+        "libcxx/test/std/localization/locale.categories/category.numeric/locale.nm.put/facet.num.put.members/put_long_double.pass.cpp",
+        "libcxx/utils/libcxx/test/features.py"
+      ]
+    },
+    {
+      "applicationSequence": 70,
+      "metadataArrayIndex": 124,
+      "relativePatchPath": "Disable-PhaseOrdering-ARM-arm_mult_q15.ll-test.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/Disable-PhaseOrdering-ARM-arm_mult_q15.ll-test.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/Disable-PhaseOrdering-ARM-arm_mult_q15.ll-test.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "a09f2241e469a1e609b094ffcaeb68f496c82905e1caaa82ce9de9b81e01df82",
+      "versionRange": {
+        "from": 510928,
+        "until": null
+      },
+      "retainedPathsChanged": []
+    },
+    {
+      "applicationSequence": 71,
+      "metadataArrayIndex": 125,
+      "relativePatchPath": "Revert-Recommit-DAGCombiner-Transform-icmp-eq-ne-and.patch",
+      "path": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/Revert-Recommit-DAGCombiner-Transform-icmp-eq-ne-and.patch",
+      "url": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/Revert-Recommit-DAGCombiner-Transform-icmp-eq-ne-and.patch",
+      "revision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "sha256": "fef9c036716421b14ea34759659d2d71f5007ea7ebf57848b817320ab28c4e80",
+      "versionRange": {
+        "from": 522817,
+        "until": null
+      },
+      "retainedPathsChanged": []
+    }
+  ],
+  "reconstruction": {
+    "script": ".native-sources/toolchain/reconstruct-runtime.py",
+    "scriptSha256": "2d58c39cf4b5be35b18beeedc9d5299fcf3934c13a86518af08fd7f4447f7de5",
+    "command": "python3 .native-sources/toolchain/reconstruct-runtime.py native/compiler-runtime-sources.json /absolute/new-output-directory",
+    "requirements": [
+      "Python 3.12+ (tarfile data extraction filter)",
+      "GNU patch"
+    ],
+    "retainedSubtrees": [
+      "libcxx",
+      "libcxxabi",
+      "libunwind",
+      "compiler-rt",
+      "cmake",
+      "runtimes",
+      "llvm/cmake",
+      "llvm/include",
+      "llvm/utils",
+      "third-party",
+      "utils"
+    ],
+    "cachedBaseSource": ".native-sources/toolchain/llvm-runtime-3c92011b600bdf70424e2547594dd461fe411a41",
+    "cachedPatchedSource": ".native-sources/toolchain/llvm-runtime-3c92011b600bdf70424e2547594dd461fe411a41-android",
+    "steps": [
+      "Use retained SHA256-identified archives; extract each runtimeSubtree into that relative subtree in a new output directory. Copy runtimeFile inputs to their original relative paths.",
+      "Process all patchesInApplicationOrder in metadata-array order. Preserve whole original patches in the source archive. For the runtime subset, project only complete diff --git sections whose old or new path is under a retainedSubtree; patches with no such sections are not applied to the subset.",
+      "Apply projected sections using GNU patch -f -E -p1 --no-backup-if-mismatch --fuzz=0. Fail rather than silently skip a rejected hunk. Original retained base sources and archives stay unchanged.",
+      "This recreates runtime sources and supporting inputs only. It neither rebuilds the original compiler nor configures, compiles, tests, or certifies any runtime binary."
+    ],
+    "applicationStatus": "Source reconstruction completed successfully: 21 projected patches (15 touching runtime directories) applied in exact metadata order with GNU patch --fuzz=0. Some hunks used exact-context line offsets. No builds, tests, lint, formatting, compiler invocations or runtime gates were run.",
+    "gitilesPackaging": "Immutable revisions identify source contents, but Gitiles can regenerate archive packaging. SHA256 pins the exact retained download bytes, not a promise that a later same-URL response is byte-identical. Per-file inventories record decoded source content independently."
+  },
+  "officialBuildMaterials": {
+    "sourceDirectory": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+    "completeArchiveIncluded": true,
+    "patchMetadata": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a/patches/PATCHES.json",
+    "patchMetadataSha256": "0d8054ccb2a90c9cb2a08406888811e5506cb3dade86361f069f2e6249b325d7",
+    "recipes": [
+      "builders.py: BuiltinsBuilder, LibUnwindBuilder, DeviceLibcxxBuilder (platform=False), CompilerRTBuilder",
+      "base_builders.py: LLVMRuntimeBuilder and shared CMake/compiler/link flags",
+      "configs.py: AndroidAArch64Config, AndroidX86_64Config and API/sysroot selection",
+      "do_build.py: runtime orchestration and package assembly",
+      "source_manager.py and android_version.py: exact base/version/patch selection"
+    ],
+    "ndkLibcxxConfiguration": {
+      "ABI_NAMESPACE": "__ndk1",
+      "ABI_VERSION": "1",
+      "LIBCXX_STATICALLY_LINK_ABI_IN_STATIC_LIBRARY": "OFF",
+      "LIBCXXABI_ENABLE_SHARED": "OFF",
+      "cxxflags": [
+        "-DHAS_THREAD_LOCAL"
+      ],
+      "evidence": "DeviceLibcxxBuilder in exact llvm_android revision."
+    },
+    "supplementaryOrderingReference": {
+      "directory": ".native-sources/toolchain/toolchain-utils-reference-d71e320ab860721f764fe7403588641c8a7bc65d",
+      "revision": "d71e320ab860721f764fe7403588641c8a7bc65d",
+      "exactOriginalBuildRevisionKnown": false,
+      "evidence": "patch_utils.py json_to_patch_entries preserves JSON array order; apply_all_from_json iterates that array. Frozen supplementary source, not substituted for exact llvm_android recipes."
+    }
+  },
+  "sourceCorrespondence": {
+    "evidence": [
+      "The installed NDK clang_source_info.md identifies this exact LLVM base and llvm_android patch revision.",
+      "android_version.py at the identified llvm_android revision confirms base 3c92011b600bdf70424e2547594dd461fe411a41, r522817b and patch level 2.",
+      "The 71 exact metadata entries at SVN selector 522817 match all source_info patch basenames.",
+      "The identified DeviceLibcxxBuilder installs NDK libc++/ABI archives and generated __config_site; LibUnwindBuilder and BuiltinsBuilder provide runtime archives."
+    ],
+    "assumptions": [
+      "Using installed clang source information as the correspondence anchor for that NDK package's C++/ABI/unwind/builtins archives follows its official recipes, but no independent byte-for-byte runtime rebuild was performed.",
+      "Only archive members actually selected by the final native link are bundled; parent owns APK/link evidence and exact linked-runtime inventory."
+    ],
+    "limits": [
+      "Full LLVM compiler sources/binaries, SDK tools, personal SDK paths and signing material are not bundled here. Compiler-associated host tools are outside this runtime-source augmentation.",
+      "Original upstream compiler build environment, bootstrap compiler, prebuilt NDK sysroot and build invocation are external prerequisites for reproducing original NDK binary bytes. No bit-reproducibility certification is made.",
+      "The full runtime source directories include their upstream tests/docs/notices; none were run."
+    ],
+    "noLegalCertification": true
+  },
+  "systemLibraryBoundary": {
+    "policy": "These sources are an extra conservative disclosure, not a claim that GPL requires rebuilding or bundling the Android SDK/compiler.",
+    "gplSystemLibraries": "GPLv3 System Libraries includes compiler-associated libraries subject to the definition's conditions. This manifest does not give a definitive legal classification or promise immunity.",
+    "devicePlatform": "Android device-provided libc/libm/libdl and operating-system/JNI interfaces are not copied into the APK by this source augmentation.",
+    "staticallyBundled": "C++ standard library, ABI, unwinder and compiler-rt archive portions selected by the native link are conservatively covered by these preferred-source materials.",
+    "references": [
+      "https://www.gnu.org/licenses/gpl-3.0.html",
+      "https://www.gnu.org/licenses/gpl-faq.html#SystemLibraryException"
+    ]
+  },
+  "notices": {
+    "policy": "Retain complete source directories and all original per-file notices; do not replace them with SPDX-only summaries.",
+    "fullLLVMNotice": ".native-sources/toolchain/NDK-27.1-LLVM-NOTICE.txt",
+    "fullLLVMNoticeSha256": "f96f763beb66a7ba7a667647fc64c0226ace875e590c831fdd9579ec1c1d91e1",
+    "licenseFiles": [
+      "LICENSE.TXT",
+      "llvm/LICENSE.TXT",
+      "libcxx/LICENSE.TXT",
+      "libcxxabi/LICENSE.TXT",
+      "libunwind/LICENSE.TXT",
+      "compiler-rt/LICENSE.TXT"
+    ],
+    "additionalNotices": "All supporting LLVM subtrees and full llvm_android recipes remain verbatim, including their embedded licenses; toolchain-utils-reference includes its full LICENSE."
+  },
+  "sourceInventories": [
+    {
+      "sourceDirectory": ".native-sources/toolchain/llvm-runtime-3c92011b600bdf70424e2547594dd461fe411a41",
+      "inventory": ".native-sources/toolchain/runtime-inputs/source-inventory-base.jsonl",
+      "sha256": "4767ca2cb9e4d4378880c4afbc10811052b15bb38b00839abece244a9a6dd2a2",
+      "entries": 18674,
+      "regularFileBytes": 124403313
+    },
+    {
+      "sourceDirectory": ".native-sources/toolchain/llvm-runtime-3c92011b600bdf70424e2547594dd461fe411a41-android",
+      "inventory": ".native-sources/toolchain/runtime-inputs/source-inventory-android-patched.jsonl",
+      "sha256": "8075b16b038c5ff3a1bb74f2c04db0f117ad1a2afb994988efd4e5c44a4c45cd",
+      "entries": 18674,
+      "regularFileBytes": 124407781
+    },
+    {
+      "sourceDirectory": ".native-sources/toolchain/llvm_android-2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+      "inventory": ".native-sources/toolchain/runtime-inputs/source-inventory-android-build-recipes.jsonl",
+      "sha256": "ab086572fcafc1d23ff73181f7b7117ce5a3bb70978e3c4b6ea7298405e68b02",
+      "entries": 232,
+      "regularFileBytes": 2479940
+    },
+    {
+      "sourceDirectory": ".native-sources/toolchain/toolchain-utils-reference-d71e320ab860721f764fe7403588641c8a7bc65d",
+      "inventory": ".native-sources/toolchain/runtime-inputs/source-inventory-patch-order-reference.jsonl",
+      "sha256": "a2747640cb3d41fb9a13ef0973e315d297a14e84fee818f92938c9b93f96290b",
+      "entries": 69,
+      "regularFileBytes": 655117
+    }
+  ]
+}

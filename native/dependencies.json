@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "applicationLicense": "GPL-3.0-only",
+  "nativeTarget": "tidyavif",
+  "buildScript": "app/src/main/cpp/CMakeLists.txt",
+  "runtimeNetworkAccess": false,
+  "dependencies": [
+    {
+      "name": "libavif",
+      "version": "1.4.2",
+      "commit": "c5240fc79fe5c2407e10afd35f5505ef6333ea49",
+      "tagObject": "bd32fb40a3b2028eb555b67f769c57a32ed8a1b4",
+      "sourceUrl": "https://codeload.github.com/AOMediaCodec/libavif/tar.gz/c5240fc79fe5c2407e10afd35f5505ef6333ea49",
+      "archive": ".native-sources/archives/libavif-c5240fc79fe5c2407e10afd35f5505ef6333ea49.tar.gz",
+      "archiveSha256": "5e9aa73e43af8021a57d744712ee0bc145267863afb7c9b118723a15dbd4cfbf",
+      "unpackedSource": ".native-sources/src/libavif-c5240fc79fe5c2407e10afd35f5505ef6333ea49",
+      "license": "BSD-2-Clause with embedded notices in full LICENSE",
+      "patentsFile": null,
+      "enabledCodec": "AOM encode and decode",
+      "externalLibyuv": false,
+      "libsharpyuv": false,
+      "embeddedSources": [
+        "src/obu.c (VideoLAN/dav1d author BSD notice)",
+        "third_party/libyuv/source/scale.c",
+        "third_party/libyuv/source/scale_common.c",
+        "third_party/libyuv/source/scale_any.c",
+        "third_party/libyuv/source/row_common.c",
+        "third_party/libyuv/source/planar_functions.c"
+      ],
+      "disabledCodecs": [
+        "dav1d",
+        "libgav1",
+        "rav1e",
+        "SVT-AV1",
+        "AVM"
+      ],
+      "sourceModifications": "None. All dependency sources are extracted from SHA256-verified archives."
+    },
+    {
+      "name": "libaom",
+      "version": "3.14.1",
+      "commit": "03087864cf4bea6abb0d28f95cf7843511413d8f",
+      "sourceUrl": "https://aomedia.googlesource.com/aom/+archive/03087864cf4bea6abb0d28f95cf7843511413d8f.tar.gz",
+      "archive": ".native-sources/archives/aom-03087864cf4bea6abb0d28f95cf7843511413d8f.tar.gz",
+      "archiveSha256": "74328f5160eb58ea3b560a7a4d388b9486779b8a298a425c674cb6d414f5cf45",
+      "unpackedSource": ".native-sources/src/aom-03087864cf4bea6abb0d28f95cf7843511413d8f",
+      "license": "BSD-2-Clause and Alliance for Open Media Patent License 1.0; embedded third-party notices",
+      "patentsFile": "PATENTS",
+      "cpu": "generic",
+      "encoder": true,
+      "decoder": true,
+      "highBitDepth": false,
+      "libyuv": false,
+      "webmIO": false,
+      "highway": false,
+      "embeddedSources": [
+        "third_party/fastfeat",
+        "third_party/vector"
+      ],
+      "disabledComponents": [
+        "tests",
+        "testdata",
+        "examples",
+        "tools",
+        "docs",
+        "libyuv",
+        "libwebm",
+        "highway",
+        "butteraugli",
+        "vmaf",
+        "architecture assembly"
+      ],
+      "sourceModifications": "None. CMake regenerates config/aom_config.c from the upstream template with a path-free diagnostic build string."
+    }
+  ],
+  "noticeFiles": [
+    {
+      "sourceFile": "LICENSE",
+      "sha256": "fb981668c18a279e285fc4d83fba1e836cc84dd4daa73c9697d3cfd2d8aca6e0",
+      "bundledIn": "app/src/main/assets/third-party-notices.txt"
+    },
+    {
+      "sourceFile": ".native-sources/src/libavif-c5240fc79fe5c2407e10afd35f5505ef6333ea49/LICENSE",
+      "sha256": "165abf92cc04b39e80d29cadea7a6a7e8fddf59407d4ad2616507a7ebe8216f9",
+      "bundledIn": "app/src/main/assets/third-party-notices.txt"
+    },
+    {
+      "sourceFile": ".native-sources/src/aom-03087864cf4bea6abb0d28f95cf7843511413d8f/LICENSE",
+      "sha256": "4764a286d8b2faeaf42f4418e7d7a28d58fc8fd4d00a3d0a7f44b0a4099de7f2",
+      "bundledIn": "app/src/main/assets/third-party-notices.txt"
+    },
+    {
+      "sourceFile": ".native-sources/src/aom-03087864cf4bea6abb0d28f95cf7843511413d8f/PATENTS",
+      "sha256": "661fb8e504744e95587b556b94a58343448300606a41bea8c7a9b97125696e61",
+      "bundledIn": "app/src/main/assets/third-party-notices.txt"
+    },
+    {
+      "sourceFile": ".native-sources/src/aom-03087864cf4bea6abb0d28f95cf7843511413d8f/third_party/fastfeat/LICENSE",
+      "sha256": "499041ddee5227b6f29ca06c17803e5fe24d60f243c69635cd76b7ba08d0ddd5",
+      "bundledIn": "app/src/main/assets/third-party-notices.txt"
+    },
+    {
+      "sourceFile": ".native-sources/src/aom-03087864cf4bea6abb0d28f95cf7843511413d8f/third_party/vector/LICENSE",
+      "sha256": "ff6c857ce2708e87701323078aef115c1872a1f80a9649f86dc899b48083bc60",
+      "bundledIn": "app/src/main/assets/third-party-notices.txt"
+    }
+  ],
+  "resources": {
+    "maximumDimension": 16384,
+    "maximumPixels": 16777216,
+    "maximumEncodedBytes": 67108864,
+    "codecThreadsPerCall": 1,
+    "encodeDepth": 8,
+    "encodeChroma": "YUV444",
+    "encodeColorSpace": "sRGB",
+    "alpha": "straight AVIF alpha, lossless; bitmap premultiplication handled by libavif",
+    "metadata": "No EXIF, XMP, ICC, or identifying metadata copied from bitmap"
+  },
+  "compilerRuntime": {
+    "ndkVersion": "27.1.12297006",
+    "linkage": "NDK-provided static C++ runtime; no separately bundled c++_shared.so",
+    "llvmBaseRevision": "3c92011b600bdf70424e2547594dd461fe411a41",
+    "androidToolchainPatchesRevision": "2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+    "license": "Apache-2.0 WITH LLVM-exception and legacy runtime notices",
+    "noticeFile": ".native-sources/toolchain/NDK-27.1-LLVM-NOTICE.txt",
+    "noticeSha256": "f96f763beb66a7ba7a667647fc64c0226ace875e590c831fdd9579ec1c1d91e1",
+    "sourceInformation": ".native-sources/toolchain/clang_source_info.md",
+    "sourceUrl": "https://github.com/llvm/llvm-project/tree/3c92011b600bdf70424e2547594dd461fe411a41",
+    "patchesUrl": "https://android.googlesource.com/toolchain/llvm_android/+/2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a",
+    "preferredSourceManifest": "native/compiler-runtime-sources.json",
+    "bundledIn": "app/src/main/assets/third-party-notices.txt"
+  },
+  "buildProvenance": {
+    "cachePolicy": "CMake verifies a local archive SHA256 before extracting; absent archive fetches identical immutable URL with URL_HASH. Arbitrary unpacked-source overrides are not used.",
+    "pathPrivacy": "All native compiler __FILE__/debug paths use prefix maps; non-Debug shared-library links strip debug sections; generated AOM configure string is path-free.",
+    "releaseSourceRequirement": "Include both exact archives, matching full sources, application/native build scripts, and complete bundled notices. Do not publish only opaque binaries."
+  }
+}

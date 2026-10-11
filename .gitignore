@@ -3,9 +3,12 @@
 .idea/
 *.iml
 local.properties
-**/build/
+**/build
 .externalNativeBuild/
-.cxx/
+.cxx
+.native-sources/
+outputs/
+dist/
 .DS_Store
 
 # Signing material and credentials: never commit
@@ -17,6 +20,7 @@ local.properties
 *.key
 keystore.properties
 signing.properties
+*.signing.properties
 .env
 .env.*
 
@@ -25,6 +29,11 @@ signing.properties
 *.aab
 *.apks
 *.so
+*.zip
+*.tar
+*.tar.gz
+*.tar.xz
+*.tgz
 
 # Recovery-tool working directories and logs
 .jadx/

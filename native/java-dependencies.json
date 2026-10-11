@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "configuration": "releaseRuntimeClasspath",
+  "sourcePolicy": "Exact published source JARs, original per-file notices, POM/Gradle metadata and matching license texts accompany the corresponding-source release. No local signing material or Android SDK is included.",
+  "dependencies": [
+    {
+      "coordinate": "androidx.exifinterface:exifinterface:1.4.2",
+      "license": "Apache-2.0",
+      "sourceUrl": "https://dl.google.com/dl/android/maven2/androidx/exifinterface/exifinterface/1.4.2/exifinterface-1.4.2-sources.jar",
+      "sourceArchive": ".native-sources/java/exifinterface-1.4.2-sources.jar",
+      "sourceSha256": "dc69c04f03e72ad38ed43774554e6612dd9ffe7299eacaab62a38df8ac2c7767"
+    },
+    {
+      "coordinate": "androidx.annotation:annotation-jvm:1.8.1",
+      "license": "Apache-2.0",
+      "sourceUrl": "https://dl.google.com/dl/android/maven2/androidx/annotation/annotation-jvm/1.8.1/annotation-jvm-1.8.1-sources.jar",
+      "sourceArchive": ".native-sources/java/annotation-jvm-1.8.1-sources.jar",
+      "sourceSha256": "5add69d7bb907ade52823bf4b15730a1a32cfce6657bfbe7eb865b00107a6369"
+    },
+    {
+      "coordinate": "org.jspecify:jspecify:1.0.0",
+      "license": "Apache-2.0",
+      "sourceUrl": "https://repo.maven.apache.org/maven2/org/jspecify/jspecify/1.0.0/jspecify-1.0.0-sources.jar",
+      "sourceArchive": ".native-sources/java/jspecify-1.0.0-sources.jar",
+      "sourceSha256": "adf0898191d55937fb3192ba971826f4f294292c4a960740f3c27310e7b70296"
+    },
+    {
+      "coordinate": "org.jetbrains.kotlin:kotlin-stdlib:2.2.10",
+      "license": "Apache-2.0 with BSD-3-Clause ThreeTenBP and BSL-1.0 Boost excerpts",
+      "sourceUrl": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib/2.2.10/kotlin-stdlib-2.2.10-sources.jar",
+      "sourceArchive": ".native-sources/java/kotlin-stdlib-2.2.10-sources.jar",
+      "sourceSha256": "2983f21e626325f256bc4443c7fe45a83912bba077be119142f68210c0548173",
+      "upstreamLicenseDirectory": "https://github.com/JetBrains/kotlin/tree/v2.2.10/license"
+    },
+    {
+      "coordinate": "org.jetbrains:annotations:13.0",
+      "license": "Apache-2.0",
+      "sourceUrl": "https://repo.maven.apache.org/maven2/org/jetbrains/annotations/13.0/annotations-13.0-sources.jar",
+      "sourceArchive": ".native-sources/java/annotations-13.0-sources.jar",
+      "sourceSha256": "42a5e144b8e81d50d6913d1007b695e62e614705268d8cf9f13dbdc478c2c68e",
+      "publishedSourceSha1": "5991ca87ef1fb5544943d9abc5a9a37583fabe03"
+    }
+  ],
+  "noticesAsset": "app/src/main/assets/third-party-notices.txt",
+  "systemLibraries": "Android platform WebP, Java/Android framework and NDK system libraries are supplied by the device/toolchain; no old APK native library is reused.",
+  "legalBoundary": "License and source delivery do not establish universal patent clearance, ownership of unrelated material, or immunity from claims. Warranty and liability exclusions apply only to the extent allowed by applicable law."
+}
