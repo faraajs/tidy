@@ -2,13 +2,24 @@
 
 Automatic screenshot and photo conversion to AVIF or WebP on Android.
 
+[![Latest release](https://img.shields.io/github/v/release/faraajs/tidy?label=Latest%20release)](https://github.com/faraajs/tidy/releases/latest)
 ![License: GPL-3.0-only](https://img.shields.io/badge/license-GPL--3.0--only-blue)
 ![Android 11+](https://img.shields.io/badge/Android-11%2B-green)
 ![64-bit ABIs](https://img.shields.io/badge/ABI-arm64--v8a%20%7C%20x86__64-blue)
 
+## Download Tidy 2.3.1
+
+**[Download APK 2.3.1 — Android installer (9.4 MB)](https://github.com/faraajs/tidy/releases/download/v2.3.1/tidy-v2.3.1-universal.apk)**
+
+Requires **Android 11+** and a **64-bit arm64-v8a or x86_64** device. To install the app, choose the **`.apk` file**, not GitHub's **Source code (zip/tar.gz)** downloads.
+
+[Release notes, checksums and complete source](https://github.com/faraajs/tidy/releases/tag/v2.3.1) · [All versions](https://github.com/faraajs/tidy/releases)
+
+Follow the [verification and installation guide below](#download-and-installation) before opening the APK. Android may require **Install unknown apps** permission for your browser/file manager; turn it off afterward if unnecessary.
+
 **2.3.1 is the Gallery-safety hotfix for the newly authored, source-buildable 2.3 app**, not the recovered original project or a byte-identical rebuild of 2.2.0. It uses Java/platform Views and source-built libavif/libaom. Historical `sources/`, `bytecode/`, and `resources/` are references only and are not compiled into the app.
 
-**Release assets:** use the [official v2.3.1 release page](https://github.com/faraajs/tidy/releases/tag/v2.3.1) for the signed universal APK, complete corresponding-source archive and `SHA256SUMS.txt`. The original 2.2.0 APK remains withheld because its preferred source and matching native provenance are unresolved. See [historical recovery notes](docs/RECOVERY-NOTES.md).
+The original 2.2.0 APK remains withheld because its preferred source and matching native provenance are unresolved. See [historical recovery notes](docs/RECOVERY-NOTES.md).
 
 **Upgrade from 2.3.0:** that version could delete an original before its replacement was ready in Gallery. Pause it and leave original deletion off. A converted `.tidy.webp`/`.tidy.avif` file may still exist even if Gallery does not show it; do not assume the original PNG can be recovered. The 2.3.1 upgrade pauses monitoring and resets deletion consent while preserving category settings, formats, counters, theme and processed history.
 
@@ -35,9 +46,9 @@ Requirements: **Android 11/API 30+** and a **64-bit `arm64-v8a` or `x86_64`** de
 
 Download these assets together from the [official v2.3.1 page](https://github.com/faraajs/tidy/releases/tag/v2.3.1), not an untrusted mirror:
 
-- `tidy-v2.3.1-universal.apk`
-- `tidy-v2.3.1-corresponding-source.tar.gz`
-- `SHA256SUMS.txt`
+- [**`tidy-v2.3.1-universal.apk` — Android installer**](https://github.com/faraajs/tidy/releases/download/v2.3.1/tidy-v2.3.1-universal.apk)
+- [`tidy-v2.3.1-corresponding-source.tar.gz` — complete corresponding source](https://github.com/faraajs/tidy/releases/download/v2.3.1/tidy-v2.3.1-corresponding-source.tar.gz)
+- [`SHA256SUMS.txt` — file checksums](https://github.com/faraajs/tidy/releases/download/v2.3.1/SHA256SUMS.txt)
 
 1. In the directory containing the downloaded assets, verify both file hashes:
    ```sh

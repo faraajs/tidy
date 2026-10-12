@@ -2,6 +2,10 @@
 
 Current authored releases and historical recovery records are separated below. The original 2.2.0 release date is unknown; its recovery revisions retained version name `2.2.0` and were not separate published releases. Historical evidence remains in [Recovery notes](docs/RECOVERY-NOTES.md).
 
+## Unreleased
+
+- Made the current release easier to find with a latest-release badge, prominent APK download and labeled installer/source/checksum links in the README. The GitHub About link points to the latest release, and the 2.3.1 release page includes a direct APK download guide. Release binaries and tags are unchanged.
+
 ## 2.3.1 — 2026-10-12
 
 - Fixed disappearance from Gallery when original deletion was enabled: explicitly scan the replacement and require a complete image row, readable matching bytes and platform-decoded dimensions before deleting anything.
