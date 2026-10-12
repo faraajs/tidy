@@ -98,6 +98,40 @@ public final class AppStateStoreTest {
         assertEquals(1_000L, store.config(MediaCategory.SCREENSHOTS).activatedAtMillis);
     }
 
+    @Test public void galleryUpgradeRevokesDeletionAndMonitoringWithoutErasingState() {
+        MemoryPreferences prefs = new MemoryPreferences();
+        prefs.values.put("v23_safe_state", true);
+        prefs.values.put("v23_screenshot_enabled", true);
+        prefs.values.put("v23_screenshot_activation", 1_000L);
+        prefs.values.put("v23_screenshot_format", "WEBP");
+        prefs.values.put("v23_screenshot_delete", true);
+        prefs.values.put("v23_photo_delete", true);
+        prefs.values.put("v23_requested", true);
+        prefs.values.put("v23_screenshot_count", 5L);
+        prefs.values.put("v23_saved_bytes", 900_000L);
+        prefs.values.put("v23_processed_" + fingerprint(1), 1L);
+        MemoryPreferences ui = new MemoryPreferences();
+        ui.values.put("dark_mode", false);
+
+        AppStateStore upgraded = new AppStateStore(prefs, ui);
+        assertFalse(upgraded.monitoringRequested());
+        assertFalse(upgraded.config(MediaCategory.SCREENSHOTS).deleteOriginals);
+        assertFalse(upgraded.config(MediaCategory.PHOTOS).deleteOriginals);
+        assertTrue(upgraded.config(MediaCategory.SCREENSHOTS).enabled);
+        assertEquals(1_000L, upgraded.config(MediaCategory.SCREENSHOTS).activatedAtMillis);
+        assertEquals(OutputFormat.WEBP, upgraded.config(MediaCategory.SCREENSHOTS).format);
+        assertEquals(5L, upgraded.snapshot().screenshotCount);
+        assertEquals(900_000L, upgraded.snapshot().savedBytes);
+        assertTrue(upgraded.wasProcessed(fingerprint(1)));
+        assertFalse(upgraded.darkMode());
+
+        upgraded.setDeleteOriginals(MediaCategory.SCREENSHOTS, true);
+        upgraded.setMonitoringRequested(true);
+        AppStateStore reopened = new AppStateStore(new MemoryPreferences(prefs.values), ui);
+        assertTrue(reopened.config(MediaCategory.SCREENSHOTS).deleteOriginals);
+        assertTrue(reopened.monitoringRequested());
+    }
+
     @Test public void separateStoresShareQueueAndCountersButRestartHasNoPhantomWork() {
         MemoryPreferences prefs = new MemoryPreferences();
         MemoryPreferences ui = new MemoryPreferences();

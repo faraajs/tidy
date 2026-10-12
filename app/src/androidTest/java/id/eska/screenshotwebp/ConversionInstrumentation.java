@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 
 import androidx.exifinterface.media.ExifInterface;
 
@@ -21,8 +22,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
-/** Runs only generated files below its unique app-cache directory. No personal media is read. */
+/** Runs only generated files in a unique Pictures fixture root, with isolated preferences. */
 public final class ConversionInstrumentation extends Instrumentation {
     private final List<String> failures = new ArrayList<>();
     private int checks;
@@ -40,6 +42,10 @@ public final class ConversionInstrumentation extends Instrumentation {
 
     @Override public void onStart() {
         context = getTargetContext();
+        if ("gallery".equals(scenario)) {
+            GalleryChecks.run(this, context);
+            return;
+        }
         if (!Build.HARDWARE.equals("ranchu") && !Build.HARDWARE.equals("goldfish")) {
             Bundle refused = new Bundle();
             refused.putInt("tidy_failed", 1);
@@ -51,14 +57,13 @@ public final class ConversionInstrumentation extends Instrumentation {
             MonitoringChecks.run(this, context);
             return;
         }
+        Context target = context;
+        String preferenceId = "tidy-conversion-prefs-" + UUID.randomUUID();
+        context = GalleryChecks.isolated(target, preferenceId);
         store = new AppStateStore(context);
-        AppStateStore.Config oldScreenshots = store.config(MediaCategory.SCREENSHOTS);
-        AppStateStore.Config oldPhotos = store.config(MediaCategory.PHOTOS);
-        boolean oldMonitoring = store.monitoringRequested();
         try {
             store.setMonitoringRequested(true);
-            scratch = Files.createTempDirectory(context.getCacheDir().toPath(),
-                    "tidy-conversion-instrumentation-").toFile().getCanonicalFile();
+            scratch = GalleryChecks.createRoot();
             screenshots = new File(scratch, "screenshots");
             photos = new File(scratch, "photos");
             require(screenshots.mkdir() && photos.mkdir(), "Create disposable roots");
@@ -81,6 +86,7 @@ public final class ConversionInstrumentation extends Instrumentation {
                 run("target_buckets_and_unmet_screenshot", this::targets);
                 run("decode_error_preserves_source_and_paths", this::decodeError);
                 run("explicit_delete_smaller_only", this::deleteSmaller);
+                run("unavailable_gallery_index_preserves_source", this::galleryUnavailable);
                 run("larger_output_never_deletes", this::largerOutput);
                 run("same_size_same_mtime_source_change_prevents_delete", this::sourceChanged);
                 run("changed_output_prevents_delete", this::outputChanged);
@@ -92,14 +98,13 @@ public final class ConversionInstrumentation extends Instrumentation {
         } catch (Throwable failure) {
             failures.add("setup: " + failure.getClass().getSimpleName() + ": " + failure.getMessage());
         } finally {
-            restore(oldScreenshots);
-            restore(oldPhotos);
-            store.setMonitoringRequested(oldMonitoring);
             try {
-                if (scratch != null) deleteTree(scratch);
-            } catch (IOException cleanupFailure) {
+                if (scratch != null) GalleryChecks.cleanup(context, scratch);
+            } catch (Exception cleanupFailure) {
                 failures.add("disposable cleanup: " + cleanupFailure.getMessage());
             }
+            target.deleteSharedPreferences(preferenceId + "-state");
+            target.deleteSharedPreferences(preferenceId + "-tidy_ui");
         }
         Bundle result = new Bundle();
         result.putInt("tidy_checks", checks);
@@ -131,18 +136,14 @@ public final class ConversionInstrumentation extends Instrumentation {
     }
 
     private AppStateStore.Config configure(MediaCategory category, OutputFormat format, boolean delete) {
+        boolean newlyEnabled = !store.config(category).enabled;
         store.setEnabled(category, true);
         store.setFormat(category, format);
         store.setDeleteOriginals(category, delete);
+        if (newlyEnabled) SystemClock.sleep(1100); // Shared-storage mtime can have second precision.
         return store.config(category);
     }
 
-    private void restore(AppStateStore.Config previous) {
-        store.setEnabled(previous.category, false);
-        store.setFormat(previous.category, previous.format);
-        store.setDeleteOriginals(previous.category, previous.deleteOriginals);
-        store.setEnabled(previous.category, previous.enabled);
-    }
 
     private void nativeAvif() throws Exception {
         Bitmap original = quadrants(96, 64);
@@ -405,12 +406,36 @@ public final class ConversionInstrumentation extends Instrumentation {
     private void deleteSmaller() throws Exception {
         AppStateStore.Config config = configure(MediaCategory.SCREENSHOTS, OutputFormat.WEBP, true);
         File source = image(screenshots, "delete-smaller.png", noise(256, 256), Bitmap.CompressFormat.PNG);
+        GalleryChecks.scan(context, source, "image/png");
+        require(GalleryChecks.findImage(context, source) != null, "Generated original is Gallery-visible");
         long sourceSize = source.length();
+        MediaConverter.SourceSnapshot before = MediaConverter.SourceSnapshot.capture(source);
         MediaConverter.Result result = converter.convert(source, config);
-        require(result.outputBytes < sourceSize && result.originalDeleted && !source.exists(),
-                "Explicit smaller valid output deletes only captured original");
+        require(result.outputBytes < sourceSize && result.galleryPublished,
+                "Explicit smaller output is readable from Gallery");
+        if (result.originalDeleted) {
+            require(!source.exists(), "Successful deletion removes only captured original");
+            GalleryChecks.awaitRemoved(context, source);
+        } else {
+            require(before.matches(source), "Filesystem refusal retains exact original");
+        }
         output(result).recycle();
+        GalleryChecks.requireIndexed(context, result);
         require(noBackups(), "Successful deletion leaves no temporary source backup");
+    }
+
+    private void galleryUnavailable() throws Exception {
+        AppStateStore.Config config = configure(MediaCategory.SCREENSHOTS, OutputFormat.WEBP, true);
+        File hidden = new File(screenshots, "unindexed");
+        require(hidden.mkdir(), "Create owned unavailable-index fixture");
+        Files.createFile(new File(hidden, ".nomedia").toPath());
+        File source = image(hidden, "no-gallery.png", noise(256, 256), Bitmap.CompressFormat.PNG);
+        MediaConverter.SourceSnapshot before = MediaConverter.SourceSnapshot.capture(source);
+        MediaConverter.Result result = converter.convert(source, config);
+        require(result.outputBytes < before.length, "Missing-index fixture qualifies for size gate");
+        require(!result.originalDeleted && before.matches(source), "No Gallery index retains exact source");
+        require(GalleryChecks.findImage(context, result.output) == null, "No mock scanner echo is accepted");
+        output(result).recycle();
     }
 
     private void largerOutput() throws Exception {
@@ -437,7 +462,8 @@ public final class ConversionInstrumentation extends Instrumentation {
         byte[] outputBytes = Files.readAllBytes(result.output.toPath());
         AppStateStore.Config consent = configure(MediaCategory.SCREENSHOTS, OutputFormat.WEBP, true);
         require(!converter.deleteOriginalIfUnchanged(source, captured, result.output,
-                outputBytes, result.format, result.width, result.height, consent), "SHA mismatch blocks delete");
+                outputBytes, result.format, result.width, result.height, consent,
+                GalleryChecks.findImage(context, result.output)), "SHA mismatch blocks delete");
         require(Arrays.equals(changed, Files.readAllBytes(source.toPath())), "Changed source retained");
         require(noBackups(), "Source mismatch never renamed original");
     }
@@ -451,27 +477,34 @@ public final class ConversionInstrumentation extends Instrumentation {
         Files.write(result.output.toPath(), new byte[]{1, 2, 3});
         AppStateStore.Config consent = configure(MediaCategory.SCREENSHOTS, OutputFormat.WEBP, true);
         require(!converter.deleteOriginalIfUnchanged(source, captured, result.output,
-                expected, result.format, result.width, result.height, consent), "Output change blocks delete");
+                expected, result.format, result.width, result.height, consent,
+                GalleryChecks.findImage(context, result.output)), "Output change blocks delete");
         require(captured.matches(source) && noBackups(), "Changed output leaves original untouched");
     }
 
     private void renameCollision() throws Exception {
-        File source = new File(screenshots, "rename-source.png");
-        File backup = new File(screenshots, ".rename-source-backup");
-        byte[] original = {1, 2, 3, 4};
-        byte[] replacement = {8, 7, 6};
-        Files.write(source.toPath(), original);
-        Files.write(backup.toPath(), replacement);
-        require(!NativeAvif.renameNoReplace(source.getPath(), backup.getPath()), "Backup collision rejected");
-        require(Arrays.equals(original, Files.readAllBytes(source.toPath()))
-                && Arrays.equals(replacement, Files.readAllBytes(backup.toPath())), "Neither collision overwritten");
-        Files.delete(backup.toPath());
-        require(NativeAvif.renameNoReplace(source.getPath(), backup.getPath()), "Real backup rename");
-        Files.write(source.toPath(), replacement);
-        require(!NativeAvif.renameNoReplace(backup.getPath(), source.getPath()), "Rollback cannot overwrite new source");
-        require(Arrays.equals(original, Files.readAllBytes(backup.toPath()))
-                && Arrays.equals(replacement, Files.readAllBytes(source.toPath())), "Recoverable backup and recreated path retained");
-        Files.delete(backup.toPath());
+        File directory = Files.createTempDirectory(context.getCacheDir().toPath(), "rename-check-").toFile();
+        File source = new File(directory, "rename-source.png");
+        File backup = new File(directory, ".rename-source-backup");
+        try {
+            byte[] original = {1, 2, 3, 4};
+            byte[] replacement = {8, 7, 6};
+            Files.write(source.toPath(), original);
+            Files.write(backup.toPath(), replacement);
+            require(!NativeAvif.renameNoReplace(source.getPath(), backup.getPath()), "Backup collision rejected");
+            require(Arrays.equals(original, Files.readAllBytes(source.toPath()))
+                    && Arrays.equals(replacement, Files.readAllBytes(backup.toPath())), "Neither collision overwritten");
+            Files.delete(backup.toPath());
+            require(NativeAvif.renameNoReplace(source.getPath(), backup.getPath()), "Real backup rename");
+            Files.write(source.toPath(), replacement);
+            require(!NativeAvif.renameNoReplace(backup.getPath(), source.getPath()), "Rollback cannot overwrite new source");
+            require(Arrays.equals(original, Files.readAllBytes(backup.toPath()))
+                    && Arrays.equals(replacement, Files.readAllBytes(source.toPath())), "Recoverable backup and recreated path retained");
+        } finally {
+            Files.deleteIfExists(source.toPath());
+            Files.deleteIfExists(backup.toPath());
+            Files.deleteIfExists(directory.toPath());
+        }
     }
 
     private void configurationChanged() throws Exception {
@@ -497,12 +530,14 @@ public final class ConversionInstrumentation extends Instrumentation {
         AppStateStore.Config consent = configure(MediaCategory.SCREENSHOTS, OutputFormat.WEBP, true);
         store.setDeleteOriginals(MediaCategory.SCREENSHOTS, false);
         require(!converter.deleteOriginalIfUnchanged(source, captured, result.output, encoded,
-                result.format, result.width, result.height, consent), "Revoked opt-in blocks destructive commit");
+                result.format, result.width, result.height, consent,
+                GalleryChecks.findImage(context, result.output)), "Revoked opt-in blocks destructive commit");
         consent = configure(MediaCategory.SCREENSHOTS, OutputFormat.WEBP, true);
         store.setMonitoringRequested(false);
         try {
             require(!converter.deleteOriginalIfUnchanged(source, captured, result.output, encoded,
-                    result.format, result.width, result.height, consent), "Pause blocks destructive commit");
+                    result.format, result.width, result.height, consent,
+                    GalleryChecks.findImage(context, result.output)), "Pause blocks destructive commit");
             require(captured.matches(source) && noBackups(), "Consent revocation never moves or changes source");
         } finally {
             store.setMonitoringRequested(true);
@@ -565,10 +600,15 @@ public final class ConversionInstrumentation extends Instrumentation {
             AppStateStore.Config deletedConfig = configure(MediaCategory.SCREENSHOTS, OutputFormat.WEBP, true);
             File deletedSource = image(screenshots, "state-deleted.png", noise(128, 128),
                     Bitmap.CompressFormat.PNG);
+            MediaConverter.SourceSnapshot beforeDelete = MediaConverter.SourceSnapshot.capture(deletedSource);
             MediaConverter.Result deleted = converter.convert(deletedSource, deletedConfig);
-            require(deleted.originalDeleted && !deletedSource.exists(), "Accounting uses actual opted-in deletion");
+            require(deleted.originalDeleted ? !deletedSource.exists() : beforeDelete.matches(deletedSource),
+                    "Accounting uses actual source disposition");
+            GalleryChecks.requireIndexed(context, deleted);
             reloaded.recordSuccess(deleted);
-            require(reloaded.snapshot().savedBytes == deleted.sourceBytes - deleted.outputBytes,
+            long reclaimed = deleted.originalDeleted ? deleted.sourceBytes - deleted.outputBytes : 0;
+            require(reloaded.snapshot().savedBytes == reclaimed
+                    && reloaded.snapshot().screenshotCount == 9,
                     "Only actual smaller-source deletion records reclaimed bytes");
         } finally {
             device.deleteSharedPreferences(name);
@@ -638,11 +678,6 @@ public final class ConversionInstrumentation extends Instrumentation {
         if (!condition) throw new AssertionError(message);
     }
 
-    private static void deleteTree(File file) throws IOException {
-        File[] children = file.listFiles();
-        if (children != null) for (File child : children) deleteTree(child);
-        Files.deleteIfExists(file.toPath());
-    }
 
     private interface Check { void run() throws Exception; }
 }

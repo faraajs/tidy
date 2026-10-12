@@ -1,6 +1,6 @@
 # Contributing to Tidy
 
-The maintained 2.3.0 app is authored source under `app/src/main/`, built with Gradle and pinned native dependencies. `sources/`, `bytecode/`, and `resources/` preserve **historical 2.2.0 recovery references**; they are not compiled and are not the original preferred source. Preserve that distinction.
+The maintained 2.3 app is authored source under `app/src/main/`, built with Gradle and pinned native dependencies. `sources/`, `bytecode/`, and `resources/` preserve **historical 2.2.0 recovery references**; they are not compiled and are not the original preferred source. Preserve that distinction.
 
 ## Useful contributions
 
@@ -47,6 +47,8 @@ adb -s <emulator-serial> shell am instrument -w -r id.eska.tidy.test/id.eska.scr
 ```
 
 This is a custom runner, not an AndroidJUnitRunner/Compose test suite. Use its reported results, not installation success, as evidence. It exercises real native AVIF and conversion behavior with disposable fixtures. Debug instrumentation targets the matching debug build; it is not proof that a signed release APK was installed/tested. Release verification must separately identify and exercise the final signed artifact. Sanitize any excerpts before sharing; do not publish raw private device logs.
+
+The separate `-e scenario gallery` mode may run on an explicitly selected physical device: it uses isolated preferences and uniquely owned generated Pictures/cache fixtures, and never starts monitoring or accesses personal image bytes. Do not run the broad emulator-only suite on a personal device. A smaller output alone is insufficient for deletion: exercise a complete, readable platform-decoded Gallery image and exact-original retention when indexing is unavailable. MediaStore width/height can legitimately be unknown; decoded dimensions, not incidental metadata defaults, are the pixel oracle.
 
 For monitoring regressions, exercise the real `FileObserver`, not a synthetic callback alone: hold an empty CREATE open longer than the 350 ms stability interval, write a disposable image, then close it. `CLOSE_WRITE` must refresh pending metadata and bypass that file's empty/unstable CREATE cooldown while preserving reservations for executing conversions. The observed regression timed out after 12 seconds before the fix and produced output 659 ms after close-write with the fix; timing is evidence, not an SLA. Test both sides of a same-second activation boundary and subsecond fingerprint changes on Android.
 

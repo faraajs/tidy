@@ -38,7 +38,17 @@ function(tidy_source name archive url sha256)
     FetchContent_MakeAvailable(${name})
 endfunction()
 
-set(AOM_TARGET_CPU generic CACHE STRING "Portable C codec; no assembler required" FORCE)
+# Arm64 NEON is part of the ABI; optional CPU extensions are not.
+if(ANDROID_ABI STREQUAL "arm64-v8a")
+    set(AOM_TARGET_CPU arm64 CACHE STRING "Portable ARM64 NEON codec" FORCE)
+    set(CMAKE_ASM_COMPILER "${CMAKE_C_COMPILER}")
+    set(ENABLE_NEON ON CACHE BOOL "ABI baseline NEON" FORCE)
+    foreach(option IN ITEMS ENABLE_ARM_CRC32 ENABLE_NEON_DOTPROD ENABLE_NEON_I8MM ENABLE_SVE ENABLE_SVE2)
+        set(${option} OFF CACHE BOOL "No optional ARM64 CPU extensions" FORCE)
+    endforeach()
+else()
+    set(AOM_TARGET_CPU generic CACHE STRING "Portable C codec; no external assembler required" FORCE)
+endif()
 foreach(option IN ITEMS CONFIG_AV1_ENCODER CONFIG_AV1_DECODER CONFIG_MULTITHREAD CONFIG_PIC CONFIG_SIZE_LIMIT)
     set(${option} 1 CACHE STRING "Tidy codec configuration" FORCE)
 endforeach()
@@ -59,7 +69,7 @@ set_property(TARGET aom PROPERTY AVIF_LOCAL ON)
 
 # AOM's generated diagnostic config string otherwise embeds relative SDK and
 # checkout paths. Regenerate only that generated file, preserving its template.
-set(AOM_CMAKE_CONFIG "Tidy libaom 3.14.1; AOM_TARGET_CPU=generic; AV1 encoder+decoder; 8-bit; PIC; multithread; decode dimensions<=16384; LIBYUV=0; WEBM_IO=0; HIGHWAY=0; auxiliary targets disabled")
+set(AOM_CMAKE_CONFIG "Tidy libaom 3.14.1; AOM_TARGET_CPU=${AOM_TARGET_CPU}; AV1 encoder+decoder; 8-bit; PIC; multithread; decode dimensions<=16384; LIBYUV=0; WEBM_IO=0; HIGHWAY=0; auxiliary targets disabled")
 string(TIMESTAMP year "%Y")
 configure_file("${tidy_aom_source}/cmake/aom_config.c.template" "${tidy_aom_binary}/config/aom_config.c")
 

@@ -1,10 +1,16 @@
 package id.eska.screenshotwebp;
 
+import android.content.ContentUris;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ColorSpace;
 import android.graphics.Matrix;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.os.Looper;
+import android.provider.MediaStore;
 import android.system.ErrnoException;
 import android.system.Os;
 import android.system.OsConstants;
@@ -25,6 +31,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 /** Local lossy conversion; source retention is the default and metadata is not copied. */
 public final class MediaConverter {
@@ -34,10 +43,13 @@ public final class MediaConverter {
     private static final long MAX_SOURCE_BYTES = 256L * 1024 * 1024;
     private static final int[] PHOTO_QUALITIES = {85, 55, 25};
     private static final float[] PHOTO_SCALES = {1f, .75f, .5f, .25f};
+    private static final long SCAN_TIMEOUT_SECONDS = 10;
+    private final Context context;
     private final PathPolicy paths;
     private final AppStateStore state;
 
     public MediaConverter(Context context, PathPolicy paths) {
+        this.context = context;
         this.paths = paths;
         this.state = new AppStateStore(context);
     }
@@ -48,11 +60,11 @@ public final class MediaConverter {
         public final OutputFormat format;
         public final long sourceBytes, outputBytes;
         public final int width, height;
-        public final boolean fallback, targetMet, originalDeleted;
+        public final boolean fallback, targetMet, originalDeleted, galleryPublished;
 
         public Result(File output, MediaCategory category, OutputFormat format,
                 long sourceBytes, long outputBytes, int width, int height,
-                boolean fallback, boolean targetMet, boolean originalDeleted) {
+                boolean fallback, boolean targetMet, boolean originalDeleted, boolean galleryPublished) {
             this.output = output;
             this.category = category;
             this.format = format;
@@ -63,6 +75,7 @@ public final class MediaConverter {
             this.fallback = fallback;
             this.targetMet = targetMet;
             this.originalDeleted = originalDeleted;
+            this.galleryPublished = galleryPublished;
         }
     }
 
@@ -75,6 +88,7 @@ public final class MediaConverter {
         Bitmap bitmap = null;
         File published = null;
         StructStat owned = null;
+        boolean originalDeleted = false;
         try {
             bitmap = decodeSource(canonical, config.category);
             long target = targetBytes(config.category, captured.length);
@@ -137,19 +151,21 @@ public final class MediaConverter {
             if (!sameIdentity(owned, stat(published))) {
                 throw new IOException("Output was replaced during publication");
             }
-            verifyPublished(published, candidate.bytes, candidate.format,
-                    candidate.width, candidate.height);
-            boolean deleted = config.deleteOriginals
-                    && deleteOriginalIfUnchanged(canonical, captured, published,
-                            candidate.bytes, candidate.format, candidate.width, candidate.height, config);
+            verifyPublished(published, candidate.bytes);
+            Uri image = scanForGallery(published, candidate.format);
+            boolean galleryPublished = galleryReady(image, published, candidate.format,
+                    candidate.bytes, candidate.width, candidate.height, true);
+            originalDeleted = galleryPublished && config.deleteOriginals
+                    && deleteVerifiedOriginal(canonical, captured, published,
+                            candidate.bytes, candidate.format, candidate.width, candidate.height, config, image);
             return new Result(published, config.category, candidate.format, captured.length,
                     candidate.bytes.length, candidate.width, candidate.height, fallback,
-                    candidate.bytes.length <= target, deleted);
+                    candidate.bytes.length <= target, originalDeleted, galleryPublished);
         } catch (OutOfMemoryError exhausted) {
-            removeOwnedOutput(published, owned);
+            if (!originalDeleted) removeOwnedOutput(published, owned);
             throw new IOException("Image exceeds available conversion memory", exhausted);
         } catch (IOException | RuntimeException failure) {
-            removeOwnedOutput(published, owned);
+            if (!originalDeleted) removeOwnedOutput(published, owned);
             if (failure instanceof IOException) throw (IOException) failure;
             throw new IOException("Image conversion failed", failure);
         } finally {
@@ -314,28 +330,120 @@ public final class MediaConverter {
         }
     }
 
-    private static void verifyPublished(File output, byte[] expected, OutputFormat format,
-            int width, int height) throws IOException {
-        if (output.length() != expected.length || !Arrays.equals(hash(output), digest(expected))) {
+    private static void verifyPublished(File output, byte[] expected) throws IOException {
+        if (output.length() != expected.length) {
             throw new IOException("Published output bytes changed or were incomplete");
         }
-        byte[] actual = new byte[expected.length];
         try (InputStream input = Files.newInputStream(output.toPath())) {
-            int offset = 0;
-            while (offset < actual.length) {
-                int count = input.read(actual, offset, actual.length - offset);
-                if (count == -1) throw new IOException("Published output was truncated");
-                offset += count;
-            }
-            if (input.read() != -1) throw new IOException("Published output grew during verification");
+            verifyBytes(input, expected);
         }
-        if (!Arrays.equals(actual, expected)) throw new IOException("Output changed during verification");
-        verifyEncoded(actual, format, width, height);
+    }
+
+    private static void verifyBytes(InputStream input, byte[] expected) throws IOException {
+        byte[] buffer = new byte[Math.min(32 * 1024, expected.length)];
+        int offset = 0;
+        while (offset < expected.length) {
+            int count = input.read(buffer, 0, Math.min(buffer.length, expected.length - offset));
+            if (count == -1) throw new IOException("Published output was truncated");
+            for (int i = 0; i < count; i++) {
+                if (buffer[i] != expected[offset + i]) {
+                    throw new IOException("Output changed during verification");
+                }
+            }
+            offset += count;
+        }
+        if (input.read() != -1) throw new IOException("Published output grew during verification");
+    }
+
+    private Uri scanForGallery(File output, OutputFormat format) {
+        // Never block the UI thread waiting for the platform scanner.
+        if (Looper.myLooper() == Looper.getMainLooper()) return null;
+        CountDownLatch scanned = new CountDownLatch(1);
+        AtomicReference<Uri> image = new AtomicReference<>();
+        try {
+            MediaScannerConnection.scanFile(context, new String[]{output.getPath()},
+                    new String[]{imageMime(format)}, (path, uri) -> {
+                        image.set(uri);
+                        scanned.countDown();
+                    });
+            Uri scannedUri = scanned.await(SCAN_TIMEOUT_SECONDS, TimeUnit.SECONDS) ? image.get() : null;
+            if (scannedUri == null || !"content".equals(scannedUri.getScheme())
+                    || !"media".equals(scannedUri.getAuthority())) return null;
+            return ContentUris.withAppendedId(MediaStore.Images.Media.getContentUri(
+                    MediaStore.getVolumeName(scannedUri)), ContentUris.parseId(scannedUri));
+        } catch (InterruptedException interrupted) {
+            Thread.currentThread().interrupt();
+            return null;
+        } catch (RuntimeException unavailable) {
+            return null;
+        }
+    }
+
+    private static String imageMime(OutputFormat format) {
+        return format == OutputFormat.AVIF ? "image/avif" : "image/webp";
+    }
+
+    private boolean galleryReady(Uri image, File output, OutputFormat format, byte[] expected,
+            int width, int height, boolean decodePixels) {
+        if (image == null || !"content".equals(image.getScheme())
+                || !"media".equals(image.getAuthority())) return false;
+        // A Files row or a private decoder is not proof that Gallery can open an image.
+        String[] projection = {MediaStore.Images.Media.MIME_TYPE, MediaStore.Images.Media.WIDTH,
+                MediaStore.Images.Media.HEIGHT, MediaStore.Images.Media.SIZE,
+                MediaStore.Images.Media.DATA, MediaStore.Images.Media.IS_PENDING};
+        try (Cursor row = context.getContentResolver().query(image, projection, null, null, null)) {
+            if (row == null || !row.moveToFirst() || !image.getPath().contains("/images/media/")
+                    || !imageMime(format).equals(row.getString(0))
+                    || (row.getInt(1) > 0 && row.getInt(1) != width)
+                    || (row.getInt(2) > 0 && row.getInt(2) != height)
+                    || row.getLong(3) != expected.length
+                    || !output.getCanonicalPath().equals(new File(row.getString(4)).getCanonicalPath())
+                    || row.getInt(5) != 0) return false;
+            try (InputStream input = context.getContentResolver().openInputStream(image)) {
+                if (input == null) return false;
+                verifyBytes(input, expected);
+            }
+            if (!decodePixels) return true; // Identical verified bytes have identical pixels.
+            try (InputStream input = context.getContentResolver().openInputStream(image)) {
+                Bitmap decoded = BitmapFactory.decodeStream(input);
+                if (decoded == null) return false;
+                try {
+                    return decoded.getWidth() == width && decoded.getHeight() == height;
+                } finally {
+                    decoded.recycle();
+                }
+            }
+        } catch (IOException | RuntimeException | OutOfMemoryError unavailable) {
+            return false;
+        }
+    }
+
+    private void scanDeletedSource(File source) {
+        try {
+            // Scan the path, never delete its row: an externally recreated file must survive.
+            MediaScannerConnection.scanFile(context, new String[]{source.getPath()}, null, null);
+        } catch (RuntimeException | LinkageError | OutOfMemoryError unavailable) {
+            // The verified replacement remains indexed even if stale-source cleanup is unavailable.
+        }
+    }
+
+    /** Direct callers must validate pixels before entering the verified commit path. */
+    boolean deleteOriginalIfUnchanged(File source, SourceSnapshot snapshot, File output,
+            byte[] encoded, OutputFormat format, int width, int height, AppStateStore.Config consent,
+            Uri image) {
+        try {
+            verifyEncoded(encoded, format, width, height);
+            if (!galleryReady(image, output, format, encoded, width, height, true)) return false;
+        } catch (IOException | RuntimeException | OutOfMemoryError unavailable) {
+            return false;
+        }
+        return deleteVerifiedOriginal(source, snapshot, output, encoded, format, width, height, consent, image);
     }
 
     /** No replacement rename on either leg; if restore is blocked, keep the named backup. */
-    boolean deleteOriginalIfUnchanged(File source, SourceSnapshot snapshot, File output,
-            byte[] encoded, OutputFormat format, int width, int height, AppStateStore.Config consent) {
+    private boolean deleteVerifiedOriginal(File source, SourceSnapshot snapshot, File output,
+            byte[] encoded, OutputFormat format, int width, int height, AppStateStore.Config consent,
+            Uri image) {
         if (!consent.deleteOriginals || encoded.length >= snapshot.length || !settingsMatch(consent)) {
             return false;
         }
@@ -343,16 +451,19 @@ public final class MediaConverter {
                 + ".tidy-source-backup-" + UUID.randomUUID());
         boolean moved = false;
         try {
-            verifyPublished(output, encoded, format, width, height);
+            verifyPublished(output, encoded);
+            if (!galleryReady(image, output, format, encoded, width, height, false)) return false;
             if (!snapshot.matches(source) || !settingsMatch(consent)) return false;
             moved = NativeAvif.renameNoReplace(source.getPath(), backup.getPath());
             if (!moved) return false;
             // Validate what was actually renamed, not the possibly newly recreated source path.
             if (!snapshot.matches(backup)) return false;
-            verifyPublished(output, encoded, format, width, height);
+            verifyPublished(output, encoded);
+            if (!galleryReady(image, output, format, encoded, width, height, false)) return false;
             if (!snapshot.matches(backup) || !settingsMatch(consent)) return false;
             Files.delete(backup.toPath());
             moved = false;
+            scanDeletedSource(source);
             return true;
         } catch (IOException | LinkageError | RuntimeException failure) {
             return false;
@@ -428,10 +539,6 @@ public final class MediaConverter {
         } catch (NoSuchAlgorithmException impossible) {
             throw new AssertionError(impossible);
         }
-    }
-
-    private static byte[] digest(byte[] bytes) {
-        return sha256().digest(bytes);
     }
 
     private static byte[] hash(File file) throws IOException {

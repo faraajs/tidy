@@ -2,6 +2,15 @@
 
 Current authored releases and historical recovery records are separated below. The original 2.2.0 release date is unknown; its recovery revisions retained version name `2.2.0` and were not separate published releases. Historical evidence remains in [Recovery notes](docs/RECOVERY-NOTES.md).
 
+## 2.3.1 — 2026-10-12
+
+- Fixed disappearance from Gallery when original deletion was enabled: explicitly scan the replacement and require a complete image row, readable matching bytes and platform-decoded dimensions before deleting anything.
+- Retain the valid output and unchanged original when Gallery indexing or platform decoding is unavailable. Unknown MediaStore dimensions are not mistaken for an invalid bitmap.
+- Pause monitoring and revoke both original-deletion consents once on upgrade, preserving 2.3 category settings, formats, counters, actual reclaimed-byte accounting, theme and processed history.
+- Removed redundant full-image decoding and published-output hashing while preserving exact-byte, source-identity and live-consent checks.
+- Enabled baseline ARM64 NEON in source-built AOM for AVIF. Optional newer ARM extensions remain off; x86_64 remains generic. WebP still uses Android's platform codec, and screenshot quality/resolution are unchanged.
+- Added isolated generated-image Gallery checks and a consent-migration regression; see [release evidence](releases/v2.3.1/RELEASE-NOTES.md).
+
 ## 2.3.0 — 2026-10-11
 
 Newly authored reconstruction, not recovery of the original Kotlin/Gradle checkout or a byte-identical 2.2.0 rebuild. This entry records source changes, not a completed GitHub upload.

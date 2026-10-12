@@ -268,8 +268,8 @@ public final class MainActivity extends Activity {
         card.addView(views.format);
         views.delete = toggle("Delete originals for " + category.label());
         card.addView(views.delete);
-        card.addView(text("Off keeps both files. On permits deletion only after a verified smaller output "
-                + "and an unchanged source; failures retain the original.", 14, muted, false));
+        card.addView(text("Off keeps both files. On requires a smaller, readable Gallery output "
+                + "and an unchanged source; unavailable Gallery output keeps the original.", 14, muted, false));
         views.enabled.setOnCheckedChangeListener((button, enabled) -> {
             if (refreshing) return;
             store.setEnabled(category, enabled);
@@ -290,8 +290,8 @@ public final class MainActivity extends Activity {
             refreshing = false;
             new AlertDialog.Builder(this)
                     .setTitle("Delete originals for " + category.label() + "?")
-                    .setMessage("This is an opt-in risk. After a smaller output is decoded and verified "
-                            + "and the source is checked unchanged, Tidy may permanently delete that original. "
+                    .setMessage("This is an opt-in risk. After a smaller output is decoded, verified "
+                            + "and readable from Gallery, and the source is checked unchanged, Tidy may permanently delete that original. "
                             + "Lossy compression and photo resizing cannot be reversed. GPS, EXIF and camera "
                             + "metadata are removed from outputs. A verified image is not a backup, and "
                             + "external storage or other apps can still fail. Back up your originals first. "

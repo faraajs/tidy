@@ -2,9 +2,9 @@
 
 ## Scope and publication status
 
-Tidy 2.3.0 is a newly authored GPL-3.0-only application with source-built native AVIF, not a relabeling of the recovered 2.2.0 APK. The original APK remains withheld. Historical findings below do not describe the current runtime and are not retroactively cleared by the reconstruction. No rights in unrelated historical artwork, extracted assets or third-party code are asserted by the root license.
+Tidy 2.3.1 is a newly authored GPL-3.0-only application with source-built native AVIF, not a relabeling of the recovered 2.2.0 APK. The original APK remains withheld. Historical findings below do not describe the current runtime and are not retroactively cleared by the reconstruction. No rights in unrelated historical artwork, extracted assets or third-party code are asserted by the root license.
 
-The intended [2.3.0 release](https://github.com/faraajs/tidy/releases/tag/v2.3.0) pairs `tidy-v2.3.0-universal.apk` with `tidy-v2.3.0-corresponding-source.tar.gz` and `SHA256SUMS.txt`; publication follows the integration owner's gates. Links do not establish that publication has occurred. See [build instructions](BUILD-FROM-SOURCE.md).
+The [2.3.1 release](https://github.com/faraajs/tidy/releases/tag/v2.3.1) pairs `tidy-v2.3.1-universal.apk` with `tidy-v2.3.1-corresponding-source.tar.gz` and `SHA256SUMS.txt`. Download matching assets together; see [build instructions](BUILD-FROM-SOURCE.md).
 
 ### Current source-built components
 

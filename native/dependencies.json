@@ -46,7 +46,7 @@
       "unpackedSource": ".native-sources/src/aom-03087864cf4bea6abb0d28f95cf7843511413d8f",
       "license": "BSD-2-Clause and Alliance for Open Media Patent License 1.0; embedded third-party notices",
       "patentsFile": "PATENTS",
-      "cpu": "generic",
+      "cpu": "arm64-v8a: ARM64 baseline NEON; x86_64: generic",
       "encoder": true,
       "decoder": true,
       "highBitDepth": false,
@@ -68,7 +68,7 @@
         "highway",
         "butteraugli",
         "vmaf",
-        "architecture assembly"
+        "optional ARM64 extensions (CRC32, DOTPROD, I8MM, SVE, SVE2)"
       ],
       "sourceModifications": "None. CMake regenerates config/aom_config.c from the upstream template with a path-free diagnostic build string."
     }

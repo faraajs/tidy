@@ -17,6 +17,7 @@ import java.util.WeakHashMap;
 public final class AppStateStore {
     private static final Object LOCK = new Object();
     private static final String SCHEMA = "v23_safe_state";
+    private static final String GALLERY_CONSENT = "v231_gallery_consent";
     private static final String HISTORY_PREFIX = "v23_processed_";
     private static final String HISTORY_SEQUENCE = "v23_history_sequence";
     static final int HISTORY_LIMIT = 10_000;
@@ -112,6 +113,15 @@ public final class AppStateStore {
     }
 
     private void migrate() {
+        if (!prefs.getBoolean(GALLERY_CONSENT, false)) {
+            // The Gallery publication fix requires renewed deletion and monitoring consent.
+            SharedPreferences.Editor edit = prefs.edit()
+                    .putBoolean(GALLERY_CONSENT, true).putBoolean("v23_requested", false);
+            for (MediaCategory category : MediaCategory.values()) {
+                edit.putBoolean(key(category, "delete"), false);
+            }
+            commit(edit);
+        }
         if (prefs.getBoolean(SCHEMA, false)) {
             return;
         }
@@ -273,7 +283,8 @@ public final class AppStateStore {
                     + (result.originalDeleted ? "original deleted, " + reclaimed + " bytes reclaimed"
                     : "original retained, no space reclaimed")
                     + (result.fallback ? "; codec fallback" : "")
-                    + (result.targetMet ? "" : "; size target not met");
+                    + (result.targetMet ? "" : "; size target not met")
+                    + (result.galleryPublished ? "" : "; Gallery unavailable; original retained");
             SharedPreferences.Editor edit = prefs.edit()
                     .putLong(countKey, add(prefs.getLong(countKey, 0L), 1L))
                     .putLong("v23_saved_bytes", add(prefs.getLong("v23_saved_bytes", 0L), reclaimed))
