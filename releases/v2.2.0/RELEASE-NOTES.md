@@ -2,6 +2,8 @@
 
 **Status: prepared locally only. No public APK is published or available from this recovery repository.** APK files are excluded from Git; a source clone does not contain the binary. This document is an artifact record, not an announcement of a GitHub binary release.
 
+Historical recovered Java, smali and decoded resources are preserved on [archive/2.2.0-reference](https://github.com/faraajs/tidy/tree/archive/2.2.0-reference), not main. Relocating these references does not change the artifact identity or resolve the binary's source/provenance gate.
+
 ## Artifact identity
 
 | Field | Value |

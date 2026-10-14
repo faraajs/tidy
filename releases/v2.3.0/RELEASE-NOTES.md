@@ -9,18 +9,20 @@ This is a newly authored, source-built reconstruction, not recovered original Ko
 | Application ID / namespace | `id.eska.tidy` / `id.eska.screenshotwebp` |
 | Version name / code | `2.3.0` / `3` |
 | Minimum / target SDK | API 30 / API 36 |
-| Universal APK ABIs | `arm64-v8a`, `x86_64` |
+| APK ABIs | `arm64-v8a`, `x86_64` |
 | Certificate identity | `CN=Tidy Release, O=Tidy` |
 | Certificate SHA-256 | `27c165f0a6f13f8b01ed6628bd1a2e8f61daeb3b33438c6808f41f331aa45389` |
 
-Published release: [v2.3.0](https://github.com/faraajs/tidy/releases/tag/v2.3.0). Assets are `tidy-v2.3.0-universal.apk`, `tidy-v2.3.0-corresponding-source.tar.gz` and `SHA256SUMS.txt`. Download the APK, source archive and checksum file from that same release, then run in their directory:
+Published release: [v2.3.0](https://github.com/faraajs/tidy/releases/tag/v2.3.0). Assets are [`tidy-v2.3.0-arm64-x86_64.apk`](https://github.com/faraajs/tidy/releases/download/v2.3.0/tidy-v2.3.0-arm64-x86_64.apk), `tidy-v2.3.0-corresponding-source.tar.gz` and `SHA256SUMS.txt`. Download the APK, source archive and checksum file from that same release, then run in their directory:
 
 ```sh
 sha256sum -c SHA256SUMS.txt
-apksigner verify --verbose --print-certs tidy-v2.3.0-universal.apk
+apksigner verify --verbose --print-certs tidy-v2.3.0-arm64-x86_64.apk
 ```
 
 Both downloaded asset hashes must match the published checksum file; compare the signer SHA-256 with the fingerprint above. Checksums identify bytes, not legal clearance. Build/install materials and full notices are delivered with corresponding source; see [build instructions](../../docs/BUILD-FROM-SOURCE.md) and [third-party notices](../../docs/THIRD-PARTY-NOTICES.md).
+
+The APK was originally published as `tidy-v2.3.0-universal.apk`; its current filename explicitly identifies the two supported ABIs. Relabeling the asset does not change its bytes or the observed APK digest recorded below. Historical source bundles and release evidence may retain the original name.
 
 ## Installation and safe defaults
 

@@ -1,2 +1,2 @@
-5db3d943d2c45a795b589e7d1b5fb6986ba9e89e49b533a1a68c1d122bc38f03  tidy-v2.3.0-universal.apk
+5db3d943d2c45a795b589e7d1b5fb6986ba9e89e49b533a1a68c1d122bc38f03  tidy-v2.3.0-arm64-x86_64.apk
 13d24fbbf395d6409a43a2e84cff4bf44668ea2e7700fe283c191d69cef24d1e  tidy-v2.3.0-corresponding-source.tar.gz

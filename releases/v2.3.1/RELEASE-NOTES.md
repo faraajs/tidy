@@ -21,15 +21,17 @@ Updating from official 2.3.0 uses the same signing certificate and does not requ
 | Application ID / namespace | `id.eska.tidy` / `id.eska.screenshotwebp` |
 | Version name / code | `2.3.1` / `4` |
 | Minimum / target SDK | API 30 / API 36 |
-| Universal APK ABIs | `arm64-v8a`, `x86_64` |
+| APK ABIs | `arm64-v8a`, `x86_64` |
 | Certificate SHA-256 | `27c165f0a6f13f8b01ed6628bd1a2e8f61daeb3b33438c6808f41f331aa45389` |
 | APK SHA-256 | `e8e6bdac4167414a94cee409f77daee6a3a30e56592847c329053dffbbeb7e02` |
 
-Download `tidy-v2.3.1-universal.apk`, `tidy-v2.3.1-corresponding-source.tar.gz` and `SHA256SUMS.txt` together from the [official release](https://github.com/faraajs/tidy/releases/tag/v2.3.1). In their directory:
+Download [`tidy-v2.3.1-arm64-x86_64.apk`](https://github.com/faraajs/tidy/releases/download/v2.3.1/tidy-v2.3.1-arm64-x86_64.apk), `tidy-v2.3.1-corresponding-source.tar.gz` and `SHA256SUMS.txt` together from the [official release](https://github.com/faraajs/tidy/releases/tag/v2.3.1). In their directory:
+
+The APK was originally published as `tidy-v2.3.1-universal.apk`; its current filename explicitly identifies the two supported ABIs. Relabeling the asset does not change its bytes or the recorded APK hash. Historical source bundles and release evidence may retain the original name.
 
 ```sh
 sha256sum -c SHA256SUMS.txt
-apksigner verify --verbose --print-certs tidy-v2.3.1-universal.apk
+apksigner verify --verbose --print-certs tidy-v2.3.1-arm64-x86_64.apk
 ```
 
 Verify the certificate above. Different-certificate installations still require an independent backup and manual uninstall before switching; uninstalling removes local settings. Official private signing keys are not included. See [build/install instructions](../../docs/BUILD-FROM-SOURCE.md) and [full third-party notices](../../docs/THIRD-PARTY-NOTICES.md).

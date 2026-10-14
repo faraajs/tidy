@@ -1,0 +1,2 @@
+e8e6bdac4167414a94cee409f77daee6a3a30e56592847c329053dffbbeb7e02  tidy-v2.3.1-arm64-x86_64.apk
+df8622c51dc72fe76c19db20ca1a235dc8e939d39f0943bb7d17edeb865d621d  tidy-v2.3.1-corresponding-source.tar.gz
