@@ -41,6 +41,7 @@
       "version": "3.14.1",
       "commit": "03087864cf4bea6abb0d28f95cf7843511413d8f",
       "sourceUrl": "https://aomedia.googlesource.com/aom/+archive/03087864cf4bea6abb0d28f95cf7843511413d8f.tar.gz",
+      "archiveDownloadUrl": "https://github.com/faraajs/tidy/releases/download/v2.3.1/aom-03087864cf4bea6abb0d28f95cf7843511413d8f.tar.gz",
       "archive": ".native-sources/archives/aom-03087864cf4bea6abb0d28f95cf7843511413d8f.tar.gz",
       "archiveSha256": "74328f5160eb58ea3b560a7a4d388b9486779b8a298a425c674cb6d414f5cf45",
       "unpackedSource": ".native-sources/src/aom-03087864cf4bea6abb0d28f95cf7843511413d8f",
@@ -131,7 +132,7 @@
     "bundledIn": "app/src/main/assets/third-party-notices.txt"
   },
   "buildProvenance": {
-    "cachePolicy": "CMake verifies a local archive SHA256 before extracting; absent archive fetches identical immutable URL with URL_HASH. Arbitrary unpacked-source overrides are not used.",
+    "cachePolicy": "CMake verifies a local archive SHA256 before extracting; absent archives are fetched with URL_HASH. AOM uses a retained-byte release mirror because Gitiles regenerates archive packaging for the same commit; sourceUrl preserves upstream provenance. Arbitrary unpacked-source overrides are not used.",
     "pathPrivacy": "All native compiler __FILE__/debug paths use prefix maps; non-Debug shared-library links strip debug sections; generated AOM configure string is path-free.",
     "releaseSourceRequirement": "Include both exact archives, matching full sources, application/native build scripts, and complete bundled notices. Do not publish only opaque binaries."
   }

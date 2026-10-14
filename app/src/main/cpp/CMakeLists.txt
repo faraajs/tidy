@@ -61,7 +61,7 @@ foreach(option IN ITEMS ENABLE_DOCS ENABLE_EXAMPLES ENABLE_TESTDATA ENABLE_TESTS
     set(${option} OFF CACHE BOOL "No auxiliary AOM targets" FORCE)
 endforeach()
 tidy_source(tidy_aom "aom-03087864cf4bea6abb0d28f95cf7843511413d8f.tar.gz"
-    "https://aomedia.googlesource.com/aom/+archive/03087864cf4bea6abb0d28f95cf7843511413d8f.tar.gz"
+    "https://github.com/faraajs/tidy/releases/download/v2.3.1/aom-03087864cf4bea6abb0d28f95cf7843511413d8f.tar.gz"
     "74328f5160eb58ea3b560a7a4d388b9486779b8a298a425c674cb6d414f5cf45")
 FetchContent_GetProperties(tidy_aom SOURCE_DIR tidy_aom_source BINARY_DIR tidy_aom_binary)
 target_include_directories(aom INTERFACE "$<BUILD_INTERFACE:${tidy_aom_source}>" "$<BUILD_INTERFACE:${tidy_aom_binary}>")
