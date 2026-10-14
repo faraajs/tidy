@@ -1,0 +1,25 @@
+name: Bug report
+description: Report a reproducible problem using non-private synthetic images.
+body:
+  - type: markdown
+    attributes:
+      value: For vulnerabilities, use private reporting in SECURITY.md. Never attach private media, credentials or raw device logs. Back up originals and pause monitoring if data is at risk.
+  - type: textarea
+    id: environment
+    attributes:
+      label: Version and environment
+      description: App version, install source, Android/API version, ABI and upgrade/signature history if relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction, expected and observed behavior
+      description: Minimal steps using disposable synthetic JPEG/PNG files. State category, requested/actual format, monitoring, deletion consent, whether originals were retained, and whether Gallery indexing worked.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Sanitized evidence
+      description: Relevant error text, test/command and observations; no private paths or raw logs. Distinguish host tests, emulator and physical-device evidence.

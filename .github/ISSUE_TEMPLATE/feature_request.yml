@@ -1,0 +1,10 @@
+name: Feature request
+description: Propose a focused improvement.
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem and proposed behavior
+      description: Describe the use case, current limitation, desired behavior and alternatives. Include implications for originals, consent or Android compatibility.
+    validations:
+      required: true
