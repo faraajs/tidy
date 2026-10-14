@@ -4,7 +4,7 @@
 
 Tidy 2.3.1 is a newly authored GPL-3.0-only application with source-built native AVIF, not a relabeling of the recovered 2.2.0 APK. The original APK remains withheld. Historical findings below do not describe the current runtime and are not retroactively cleared by the reconstruction. No rights in unrelated historical artwork, extracted assets or third-party code are asserted by the root license.
 
-The [2.3.1 release](https://github.com/faraajs/tidy/releases/tag/v2.3.1) pairs `tidy-v2.3.1-universal.apk` with `tidy-v2.3.1-corresponding-source.tar.gz` and `SHA256SUMS.txt`. Download matching assets together; see [build instructions](BUILD-FROM-SOURCE.md).
+The [2.3.1 release](https://github.com/faraajs/tidy/releases/tag/v2.3.1) pairs `tidy-v2.3.1-arm64-x86_64.apk` with `tidy-v2.3.1-corresponding-source.tar.gz` and `SHA256SUMS.txt`. Download matching assets together; see [build instructions](BUILD-FROM-SOURCE.md).
 
 ### Current source-built components
 
@@ -114,9 +114,9 @@ A `.so` filename, observed dynamic linkage or `android:extractNativeLibs` settin
 - **AOM PATENTS:** retain the separate applicable patent license. The inspected text requires reproduction with implementations: in the source root for source distribution, and in documentation/legal notices or other written materials for non-source distribution. Review its Necessary Claims conditions and defensive-termination provisions; the BSD copyright license alone does not replace it or establish universal freedom from patent claims.
 - **Apache-2.0:** provide the license, retain applicable copyright/patent/trademark/attribution notices, mark modified files where required and carry forward relevant NOTICE contents if supplied by the matched upstream distribution. Apache-2.0 does not grant trademark rights. URLs in this document are provenance references, not a replacement for required accompanying license texts in a future binary/source bundle.
 
-## Extracted AndroidX resources in this repository
+## Historical extracted AndroidX resources
 
-`resources/` contains merged dependency resources as well as application-owned material. These dependency resources are **not blanket-relicensed under the root GPL license**. The manifest identifies AndroidX Core, Startup, Emoji2, Lifecycle and ProfileInstaller integrations; that identifies dependency families, not exact versions or ownership of every merged resource.
+The preserved [`resources/` archive](https://github.com/faraajs/tidy/tree/archive/2.2.0-reference/resources) contains merged dependency resources as well as application-owned material; it is no longer on main or compiled into the current app. These dependency resources are **not blanket-relicensed under the root GPL license**. The historical manifest identifies AndroidX Core, Startup, Emoji2, Lifecycle and ProfileInstaller integrations; that identifies dependency families, not exact versions or ownership of every merged resource.
 
 Known AndroidX Core resource examples include `resources/res/layout/notification_action.xml`, `notification_action_tombstone.xml`, notification template layouts and notification drawables/strings. The [upstream Core layout directory](https://github.com/androidx/androidx/tree/androidx-main/core/core/src/main/res/layout) contains the matching resource names; [upstream notification_action.xml](https://github.com/androidx/androidx/blob/androidx-main/core/core/src/main/res/layout/notification_action.xml) explicitly carries **Copyright (C) 2016 The Android Open Source Project** and Apache-2.0 terms. The upstream graphics-path module carries **Copyright (C) 2022 The Android Open Source Project**. These established notices are acknowledged here; they are not attribution for unrelated application assets.
 

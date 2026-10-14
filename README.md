@@ -9,7 +9,7 @@ Automatic screenshot and photo conversion to AVIF or WebP on Android.
 
 ## Download Tidy 2.3.1
 
-**[Download APK 2.3.1 — Android installer (9.4 MB)](https://github.com/faraajs/tidy/releases/download/v2.3.1/tidy-v2.3.1-universal.apk)**
+**[Download APK 2.3.1 — Android installer (9.4 MB)](https://github.com/faraajs/tidy/releases/download/v2.3.1/tidy-v2.3.1-arm64-x86_64.apk)**
 
 Requires **Android 11+** and a **64-bit arm64-v8a or x86_64** device. To install the app, choose the **`.apk` file**, not GitHub's **Source code (zip/tar.gz)** downloads.
 
@@ -17,7 +17,7 @@ Requires **Android 11+** and a **64-bit arm64-v8a or x86_64** device. To install
 
 Follow the [verification and installation guide below](#download-and-installation) before opening the APK. Android may require **Install unknown apps** permission for your browser/file manager; turn it off afterward if unnecessary.
 
-**2.3.1 is the Gallery-safety hotfix for the newly authored, source-buildable 2.3 app**, not the recovered original project or a byte-identical rebuild of 2.2.0. It uses Java/platform Views and source-built libavif/libaom. Historical `sources/`, `bytecode/`, and `resources/` are references only and are not compiled into the app.
+**2.3.1 is the Gallery-safety hotfix for the newly authored, source-buildable 2.3 app**, not the recovered original project or a byte-identical rebuild of 2.2.0. It uses Java/platform Views and source-built libavif/libaom. Historical `sources/`, `bytecode/`, and `resources/` are preserved on [archive/2.2.0-reference](https://github.com/faraajs/tidy/tree/archive/2.2.0-reference), not on main and not compiled into the app.
 
 The original 2.2.0 APK remains withheld because its preferred source and matching native provenance are unresolved. See [historical recovery notes](docs/RECOVERY-NOTES.md).
 
@@ -42,11 +42,11 @@ Deletion requires a separate confirmation for each category. It is permitted onl
 
 ## Download and installation
 
-Requirements: **Android 11/API 30+** and a **64-bit `arm64-v8a` or `x86_64`** device. The universal APK means these two ABIs, not every CPU or device; 32-bit ARM/x86 are unsupported.
+Requirements: **Android 11/API 30+** and a **64-bit `arm64-v8a` or `x86_64`** device. The APK contains these two ABIs, not every CPU or device; 32-bit ARM/x86 are unsupported.
 
 Download these assets together from the [official v2.3.1 page](https://github.com/faraajs/tidy/releases/tag/v2.3.1), not an untrusted mirror:
 
-- [**`tidy-v2.3.1-universal.apk` — Android installer**](https://github.com/faraajs/tidy/releases/download/v2.3.1/tidy-v2.3.1-universal.apk)
+- [**`tidy-v2.3.1-arm64-x86_64.apk` — Android installer**](https://github.com/faraajs/tidy/releases/download/v2.3.1/tidy-v2.3.1-arm64-x86_64.apk)
 - [`tidy-v2.3.1-corresponding-source.tar.gz` — complete corresponding source](https://github.com/faraajs/tidy/releases/download/v2.3.1/tidy-v2.3.1-corresponding-source.tar.gz)
 - [`SHA256SUMS.txt` — file checksums](https://github.com/faraajs/tidy/releases/download/v2.3.1/SHA256SUMS.txt)
 
@@ -57,7 +57,7 @@ Download these assets together from the [official v2.3.1 page](https://github.co
    A checksum detects changed bytes but does not authenticate the publisher if the APK and checksum are both replaced. Compare with the official release record.
 2. Using Android SDK Build Tools, verify the APK signature:
    ```sh
-   apksigner verify --verbose --print-certs tidy-v2.3.1-universal.apk
+   apksigner verify --verbose --print-certs tidy-v2.3.1-arm64-x86_64.apk
    ```
    The **official release certificate**, unchanged since 2.3.0 (`CN=Tidy Release, O=Tidy`), has SHA-256:
    ```text
@@ -72,7 +72,7 @@ Download these assets together from the [official v2.3.1 page](https://github.co
 Optional ADB installation after the same checks:
 
 ```sh
-adb -s <device-serial> install tidy-v2.3.1-universal.apk
+adb -s <device-serial> install tidy-v2.3.1-arm64-x86_64.apk
 ```
 
 Use `install -r` only when an existing installation has a compatible certificate; it cannot bypass a signature mismatch. The repository and corresponding-source bundle do not include private signing keys.
@@ -106,7 +106,7 @@ The authored app declares **no `INTERNET` permission** and implements no uploads
 | `native/dependencies.json`, `native/java-dependencies.json`, `native/compiler-runtime-sources.json` | Exact native/Java source identities, conservative NDK runtime preferred-source inputs, digests, recipes/patch records, and licenses. |
 | [`docs/BUILD-FROM-SOURCE.md`](docs/BUILD-FROM-SOURCE.md) | Current toolchain, build, signing, and source-bundle instructions. |
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md), [`docs/UI-DESIGN.md`](docs/UI-DESIGN.md) | Current behavior/UI and explicitly separated historical comparisons. |
-| [`sources/`](sources/README.md), `bytecode/id/eska/screenshotwebp/`, `resources/` | **Historical 2.2.0 references, not compiled**: decompiled Java, smali, and decoded APK resources. |
+| [Historical recovery archive](https://github.com/faraajs/tidy/tree/archive/2.2.0-reference) | `sources/`, `bytecode/`, `resources/`: **2.2.0 references removed from main, not compiled**; decompiled Java, smali and decoded APK resources. |
 | [`docs/RECOVERY-NOTES.md`](docs/RECOVERY-NOTES.md), [`releases/v2.2.0/`](releases/v2.2.0/RELEASE-NOTES.md) | Historical recovery/artifact evidence; the old APK remains withheld. |
 
 ## Build and contribute
@@ -118,6 +118,12 @@ Use Java 17, Android SDK 36, NDK `27.1.12297006`, and CMake `3.22.1`. The wrappe
 ```
 
 This builds the authored project, not `sources/` or `bytecode/`. Release builds are unsigned unless external signing configuration is supplied. See [build instructions](docs/BUILD-FROM-SOURCE.md) for pinned source inputs and release signing, and [CONTRIBUTING](CONTRIBUTING.md) for disposable-emulator instrumentation. The corresponding-source release asset includes build scripts, full matching native sources, Java preferred-source JARs, and conservative NDK runtime sources/Android recipes and patches with notices, not just decompiler references. It does not contain the original 2.2.0 APK or a full compiler/SDK installation.
+
+### Automated checks versus manual verification
+
+[Android CI](.github/workflows/android.yml) runs host unit tests, a two-ABI debug build and debug lint under the stable **Android checks** job, with reports uploaded even on failure. Its debug APK is **not an official signed release**. It does not run instrumentation, an emulator or a physical device. [CodeQL](.github/workflows/codeql.yml) analyzes the current Java source without a build; Kotlin, JNI C++ and native codec dependencies are **not covered**. Adding Kotlin requires a traced CodeQL build. [Dependabot](.github/dependabot.yml) proposes weekly Gradle/action updates without automatic merging; native source pins require manual review.
+
+Device conversion, Gallery/consent/lifecycle checks and final signed-release signature/alignment checks remain manual; recorded release evidence above is not a CI result. See [verification boundaries](docs/BUILD-FROM-SOURCE.md#verification-boundaries). Report vulnerabilities privately through [SECURITY.md](SECURITY.md); use the issue/PR templates for sanitized non-security reports.
 
 ## License and third-party components
 

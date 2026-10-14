@@ -1,6 +1,6 @@
 # Contributing to Tidy
 
-The maintained 2.3 app is authored source under `app/src/main/`, built with Gradle and pinned native dependencies. `sources/`, `bytecode/`, and `resources/` preserve **historical 2.2.0 recovery references**; they are not compiled and are not the original preferred source. Preserve that distinction.
+The maintained 2.3 app is authored source under `app/src/main/`, built with Gradle and pinned native dependencies. `sources/`, `bytecode/`, and `resources/` preserve **historical 2.2.0 recovery references** on [archive/2.2.0-reference](https://github.com/faraajs/tidy/tree/archive/2.2.0-reference), not main; they are not compiled and are not the original preferred source. Preserve that distinction.
 
 ## Useful contributions
 
@@ -23,6 +23,16 @@ Public release/commit identity uses **faraajs** and a GitHub noreply address, no
 ## Review expectations
 
 Keep changes focused. Explain intentional policy, migration, Android compatibility, or dependency changes. Preserve default original retention and explicit deletion consent. Treat lossy encoding, photo resizing, metadata removal, and process-death/external-writer limits as documented behavior, not guarantees. Do not claim universal hardware compatibility, archival fidelity, legal immunity, or reproducible builds from a successful compile.
+
+Keep application ID `id.eska.tidy`, namespace/source package `id.eska.screenshotwebp` and published manifest component names unchanged. Renaming activity/service/receiver identities can invalidate saved component references or grants; cosmetic namespace alignment is not worth breaking installed-app continuity.
+
+### Automated checks
+
+The **Android checks** CI job runs `./gradlew :app:testDebugUnitTest :app:assembleDebug :app:lintDebug --max-workers=2 --no-daemon --continue`. It builds both ABIs and uploads test/lint reports, but does not execute instrumentation or use a device. Downloaded CI debug APKs are not official release APKs. Treat lint failures as fixes to investigate, not a reason to add suppressions or a baseline.
+
+CodeQL uses the `java-kotlin` extractor with `build-mode: none` to analyze current Java source; Kotlin requires a traced build and is not covered by this mode. JNI C++ and native codec sources are also outside this workflow's analysis. Review native source pins/digests and licenses manually. Dependabot opens weekly Gradle/action update PRs; it does not automatically merge updates or maintain native CMake pins. Changes to actions must retain verified immutable SHAs with version comments.
+
+Manual emulator/physical-device scenarios and final signed-release checks remain required for relevant behavioral/release changes; neither compilation nor host tests prove those outcomes. Record only exercised checks in the PR template. Follow [SECURITY.md](SECURITY.md) for private vulnerability reports.
 
 ### Build and host tests
 

@@ -2,6 +2,8 @@
 
 The maintained 2.3 UI is implemented in [`MainActivity.java`](../app/src/main/java/id/eska/screenshotwebp/MainActivity.java), an Android `Activity` with programmatic **platform Views**, not Jetpack Compose/Material3. It is a newly authored reconstruction, not recovery of the old Kotlin UI or a claim of visual parity with the historical APK. Application ID: `id.eska.tidy`; namespace: `id.eska.screenshotwebp`; minimum Android API 30, target API 36.
 
+Historical `sources/`, `bytecode/` and `resources/` references below are preserved on [archive/2.2.0-reference](https://github.com/faraajs/tidy/tree/archive/2.2.0-reference), not main or current app inputs.
+
 The signed 2.3 release was visually exercised on an API 30 full AOSP x86_64 emulator: dark/light dashboard rendering, committed theme persistence after cold relaunch, explicit monitoring controls, counters, serial screenshot burst, category isolation, pause/resume, restart deduplication and actual opt-in/no-consent boot behavior. Earlier Android 36 ATD conversion checks are separate from this surface evidence. The emulator's System UI stalled during reboot and was recovered. This is not exhaustive accessibility, physical-arm64 or all-OEM certification; see the [release record](../releases/v2.3.0/RELEASE-NOTES.md) and [architecture](ARCHITECTURE.md).
 
 ## Authored 2.3 dashboard structure
@@ -53,7 +55,7 @@ The permission buttons use Android's All files settings; notification permission
 
 **All sections below are historical.** Existing headings/anchors are retained for references to the inspected `2.2.0` UI-dark arm64 r3 APK; they do not describe the new View dashboard. The old implementation was Compose/Material3 under `id.eska.screenshotwebp`, with largely Indonesian visible strings. Static inspection was not a new launch, screenshot comparison, accessibility audit or conversion device test.
 
-Primary evidence: [MainActivity bytecode](../bytecode/id/eska/screenshotwebp/MainActivity.smali), [button-label composables](../bytecode/id/eska/screenshotwebp/ComposableSingletons$MainActivityKt.smali), [AppState](../bytecode/id/eska/screenshotwebp/AppState.smali), [state store](../bytecode/id/eska/screenshotwebp/AppStateStore.smali), [extracted resources](../resources/res/) and [manifest](../resources/AndroidManifest.xml). See [recovery notes](RECOVERY-NOTES.md).
+Primary evidence: [MainActivity bytecode](https://github.com/faraajs/tidy/blob/archive/2.2.0-reference/bytecode/id/eska/screenshotwebp/MainActivity.smali), [button-label composables](https://github.com/faraajs/tidy/blob/archive/2.2.0-reference/bytecode/id/eska/screenshotwebp/ComposableSingletons$MainActivityKt.smali), [AppState](https://github.com/faraajs/tidy/blob/archive/2.2.0-reference/bytecode/id/eska/screenshotwebp/AppState.smali), [state store](https://github.com/faraajs/tidy/blob/archive/2.2.0-reference/bytecode/id/eska/screenshotwebp/AppStateStore.smali), [extracted resources](https://github.com/faraajs/tidy/blob/archive/2.2.0-reference/resources/res/) and [manifest](https://github.com/faraajs/tidy/blob/archive/2.2.0-reference/resources/AndroidManifest.xml). See [recovery notes](RECOVERY-NOTES.md).
 
 ## Earlier design intention
 
@@ -97,7 +99,7 @@ That established a static persisted path, not a relaunch result or exact non-dar
 
 ## Icons and logo
 
-Historical manifest icons are `@mipmap/ic_launcher` and `@mipmap/ic_launcher_round`. Extracted [adaptive](../resources/res/mipmap-anydpi/ic_launcher.xml) and round adaptive icons reference `@color/tidy_icon_background` and `@drawable/tidy_icon_foreground`; legacy density PNGs are preserved as evidence.
+Historical manifest icons are `@mipmap/ic_launcher` and `@mipmap/ic_launcher_round`. Extracted [adaptive](https://github.com/faraajs/tidy/blob/archive/2.2.0-reference/resources/res/mipmap-anydpi/ic_launcher.xml) and round adaptive icons reference `@color/tidy_icon_background` and `@drawable/tidy_icon_foreground`; legacy density PNGs are preserved as evidence.
 
 The complete supplied in-app logo was an intention. Historical `Header` renders text; no call rendering the complete image was found. A launcher foreground PNG is not proof of the header requirement, cropping or visual parity. These historical assets are not the authored 2.3 icon resources.
 

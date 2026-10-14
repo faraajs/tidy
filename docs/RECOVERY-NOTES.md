@@ -6,7 +6,9 @@ Tidy's original Kotlin/Gradle checkout was lost. The earlier 2.2.0 recovery patc
 
 The historical record below is transcribed from the prior recovery workspace's `RECOVERY-NOTES.md`. Artifact names identify the sequence, not additional public releases. The patch revisions retained version name `2.2.0`; no earlier release history or original release date has been reconstructed.
 
-### Current 2.3.0 cutover
+All historical `sources/`, `bytecode/` and `resources/` paths below now refer to [archive/2.2.0-reference](https://github.com/faraajs/tidy/tree/archive/2.2.0-reference), not main. The 2.3.0 cutover prose records that release, not the current version; current build identity is in [build instructions](BUILD-FROM-SOURCE.md).
+
+### Historical 2.3.0 cutover
 
 `app/src/main/` is the maintained application source. Historical `sources/`, `bytecode/` and `resources/` are not compiled. New authored vectors replace historical artwork; no recovered opaque native libraries are shipped. Source-built libavif/AOM replace the old HeifCoder/HEVC-linked chain. The current package remains `id.eska.tidy`, with version 2.3.0/code 3, minimum API 30, target API 36 and arm64-v8a/x86_64. See [build instructions](BUILD-FROM-SOURCE.md) for exact tools, source pins, signing and evidence limits.
 
