@@ -8,6 +8,7 @@ Current authored releases and historical recovery records are separated below. T
 - Added least-permission Android CI (host tests, both-ABI debug APK and lint), Java no-build CodeQL, weekly Gradle/action Dependabot, private security-reporting guidance, ownership and issue/PR templates. CI does not claim device execution, signed-release verification or native C++ security coverage.
 - Relocated historical `sources/`, `bytecode/` and `resources/` off main to the published `archive/2.2.0-reference` branch; updated historical links while retaining recovery evidence, licenses and release records. Current app/component identities are unchanged to preserve installed-app continuity.
 - Clarified the current APK download name as `tidy-v2.3.1-arm64-x86_64.apk`; historical evidence retains its original `universal` names and hashes. No APK bytes, source bundles or published tags are changed by these repository edits.
+- Fixed clean-checkout AOM downloads by mirroring the exact retained archive on the existing release. Gitiles regenerated different archive packaging with identical source contents; the original SHA-256 pin, source commit, compiler settings and official APK remain unchanged.
 
 ## 2.3.1 — 2026-10-12
 
