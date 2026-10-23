@@ -255,6 +255,14 @@ public final class AppStateStore {
         }
     }
 
+    String lastBatchDay() {
+        synchronized (LOCK) { return prefs.getString("night_batch_day", ""); }
+    }
+
+    void markBatchDay(String day) {
+        synchronized (LOCK) { commit(prefs.edit().putString("night_batch_day", day)); }
+    }
+
     public Snapshot snapshot() {
         synchronized (LOCK) {
             return new Snapshot(prefs.getLong(key(MediaCategory.SCREENSHOTS, "count"), 0L),

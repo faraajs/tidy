@@ -34,8 +34,8 @@ android {
         applicationId = "id.eska.tidy"
         minSdk = 30
         targetSdk = 36
-        versionCode = 4
-        versionName = "2.3.1"
+        versionCode = 6
+        versionName = "2.3.1-night.1"
         testInstrumentationRunner = "id.eska.screenshotwebp.ConversionInstrumentation"
         ndk {
             abiFilters += listOf("arm64-v8a", "x86_64")
@@ -59,6 +59,12 @@ android {
         }
     }
     buildTypes {
+        debug {
+            if (providers.gradleProperty("isolatedDeviceTest").orNull == "true") {
+                applicationIdSuffix = ".batterytest"
+                versionNameSuffix = "-battery-test"
+            }
+        }
         release {
             isMinifyEnabled = false
             isShrinkResources = false

@@ -33,24 +33,42 @@ public final class ConversionInstrumentation extends Instrumentation {
     private File scratch, screenshots, photos;
     private MediaConverter converter;
     private String scenario;
+    private boolean physicalFixtures;
+    private String batteryMode;
 
     @Override public void onCreate(Bundle arguments) {
         super.onCreate(arguments);
         scenario = arguments == null ? null : arguments.getString("scenario");
+        physicalFixtures = arguments != null && "true".equals(arguments.getString("physicalFixtures"));
+        batteryMode = arguments == null ? null : arguments.getString("batteryMode");
         start();
     }
 
     @Override public void onStart() {
         context = getTargetContext();
+        if ("nightBatchLifecycle".equals(scenario) && context.getPackageName().endsWith(".batterytest")) {
+            NightBatchChecks.lifecycle(this, context);
+            return;
+        }
+        if ("nightBatch".equals(scenario) && context.getPackageName().endsWith(".batterytest")) {
+            NightBatchChecks.run(this, context);
+            return;
+        }
         if ("gallery".equals(scenario)) {
             GalleryChecks.run(this, context);
             return;
         }
-        if (!Build.HARDWARE.equals("ranchu") && !Build.HARDWARE.equals("goldfish")) {
+        boolean ownedPhysical = physicalFixtures && context.getPackageName().endsWith(".batterytest")
+                && ("battery".equals(scenario) || "full".equals(scenario));
+        if (!Build.HARDWARE.equals("ranchu") && !Build.HARDWARE.equals("goldfish") && !ownedPhysical) {
             Bundle refused = new Bundle();
             refused.putInt("tidy_failed", 1);
             refused.putString("tidy_errors", "This disposable runner is restricted to Android emulators.");
             finish(Activity.RESULT_CANCELED, refused);
+            return;
+        }
+        if ("battery".equals(scenario)) {
+            BatteryChecks.run(this, context, "baseline".equals(batteryMode));
             return;
         }
         if ("monitor".equals(scenario)) {
@@ -202,6 +220,7 @@ public final class ConversionInstrumentation extends Instrumentation {
             exif.setAttribute(ExifInterface.TAG_MODEL, "TidySyntheticModel");
             exif.setLatLong(12.3456, 65.4321);
             exif.saveAttributes();
+            GalleryChecks.scan(context, source, "image/jpeg");
             MediaConverter.SourceSnapshot before = MediaConverter.SourceSnapshot.capture(source);
             MediaConverter.Result result = converter.convert(source, config);
             require(before.matches(source) && !result.originalDeleted, "Oriented original unchanged");
@@ -234,6 +253,7 @@ public final class ConversionInstrumentation extends Instrumentation {
         exif.setAttribute(ExifInterface.TAG_MAKE, "TidySyntheticCamera");
         exif.setLatLong(10.25, 20.5);
         exif.saveAttributes();
+        GalleryChecks.scan(context, source, "image/jpeg");
         MediaConverter.SourceSnapshot before = MediaConverter.SourceSnapshot.capture(source);
         MediaConverter.Result result = converter.convert(source, config);
         require(result.format == OutputFormat.AVIF && !result.fallback, "Actual selected AVIF path");

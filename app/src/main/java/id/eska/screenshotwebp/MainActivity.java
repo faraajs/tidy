@@ -91,7 +91,7 @@ public final class MainActivity extends Activity {
             recreate();
             return;
         }
-        // A settings round-trip may restore access to an already requested monitor.
+        // Restore only the schedule; opening the app never scans or starts conversion.
         if (store.monitoringRequested() && Environment.isExternalStorageManager()
                 && anyCategoryEnabled() && !MonitorService.isRunning()) {
             dispatchStart();
@@ -188,7 +188,7 @@ public final class MainActivity extends Activity {
         overview.addView(status);
         overview.addView(text("Reclaimed storage counts only verified conversions whose originals were deleted. "
                 + "Retaining originals adds output files and does not reclaim storage.", 14, muted, false));
-        monitorButton = button("Start monitoring");
+        monitorButton = button("Enable night batch");
         overview.addView(monitorButton);
         monitorButton.setOnClickListener(view -> toggleMonitoring());
         lastResult = text("", 14, muted, false);
@@ -220,8 +220,8 @@ public final class MainActivity extends Activity {
         battery.setOnClickListener(view -> openBatterySettings());
         permissions.addView(battery);
         permissions.addView(text("All files access is needed only to read and write the folders listed above. "
-                + "Notifications show the foreground monitor. Battery settings are optional; Android or your "
-                + "device vendor may still stop background work.", 14, muted, false));
+                + "Night batches run around 03:00–06:00 only while charging with the screen off. "
+                + "Android may delay or skip a night; unfinished files wait for the next night.", 14, muted, false));
 
         LinearLayout about = card(content, "Privacy and version");
         about.addView(text("Tidy " + versionName() + " · Android 11 or newer\n"
@@ -334,9 +334,9 @@ public final class MainActivity extends Activity {
         if (store.monitoringRequested() || MonitorService.isRunning()) {
             MonitorService.stop(this);
         } else if (!anyCategoryEnabled()) {
-            message("Enable Screenshots or Photos before starting monitoring.");
+            message("Enable Screenshots or Photos before enabling night batches.");
         } else if (!Environment.isExternalStorageManager()) {
-            message("All files access is required. Monitoring has not started.");
+            message("All files access is required. Night batches have not been enabled.");
             openAllFilesSettings();
         } else {
             store.setMonitoringRequested(true);
@@ -350,7 +350,7 @@ public final class MainActivity extends Activity {
             MonitorService.start(this);
         } catch (RuntimeException error) {
             store.setMonitoringRequested(false);
-            message("Android could not start the monitor. Check permissions and try again.");
+            message("Android could not save the night schedule. Check permissions and try again.");
         }
     }
 
@@ -383,14 +383,14 @@ public final class MainActivity extends Activity {
             boolean active = MonitorService.isRunning() && allFiles && anyCategoryEnabled()
                     && snapshot.monitoringRequested;
             String monitorStatus;
-            if (active) monitorStatus = "Monitoring active — new eligible media only";
-            else if (!allFiles) monitorStatus = "Monitoring inactive — all files access required";
-            else if (!anyCategoryEnabled()) monitorStatus = "Monitoring inactive — enable a category";
-            else if (snapshot.monitoringRequested) monitorStatus = "Monitoring requested — service not running";
-            else monitorStatus = "Monitoring paused";
+            if (active) monitorStatus = "Night batch running — charging, screen off";
+            else if (!allFiles) monitorStatus = "Night batch waiting — all files access required";
+            else if (!anyCategoryEnabled()) monitorStatus = "Night batch waiting — enable a category";
+            else if (snapshot.monitoringRequested) monitorStatus = "Scheduled — 03:00–06:00 · charging, screen off";
+            else monitorStatus = "Night batch paused";
             setText(status, monitorStatus);
             setText(monitorButton, snapshot.monitoringRequested || MonitorService.isRunning()
-                    ? "Pause monitoring" : "Start monitoring");
+                    ? "Pause night batch" : "Enable night batch");
             setText(lastResult, snapshot.lastResult == null || snapshot.lastResult.isEmpty()
                     ? "Last result: No conversions yet" : "Last result: " + snapshot.lastResult);
             setText(lastError, snapshot.lastError == null || snapshot.lastError.isEmpty()

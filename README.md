@@ -6,9 +6,9 @@ Automatic screenshot and photo conversion to AVIF or WebP on Android.
 ![Android 11+](https://img.shields.io/badge/Android-11%2B-green)
 ![64-bit ABIs](https://img.shields.io/badge/ABI-arm64--v8a%20%7C%20x86__64-blue)
 
-**2.3.1 is the Gallery-safety hotfix for the newly authored, source-buildable 2.3 app**, not the recovered original project or a byte-identical rebuild of 2.2.0. It uses Java/platform Views and source-built libavif/libaom. Historical `sources/`, `bytecode/`, and `resources/` are references only and are not compiled into the app.
+**2.3.1-night.1 is the charging-only night-batch prerelease**, built on the original Gallery-safe 2.3.1 compression. It replaces continuous monitoring with a fixed 03:00–06:00 local schedule, charging and screen-off checks. See the [author's note](releases/v2.3.1-night.1/RELEASE-NOTES.md#catatan-pembuat--faraajs) for why this version was made after battery drain during personal use.
 
-**Release assets:** use the [official v2.3.1 release page](https://github.com/faraajs/tidy/releases/tag/v2.3.1) for the signed universal APK, complete corresponding-source archive and `SHA256SUMS.txt`. The original 2.2.0 APK remains withheld because its preferred source and matching native provenance are unresolved. See [historical recovery notes](docs/RECOVERY-NOTES.md).
+**Release assets:** get the signed **ARM64-only** APK, complete corresponding-source archive and `SHA256SUMS.txt` from the [v2.3.1-night.1 release](https://github.com/faraajs/tidy/releases/tag/v2.3.1-night.1). The previous [2.3.1 stable release](https://github.com/faraajs/tidy/releases/tag/v2.3.1) remains available. Native compression and quality settings are unchanged; a full overnight run and daily battery savings have not yet been measured. The original 2.2.0 APK remains withheld; see [historical recovery notes](docs/RECOVERY-NOTES.md).
 
 **Upgrade from 2.3.0:** that version could delete an original before its replacement was ready in Gallery. Pause it and leave original deletion off. A converted `.tidy.webp`/`.tidy.avif` file may still exist even if Gallery does not show it; do not assume the original PNG can be recovered. The 2.3.1 upgrade pauses monitoring and resets deletion consent while preserving category settings, formats, counters, theme and processed history.
 
@@ -16,10 +16,10 @@ Automatic screenshot and photo conversion to AVIF or WebP on Android.
 
 - Separate screenshot and photo controls, with AVIF selected by default and WebP available; category-specific fallback can select another format when the requested codec cannot produce a verified candidate.
 - Converts eligible JPEG/JPG/PNG files in **only** `Pictures/Screenshots` and `DCIM/Screenshots` for screenshots, and `DCIM/Camera` for photos, beneath shared storage. Hidden, cache, Android, and escaping/redirected paths are excluded; generated AVIF/WebP files are not inputs.
-- Processes files whose modification time is at or after category activation. Starting/resuming monitoring renews that boundary, so existing media and the pause backlog are not swept. Android `Os.stat` supplies millisecond timestamps for the gate, stability checks and fingerprints; Android 11's File and NIO readers were observed to truncate subsecond precision. A later modification can make an older file eligible; this is a timestamp policy, not proof of when a picture was taken.
-- Uses one screenshot worker and at most two photo workers, folder observers, periodic reconciliation, and persistent processed-file fingerprints. A completed `CLOSE_WRITE`/`MOVED_TO` refreshes pending stability work and bypasses an empty/unstable CREATE cooldown, without replacing an executing conversion.
-- Provides a native dashboard with persisted dark/light mode, counters, progress, last result/error, Start/Pause, permission controls, and dependency licenses.
-- Resumes monitoring after boot/unlock/package replacement only when previously requested, an eligible category is enabled, storage is unlocked, and access is available. Android/OEM restrictions can still stop it.
+- Processes files whose modification time is at or after category activation. Enabling/resuming automation renews that boundary; scheduled nights keep it unchanged so eligible media accumulated during the day can be processed later. Older untouched media and the explicitly paused backlog are not swept. Android `Os.stat` supplies millisecond timestamps for the gate, stability checks and fingerprints; Android 11's File and NIO readers were observed to truncate subsecond precision. A later modification can make an older file eligible; this is a timestamp policy, not proof of when a picture was taken.
+- Uses one screenshot worker and at most two photo workers in a finite night batch, with persistent processed-file fingerprints. No folder observers, periodic scans or continuous foreground service run during the day. The native Android job requires charging and idle; each new conversion also checks the 03:00–06:00 window and screen-off state.
+- Provides a native dashboard with persisted dark/light mode, counters, progress, last result/error, Enable/Pause night batch, permission controls, and dependency licenses.
+- Restores the schedule after boot/unlock/package replacement and clock changes when automation was requested and a category is enabled. Storage/access must be available before work starts. Android may delay or stop a batch; missed or unfinished work waits until another night, with no daytime catch-up.
 
 ### Safety and conversion limits
 
@@ -31,12 +31,12 @@ Deletion requires a separate confirmation for each category. It is permitted onl
 
 ## Download and installation
 
-Requirements: **Android 11/API 30+** and a **64-bit `arm64-v8a` or `x86_64`** device. The universal APK means these two ABIs, not every CPU or device; 32-bit ARM/x86 are unsupported.
+Requirements: **Android 11/API 30+** and **`arm64-v8a`** for the published APK. Source still supports `x86_64`, but this prerelease has no x86_64 or universal binary. 32-bit ARM/x86 are unsupported.
 
-Download these assets together from the [official v2.3.1 page](https://github.com/faraajs/tidy/releases/tag/v2.3.1), not an untrusted mirror:
+Download these assets together from the [night-batch release](https://github.com/faraajs/tidy/releases/tag/v2.3.1-night.1):
 
-- `tidy-v2.3.1-universal.apk`
-- `tidy-v2.3.1-corresponding-source.tar.gz`
+- `tidy-2.3.1-night.1-arm64.apk`
+- `tidy-v2.3.1-night.1-corresponding-source.tar.gz`
 - `SHA256SUMS.txt`
 
 1. In the directory containing the downloaded assets, verify both file hashes:
@@ -46,40 +46,39 @@ Download these assets together from the [official v2.3.1 page](https://github.co
    A checksum detects changed bytes but does not authenticate the publisher if the APK and checksum are both replaced. Compare with the official release record.
 2. Using Android SDK Build Tools, verify the APK signature:
    ```sh
-   apksigner verify --verbose --print-certs tidy-v2.3.1-universal.apk
+   apksigner verify --verbose --print-certs tidy-2.3.1-night.1-arm64.apk
    ```
    The **official release certificate**, unchanged since 2.3.0 (`CN=Tidy Release, O=Tidy`), has SHA-256:
    ```text
    27c165f0a6f13f8b01ed6628bd1a2e8f61daeb3b33438c6808f41f331aa45389
    ```
    Stop if verification fails or the certificate differs from the official release record. This is not the historical 2.2.0 debug certificate or the lost original signing key.
-3. **Back up images independently.** An official 2.3.0 installation can be updated in place to 2.3.1 without uninstalling; monitoring and deletion consent are reset once. Android cannot update an app signed with a different certificate: back up media/settings before manually uninstalling such a package, then install the new APK. Uninstalling removes local settings. Tidy never uninstalls anything itself; same-certificate installation remains subject to Android's installer checks.
+3. **Back up images independently.** Official 2.3.1 installations can update to 2.3.1-night.1 without uninstalling; settings, counters, consent and processed history are preserved. The earlier 2.3.0-to-2.3.1 consent migration still applies if applicable. Android cannot update an app signed with a different certificate: back up media/settings before manually uninstalling such a package, then install the new APK. Uninstalling removes local settings. Tidy never uninstalls anything itself; same-certificate installation remains subject to Android's installer checks.
 4. Enable **Install unknown apps** for the browser/file manager you use, open the APK, and follow Android's installer. Turn that permission off afterward if unnecessary.
-5. Open Tidy, grant all-files access and notification permission as applicable, choose a category/format, and enable the category. Leave **Delete originals** off. Start monitoring explicitly and check the dashboard and ongoing notification. Battery-optimization exemption is optional and does not override vendor restrictions.
-6. Create a disposable JPEG/PNG in one of the listed folders **after starting**. Inspect output pixels, orientation, dimensions, metadata removal, and original retention before using important media.
+5. Open Tidy, grant all-files access and notification permission as applicable, choose a category/format, and enable the category. Leave **Delete originals** off. Choose **Enable night batch** once and check for **Scheduled — 03:00–06:00 · charging, screen off**. Existing opted-in automation is restored after updating. Leave the phone charging with the screen off while asleep; Tidy need not stay open. Battery-optimization exemption is optional and does not override vendor restrictions.
+6. Create a disposable JPEG/PNG in one of the listed folders **after enabling**. It waits for an eligible night. Inspect its output and original retention afterward. Unplugging, waking the screen, pausing, or reaching 06:00 prevents new conversions; an already running file may finish safely. Avoid force-stop or revoking file access if you want automatic scheduling.
 
 Optional ADB installation after the same checks:
 
 ```sh
-adb -s <device-serial> install tidy-v2.3.1-universal.apk
+adb -s <device-serial> install tidy-2.3.1-night.1-arm64.apk
 ```
 
 Use `install -r` only when an existing installation has a compatible certificate; it cannot bypass a signature mismatch. The repository and corresponding-source bundle do not include private signing keys.
 
 ### Verification limits
 
-Both ABIs have been source-built; **13 host policy/state tests passed**. The signed 2.3.1 release passed **three isolated generated-image Gallery checks on a physical Android 13 arm64 phone**, including readable replacements before opted-in deletion and exact-source retention without a usable Gallery index. A synthetic 1080 × 2400 screenshot took **896 ms in WebP** and **1,493 ms in AVIF** on that device. These include conversion/publication, not observer stabilization or dashboard refresh, and are observations rather than latency guarantees.
+For **2.3.1-night.1**, 24 host tests and 42 physical Android 13 ARM64 checks passed: 16 night-batch, 3 lifecycle, 20 converter and 3 Gallery checks. Controlled night tests inject time/power conditions; lifecycle checks exercise real Android job registration. Four deterministic compression outputs and the ARM64 native library match original 2.3.1. Signing and 16 KiB alignment passed. Lint reported 0 errors and 10 warnings per variant.
 
-Actual API 30 dashboard smoke processed a newly generated screenshot with WebP, retained its unchanged original with zero reclaimed bytes, and opened the indexed output in the real Gallery app. Upgrade smoke on the phone preserved counters/formats/theme, paused monitoring and reset deletion consent. Signature and APK/ELF **16 KiB** alignment passed. Full results and limits are in [2.3.1 release notes](releases/v2.3.1/RELEASE-NOTES.md); earlier source-bundle, fallback, boot and theme evidence remains specific to [2.3.0](releases/v2.3.0/RELEASE-NOTES.md). No all-OEM, background-survival, exhaustive accessibility or byte-identical rebuild guarantee is claimed.
+The same APK was installed in place on the developer phone; the job survived ordinary process reclamation with no foreground monitor. **Actual overnight 03:00 execution and daily battery savings have not yet been observed.** No absolute 0 mAh or all-OEM automation guarantee is claimed. See the [current release notes](releases/v2.3.1-night.1/RELEASE-NOTES.md) and [night-batch behavior](docs/BATTERY-PATCH.md). Earlier dual-ABI/emulator evidence remains specific to [2.3.1](releases/v2.3.1/RELEASE-NOTES.md) and [2.3.0](releases/v2.3.0/RELEASE-NOTES.md).
 
 ## Permissions
 
 | Manifest permission | Why it is declared |
 | --- | --- |
-| `MANAGE_EXTERNAL_STORAGE` | Watch/read the listed shared-storage folders and publish outputs; delete originals only with explicit consent. This is broad OS access even though app policy narrows the folders. |
-| `POST_NOTIFICATIONS` | Monitoring notifications on Android 13+. |
-| `FOREGROUND_SERVICE`, `FOREGROUND_SERVICE_SPECIAL_USE` | User-enabled continuous local monitoring with an ongoing notification. |
-| `RECEIVE_BOOT_COMPLETED` | Resume opted-in monitoring after boot; also handles package replacement and unlock. |
+| `MANAGE_EXTERNAL_STORAGE` | Scan/read the listed shared-storage folders during a night batch and publish outputs; delete originals only with explicit consent. This is broad OS access even though app policy narrows the folders. |
+| `POST_NOTIFICATIONS` | Retained notification access on Android 13+; no continuous foreground monitoring notification is used. |
+| `RECEIVE_BOOT_COMPLETED` | Persist/restore the opted-in night schedule after boot; also handles package replacement, unlock and clock changes. |
 | `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS` | Offer an optional exemption for background operation. |
 
 The authored app declares **no `INTERNET` permission** and implements no uploads, analytics, or telemetry. Processing is local. `allowBackup` is false; do not rely on Android backup for settings. These facts are not a complete security audit or a promise against all privacy/data-loss risks.
@@ -106,7 +105,7 @@ Use Java 17, Android SDK 36, NDK `27.1.12297006`, and CMake `3.22.1`. The wrappe
 ./gradlew assembleDebug testDebugUnitTest assembleDebugAndroidTest
 ```
 
-This builds the authored project, not `sources/` or `bytecode/`. Release builds are unsigned unless external signing configuration is supplied. See [build instructions](docs/BUILD-FROM-SOURCE.md) for pinned source inputs and release signing, and [CONTRIBUTING](CONTRIBUTING.md) for disposable-emulator instrumentation. The corresponding-source release asset includes build scripts, full matching native sources, Java preferred-source JARs, and conservative NDK runtime sources/Android recipes and patches with notices, not just decompiler references. It does not contain the original 2.2.0 APK or a full compiler/SDK installation.
+This builds the authored project, not `sources/` or `bytecode/`. For the published ARM64-only release, pass `-Pandroid.injected.build.abi=arm64-v8a -Pandroid.injected.testOnly=false` to `assembleRelease`; default builds still select both ABIs. Release builds are unsigned unless external signing configuration is supplied. See [build instructions](docs/BUILD-FROM-SOURCE.md) for pinned source inputs and release signing, and [CONTRIBUTING](CONTRIBUTING.md) for disposable-emulator instrumentation. The corresponding-source release asset includes build scripts, full matching native sources, Java preferred-source JARs, and conservative NDK runtime sources/Android recipes and patches with notices, not just decompiler references. It does not contain the original 2.2.0 APK or a full compiler/SDK installation.
 
 ## License and third-party components
 

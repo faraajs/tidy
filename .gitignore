@@ -1,12 +1,12 @@
 # Android build and tooling output
-.gradle/
+.gradle
 .idea/
 *.iml
 local.properties
 **/build
 .externalNativeBuild/
 .cxx
-.native-sources/
+.native-sources
 outputs/
 dist/
 .DS_Store
@@ -38,3 +38,6 @@ signing.properties
 # Recovery-tool working directories and logs
 .jadx/
 *.log
+
+# Local investigation evidence
+.research/

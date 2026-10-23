@@ -2,6 +2,14 @@
 
 Current authored releases and historical recovery records are separated below. The original 2.2.0 release date is unknown; its recovery revisions retained version name `2.2.0` and were not separate published releases. Historical evidence remains in [Recovery notes](docs/RECOVERY-NOTES.md).
 
+## 2.3.1-night.1 — 2026-10-23 (prerelease)
+
+- Preserve the original 2.3.1 compression and file-safety behavior; replace continuous monitoring with one persisted charging/idle night job targeting 03:00–06:00 local time, with a screen-off check.
+- Remove folder observers, recurring scans and the foreground monitor. Missed or unfinished batches wait for another night; there is no daytime catch-up.
+- Preserve activation boundaries and durable opt-in so daytime media remains eligible. Restore scheduling after boot/unlock/update/time changes without scanning immediately.
+- Publish the same signed ARM64 APK installed on the developer phone. 24 host tests and 42 physical-device checks passed; actual overnight execution and daily battery savings remain unmeasured.
+- Add the [author's note, usage and verification limits](releases/v2.3.1-night.1/RELEASE-NOTES.md). This release addresses battery drain observed during personal use of 2.3.1, without claiming a measured battery-saving percentage.
+
 ## 2.3.1 — 2026-10-12
 
 - Fixed disappearance from Gallery when original deletion was enabled: explicitly scan the replacement and require a complete image row, readable matching bytes and platform-decoded dimensions before deleting anything.
