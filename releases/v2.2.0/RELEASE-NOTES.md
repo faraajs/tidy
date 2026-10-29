@@ -1,4 +1,4 @@
-# Tidy 2.2.0 r3 — local-only release record
+# Tidy 2.2.0 r3: local release record
 
 **Status: prepared locally only. No public APK is published or available from this recovery repository.** APK files are excluded from Git; a source clone does not contain the binary. This document is an artifact record, not an announcement of a GitHub binary release.
 
@@ -35,7 +35,7 @@ The historical recovery notes say the converter/monitor paths, AVIF-to-WebP fall
 
 ## Installation and data safety
 
-Follow the [README installation instructions](../../README.md#local-download-and-installation) for the locally available artifact. **Back up important media first. Conversion is lossy and can replace original files.** Check disposable images, orientation, metadata, and replacement behavior before enabling monitoring on important media.
+See the [historical signing and installation notes](../../docs/RECOVERY-NOTES.md#signing-and-installation-continuity) for this locally held artifact. **Back up important media first. Conversion is lossy and can replace original files.** Check disposable images, orientation, metadata, and replacement behavior before enabling monitoring on important media.
 
 The original private signing key was lost. This recovered APK uses an Android debug certificate, not the baseline's original `Screenshot WebP` certificate. Android rejects an update over a different-certificate installation. Uninstalling the old application may be necessary and removes its local app settings; note settings and back up media beforehand. A same-certificate recovery installation can generally update without uninstalling. No private signing material is included in the repository.
 

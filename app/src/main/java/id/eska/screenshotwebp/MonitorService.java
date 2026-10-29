@@ -17,7 +17,7 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.UserManager;
 
-/** User-requested local monitoring; Android may still stop the process. */
+/** Monitoring requested by the user; Android may still stop the process. */
 public final class MonitorService extends Service {
     private static final String CHANNEL = "tidy_monitoring";
     private static final int NOTIFICATION_ID = 230;

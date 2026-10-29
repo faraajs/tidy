@@ -73,9 +73,9 @@ set(AOM_CMAKE_CONFIG "Tidy libaom 3.14.1; AOM_TARGET_CPU=${AOM_TARGET_CPU}; AV1 
 string(TIMESTAMP year "%Y")
 configure_file("${tidy_aom_source}/cmake/aom_config.c.template" "${tidy_aom_binary}/config/aom_config.c")
 
-# SYSTEM here means consume the already-defined, pinned source-built aom target;
-# upstream does not perform system lookup when that target already exists.
-set(AVIF_CODEC_AOM SYSTEM CACHE STRING "Use pinned source-built AOM target" FORCE)
+# SYSTEM here means use the pinned AOM target that was already defined;
+# upstream does not perform a system lookup when that target already exists.
+set(AVIF_CODEC_AOM SYSTEM CACHE STRING "Use pinned AOM target built from source" FORCE)
 set(AVIF_CODEC_AOM_ENCODE ON CACHE BOOL "AVIF encoder" FORCE)
 set(AVIF_CODEC_AOM_DECODE ON CACHE BOOL "AVIF decoder" FORCE)
 foreach(option IN ITEMS AVIF_CODEC_DAV1D AVIF_CODEC_LIBGAV1 AVIF_CODEC_RAV1E AVIF_CODEC_SVT AVIF_CODEC_AVM AVIF_LIBYUV AVIF_LIBSHARPYUV AVIF_LIBXML2 AVIF_ZLIBPNG AVIF_JPEG AVIF_GTEST)

@@ -1,10 +1,10 @@
 # UI: authored 2.3 dashboard and historical 2.2 evidence
 
-The maintained 2.3 UI is implemented in [`MainActivity.java`](../app/src/main/java/id/eska/screenshotwebp/MainActivity.java), an Android `Activity` with programmatic **platform Views**, not Jetpack Compose/Material3. It is a newly authored reconstruction, not recovery of the old Kotlin UI or a claim of visual parity with the historical APK. Application ID: `id.eska.tidy`; namespace: `id.eska.screenshotwebp`; minimum Android API 30, target API 36.
+The maintained 2.3 UI is implemented in [`MainActivity.java`](../app/src/main/java/id/eska/screenshotwebp/MainActivity.java), an Android `Activity` with programmatic **platform Views**, not Jetpack Compose/Material3. It is a reconstruction written for this release, not recovery of the old Kotlin UI or a claim of visual parity with the historical APK. Application ID: `id.eska.tidy`; namespace: `id.eska.screenshotwebp`; minimum Android API 30, target API 36.
 
 Historical `sources/`, `bytecode/` and `resources/` references below are preserved on [archive/2.2.0-reference](https://github.com/faraajs/tidy/tree/archive/2.2.0-reference), not main or current app inputs.
 
-The signed 2.3 release was visually exercised on an API 30 full AOSP x86_64 emulator: dark/light dashboard rendering, committed theme persistence after cold relaunch, explicit monitoring controls, counters, serial screenshot burst, category isolation, pause/resume, restart deduplication and actual opt-in/no-consent boot behavior. Earlier Android 36 ATD conversion checks are separate from this surface evidence. The emulator's System UI stalled during reboot and was recovered. This is not exhaustive accessibility, physical-arm64 or all-OEM certification; see the [release record](../releases/v2.3.0/RELEASE-NOTES.md) and [architecture](ARCHITECTURE.md).
+The signed 2.3 release was tested visually on an API 30 full AOSP x86_64 emulator: dark/light dashboard rendering, committed theme persistence after cold relaunch, explicit monitoring controls, counters, serial screenshot burst, category isolation, pause/resume, restart deduplication and actual opt-in/no-consent boot behavior. Earlier Android 36 ATD conversion checks are separate from this surface evidence. The emulator's System UI stalled during reboot and was recovered. This is not exhaustive accessibility, physical-arm64 or all-OEM certification; see the [release record](../releases/v2.3.0/RELEASE-NOTES.md) and [architecture](ARCHITECTURE.md).
 
 ## Authored 2.3 dashboard structure
 
@@ -12,12 +12,12 @@ One scrollable dashboard remains available whether monitoring is active or pause
 
 | Area | Implemented controls and information |
 | --- | --- |
-| Branding/theme | Authored vector mark, “Tidy”, “Local image conversion”, and explicit **Dark theme** switch. |
+| Branding/theme | Authored vector mark, “Tidy”, “Convert images locally”, and an explicit **Dark theme** switch. |
 | Conversion summary | Screenshots/photos converted, **Reclaimed storage**, codec fallback count, queued/processing counts, service/request status, Start/Pause, last result and last error. |
 | Screenshots / Photos | Independent category switches, exact folder paths, AVIF/WebP buttons with selected-state descriptions, codec-fallback explanation and separate Delete originals switches. |
 | Before you convert | Future-media/activation policy, pause/in-flight limits, lossy conversion, possible photo resizing, metadata stripping, nonguaranteed targets and backup warning. |
 | Android permissions | Actual All files/notifications/battery status, OS permission/settings actions; battery exemption is optional. |
-| Privacy and version | Installed version, Android 11 minimum, release/device architectures, local-only processing and Open source licenses dialog. |
+| Privacy and version | Installed version, Android 11 minimum, release/device architectures, processing on the device and a dialog for open-source licenses. |
 
 The category folder text is produced by `PathPolicy.roots`: screenshots only under shared-storage `Pictures/Screenshots` and `DCIM/Screenshots`; photos only under `DCIM/Camera`, including eligible descendants. It is not the historical “all non-camera shared storage” policy. Only JPEG/JPG/PNG inputs qualify; generated AVIF/WebP outputs are excluded. Enabling creates an activation epoch; Start after pause renews enabled epochs, ignoring the pause backlog. Eligibility uses millisecond file modification time from `Os.stat`/`st_mtim`, not verified camera capture time; Android 11 File/NIO readers truncate that precision.
 
@@ -25,7 +25,7 @@ The category folder text is produced by `PathPolicy.roots`: screenshots only und
 
 `AppStateStore.darkMode()` reads device-protected `tidy_ui/dark_mode`, default **true**; the unlocked migration can import the historical activity preference. The switch persists the boolean and recreates the Activity. True selects `Theme.Tidy.Dark` and explicit dark View colors; false selects `Theme.Tidy.Light` and explicit light colors. It is a **dark/light choice**, not “Follow system”. The Activity preserves scroll position across recreation and refreshes if the saved theme changes while away.
 
-The current [`res/`](../app/src/main/res/) contains newly authored `ic_tidy` and launcher foreground vectors, API-26 adaptive normal/round launcher icons, and drawable-backed mipmap aliases for the nonadaptive names. The header actually renders `R.drawable.ic_tidy` in a 56 dp ImageView; the decorative image is excluded from accessibility announcements beside the text name. No recovered supplied artwork or historical density PNG is compiled into the new UI.
+The current [`res/`](../app/src/main/res/) contains new `ic_tidy` and launcher foreground vectors, API-26 adaptive normal/round launcher icons, and drawable-backed mipmap aliases for the nonadaptive names. The header actually renders `R.drawable.ic_tidy` in a 56 dp ImageView; the decorative image is excluded from accessibility announcements beside the text name. No recovered supplied artwork or historical density PNG is compiled into the new UI.
 
 For API-36 edge-to-edge behavior, the root applies `systemBars`, `displayCutout` and IME insets as padding, with dark/light status/navigation-bar appearance and navigation-bar contrast enforcement. Scrollable content, accessibility headings, textual format state descriptions, scalable text sizes, buttons at least 52 dp high and switches at least 56 dp high are implemented. These provisions are not a substitute for observed text-scaling, contrast, screen-reader or OEM rendering checks.
 
@@ -43,10 +43,10 @@ The permission buttons use Android's All files settings; notification permission
 
 ## Authored 2.3 data and safety honesty
 
-- Summary values come from `AppStateStore.Snapshot`, not fabricated examples. `pending`/`processing` are process-local queue counts, not per-file percentage progress or a durable job list. Last result/error are shared most-recent diagnostics, not a historical per-category log.
+- Summary values come from `AppStateStore.Snapshot`, not placeholder examples. `pending`/`processing` are process-local queue counts, not per-file percentage progress or a durable job list. Last result/error are shared most-recent diagnostics, not a historical per-category log.
 - Fresh counters are zero; migrated conversion/fallback counts may include historical events. Unproven historical savings are **not** imported. Reclaimed storage adds only `sourceBytes - outputBytes` for a verified smaller output whose original was actually deleted. Keeping both files reclaims zero and adds output storage; totals are not current free-disk measurement.
 - Results show the actual codec, dimensions, bytes, retained/deleted source, codec fallback and missed target. AVIF selection does not promise AVIF output. Screenshots allow AVIF → WebP, selected WebP screenshots have no fallback, and photos allow either direction when a codec yields no valid candidate.
-- Screenshots retain oriented dimensions at quality 55/100 KiB informational target. Photos use power-of-two sampling with nominal 2,560-pixel long edge, then bounded scale/quality search and 100–750 KiB buckets. They may be substantially smaller in resolution. Target misses can still yield valid outputs.
+- Screenshots retain oriented dimensions at quality 55/100 KiB informational target. Photos use power-of-two sampling with nominal 2,560-pixel long edge, then bounded scale/quality search and 100–750 KiB buckets. The output resolution can be much lower. Target misses can still yield valid outputs.
 - All eight EXIF orientations are normalized in pixels. Outputs do not preserve source GPS/EXIF/XMP/camera identity, original ICC/HDR information or reversible source quality. Native AVIF has bounded resources; large/invalid inputs can fail without conversion.
 - Both categories publish collision-safe `stem.tidy[ (n)].avif`/`.webp` without replacing existing outputs. Deletion is only permitted after output verification, strict size reduction, unchanged captured source and matching live consent. A source backup is renamed/restored without replacement; if restore is blocked, it is retained under its hidden backup name rather than overwrite a recreated source. No crash journal, automatic backup restoration, undo or process-death/power-loss guarantee exists. Read the [full safety sequence](ARCHITECTURE.md#authored-23-publication-and-source-safety) before enabling deletion.
 - Processing has no network permission, uploads, analytics or telemetry; Android app backup is disabled. Preferences/history are local. The licenses dialog displays selectable bundled [`third-party-notices.txt`](../app/src/main/assets/third-party-notices.txt), including native/Java and NDK runtime notices. Its presence is not legal immunity or a universal patent-clearance claim.
@@ -59,7 +59,7 @@ Primary evidence: [MainActivity bytecode](https://github.com/faraajs/tidy/blob/a
 
 ## Earlier design intention
 
-The historical recovery workspace's `2026-08-16-tidy-dashboard-ui-design.md` specified a UI/theme/icon-only refresh, retaining conversion behavior:
+The historical recovery workspace's `2026-08-16-tidy-dashboard-ui-design.md` specified a refresh limited to the UI, theme, and icon, retaining conversion behavior:
 
 - Dark navy dashboard, rounded cards/chips, accessible contrast and blue-purple accents from the supplied icon.
 - Header branding/subtitle, monitoring status/service controls, actual conversion/saved-byte totals, separate category cards with format/settings/result/error.

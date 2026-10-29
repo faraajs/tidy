@@ -1,4 +1,4 @@
-Tidy 2.3.1 — application, runtime dependency and patent notices
+Tidy 2.3.1: application, runtime dependency and patent notices
 
 Copyright (c) 2026 faraajs and Tidy contributors.
 This is a newly authored reconstruction, modified on 12 October 2026,
@@ -871,7 +871,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 ========================================================================
-Java runtime dependencies — exact source archives accompany this release
+Java runtime dependencies: exact source archives accompany this release
 ========================================================================
 
 AndroidX ExifInterface 1.4.2: Copyright 2018, 2020 The Android Open Source Project.

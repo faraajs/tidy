@@ -11,7 +11,7 @@ Updating from official 2.3.0 uses the same signing certificate and does not requ
 ## Processing changes
 
 - Removed redundant full-output decoding and hashing, while retaining exact-byte, source-identity, collision and live-consent checks.
-- Enabled baseline ARM64 NEON in source-built AOM for AVIF. Optional CRC32, dot-product, I8MM, SVE and SVE2 extensions remain disabled; x86_64 stays generic.
+- Enabled baseline ARM64 NEON in AOM built from source for AVIF. Optional CRC32, dot-product, I8MM, SVE and SVE2 extensions remain disabled; x86_64 stays generic.
 - WebP still uses Android's platform codec. Screenshot quality 55, oriented full-size dimensions, codec thread limits and queue policy are unchanged. No instant-conversion or uniform speedup is promised.
 
 ## Identity and downloads
@@ -38,7 +38,7 @@ Verify the certificate above. Different-certificate installations still require 
 
 ## Exercised evidence and limits
 
-- Both ABIs source-built; 13/13 host state/path tests passed, including the one-time Gallery-consent migration and preservation of settings/history/accounting.
+- Both ABIs were built from source; 13/13 host state/path tests passed, including the one-time Gallery-consent migration and preservation of settings/history/accounting.
 - Final signed APK passed 20/20 real conversion/state scenarios on an isolated API 30 full-AOSP x86_64 emulator: native pixels/alpha, all eight EXIF transforms, metadata removal, size boundaries, collision/source/output guards, consent, Gallery-unavailable retention and actual-result accounting. Shared-storage rename refusal was treated as safe retention; physical Gallery checks separately exercised successful deletion.
 - Real empty-CREATE/CLOSE_WRITE observation passed, producing verified WebP **1,048 ms after the completed write**. This exercises the actual FileObserver and worker, not a callback echo.
 - Final signed APK passed 3/3 isolated Gallery scenarios on a physical Android 13 arm64 phone: real WebP/AVIF publication with readable replacements before opted-in deletion, and exact-original retention without a usable Gallery index. All images/preferences were generated and isolated; no personal image bytes were used.

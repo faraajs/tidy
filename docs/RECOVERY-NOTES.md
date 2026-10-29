@@ -2,7 +2,7 @@
 
 ## Scope and provenance
 
-Tidy's original Kotlin/Gradle checkout was lost. The earlier 2.2.0 recovery patched a preserved installed APK rather than rebuilding the original project. The historical sections below preserve that evidence. Tidy 2.3.0 is a separate, newly authored and buildable Java/native reconstruction; it neither recovers the original build environment nor establishes corresponding source for the old binary.
+Tidy's original Kotlin/Gradle checkout was lost. The earlier 2.2.0 recovery patched a preserved installed APK rather than rebuilding the original project. The historical sections below preserve that evidence. Tidy 2.3.0 is a separate Java/native reconstruction that can be built from source. It does not recover the original build environment or establish corresponding source for the old binary.
 
 The historical record below is transcribed from the prior recovery workspace's `RECOVERY-NOTES.md`. Artifact names identify the sequence, not additional public releases. The patch revisions retained version name `2.2.0`; no earlier release history or original release date has been reconstructed.
 
@@ -111,4 +111,4 @@ For the historical 2.2.0 artifact, the approved publication path remains **safe 
 
 Recovered application Java is not necessarily the preferred form for modifying the program. The original Kotlin/Gradle project is missing. In addition, no pinned native source/patch/build bundle matching the packaged libraries has yet been proven. Decompiled application code, upstream project links, library names, and a checksum alone do not establish complete corresponding source.
 
-**The historical 2.2.0 APK must not be publicly uploaded unless complete corresponding-source obligations for that exact binary are established**, including appropriate preferred application source, matching native source/patches, build/install materials and required notices. Retain it locally while that gate is unresolved. See [third-party provenance](THIRD-PARTY-NOTICES.md) and the [local-only release notes](../releases/v2.2.0/RELEASE-NOTES.md). The separate new 2.3.0 release pairs its source-built APK with exact corresponding source and full notices; its intended public release is not evidence that the historical gate passed.
+**The historical 2.2.0 APK must not be publicly uploaded unless complete corresponding-source obligations for that exact binary are established**, including appropriate preferred application source, matching native source/patches, build/install materials and required notices. Retain it locally while that gate is unresolved. See [third-party provenance](THIRD-PARTY-NOTICES.md) and the [local-only release notes](../releases/v2.2.0/RELEASE-NOTES.md). The separate 2.3.0 release pairs an APK built from source with its exact corresponding source and full notices. That release does not establish that the historical APK meets this gate.

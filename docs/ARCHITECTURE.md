@@ -1,10 +1,10 @@
 # Architecture: authored 2.3 and historical 2.2 evidence
 
-The maintained application is the **newly authored 2.3 reconstruction, currently 2.3.1**, not recovered Kotlin source or a byte-identical replacement for 2.2. Its application ID is `id.eska.tidy`, namespace `id.eska.screenshotwebp`, minimum Android API 30 and target/compile API 36. Java 17 platform Views and source-built native code are compiled from [`app/`](../app/); `sources/`, `bytecode/` and `resources/` are historical references, not build inputs. Release builds target `arm64-v8a` and `x86_64`.
+The maintained application is the **2.3 reconstruction written for this release, currently 2.3.1**, not recovered Kotlin source or a byte-identical replacement for 2.2. Its application ID is `id.eska.tidy`, namespace `id.eska.screenshotwebp`, minimum Android API 30 and target/compile API 36. Java 17 platform Views and native code built from source are compiled from [`app/`](../app/); `sources/`, `bytecode/` and `resources/` are historical references, not build inputs. Release builds target `arm64-v8a` and `x86_64`.
 
 Historical `sources/`, `bytecode/` and `resources/` paths below refer to the [archive/2.2.0-reference branch](https://github.com/faraajs/tidy/tree/archive/2.2.0-reference), not main. The current source namespace and published activity/service/receiver component identities are retained intentionally: renaming them can break installed component references or grants even when the application ID stays the same.
 
-This document describes implemented source paths. It does not certify physical-arm64 or all-OEM compatibility, UI accessibility or crash-proof recovery. Build and device evidence belongs in the [source-build record](BUILD-FROM-SOURCE.md) and release notes. The original 2.2 APK remains withheld; authoring 2.3 does not resolve its missing corresponding source or native provenance.
+This document describes implemented source paths. It does not certify physical-arm64 or all-OEM compatibility, UI accessibility or crash-proof recovery. Build and device evidence belongs in the [source-build record](BUILD-FROM-SOURCE.md) and release notes. The original 2.2 APK remains withheld; writing 2.3 does not resolve its missing corresponding source or native provenance.
 
 Artifact-specific build and runtime evidence is recorded in the [2.3.1 release notes](../releases/v2.3.1/RELEASE-NOTES.md). Earlier 2.3.0 observer, fallback, dashboard and boot checks remain historical evidence, not a guarantee for every device or release.
 
@@ -14,7 +14,7 @@ All Java components below are in [`app/src/main/java/id/eska/screenshotwebp/`](.
 
 | Component | Implemented responsibility |
 | --- | --- |
-| `MainActivity extends Activity` | Programmatic native-View dashboard; permission controls, category/format/deletion consent, Start/Pause, theme and real snapshot rendering. |
+| `MainActivity extends Activity` | Dashboard built with platform Views; permission controls, category/format/deletion consent, Start/Pause, theme and real snapshot rendering. |
 | `AppStateStore` | Synchronized device-protected preferences, safe migration, category `Config`, counters/result/error `Snapshot`, bounded durable processed history and process-local queue counts. |
 | `PathPolicy` | Exact canonical folder scope, input/epoch eligibility and SHA-256 discovery fingerprints. |
 | `BootReceiver` | Requests service restoration for boot, locked boot, user unlock or package replacement; never grants consent or permissions. |
@@ -66,7 +66,7 @@ The [authored manifest](../app/src/main/AndroidManifest.xml) declares All files 
 
 ## Authored 2.3 codec and image policy
 
-WebP uses Android `Bitmap.compress(WEBP_LOSSY, ...)`. AVIF uses real `NativeAvif.encode(Bitmap, int)` and `decode(byte[])`, loading `libtidyavif.so` built from pinned **libavif 1.4.2 + libaom 3.14.1**. [`CMakeLists.txt`](../app/src/main/cpp/CMakeLists.txt) verifies immutable source archives before extraction; libavif/AOM are statically linked into the JNI library. No recovered codec binaries, libheif/HEVC/x265, external dav1d decoder, external libyuv or libsharpyuv are linked. Libavif's embedded scalar libyuv sources and dav1d-origin `obu.c` retain their upstream notices. Pins/source digests and licenses are recorded in [`native/dependencies.json`](../native/dependencies.json), [`native/java-dependencies.json`](../native/java-dependencies.json) and [third-party notices](THIRD-PARTY-NOTICES.md).
+WebP uses Android `Bitmap.compress(WEBP_LOSSY, ...)`. AVIF uses real `NativeAvif.encode(Bitmap, int)` and `decode(byte[])`, loading `libtidyavif.so` built from **libavif 1.4.2 + libaom 3.14.1** source. [`CMakeLists.txt`](../app/src/main/cpp/CMakeLists.txt) verifies immutable source archives before extraction; libavif/AOM are statically linked into the JNI library. No recovered codec binaries, libheif/HEVC/x265, external dav1d decoder, external libyuv or libsharpyuv are linked. Libavif's embedded scalar libyuv sources and dav1d-origin `obu.c` retain their upstream notices. Pins/source digests and licenses are recorded in [`native/dependencies.json`](../native/dependencies.json), [`native/java-dependencies.json`](../native/java-dependencies.json) and [third-party notices](THIRD-PARTY-NOTICES.md).
 
 Decode reads bounds first, then uses software ARGB_8888/sRGB. Screenshots keep their full oriented dimensions and encode quality **55**, with an informational **100 KiB** target. Photos select a power-of-two sample whose nominal long edge is at most **2,560**, then search scales **1, 0.75, 0.5, 0.25** and qualities **85, 55, 25** in that order. Search stops with a valid fitting candidate; if none fits, the smallest verified candidate is retained. This is not the historical quality-20/binary-search algorithm.
 
@@ -164,4 +164,4 @@ The historical arm64 APK contains `libcoder.so`, `libheif.so`, `libaom.so`, `lib
 
 Inspected ELF `DT_NEEDED` edges: `libcoder.so` directly depends on libheif, libaom, libdav1d, libde265 and libx265, plus libc/libm/libdl and liblog/libjnigraphics/libandroid. `libheif.so` directly lists libde265/libx265 and libc/libm/libdl, **not** libaom/libdav1d. AOM/de265/x265 and the separately bundled AndroidX path library list libc/libm/libdl; dav1d lists libc only. These are linkage observations, not proof of per-image execution or absence of static components. The path library is not an observed codec-chain dependency; Android system libraries are dependencies, not recovered app source.
 
-Library names/JNI declarations do not recover C/C++ source, exact revisions/build flags or license obligations. The historical corresponding-source/provenance gap remains unresolved even though 2.3 uses a separate source-built codec; see [third-party notices](THIRD-PARTY-NOTICES.md).
+Library names/JNI declarations do not recover C/C++ source, exact revisions/build flags or license obligations. The historical corresponding-source/provenance gap remains unresolved even though 2.3 uses a separate codec built from source; see [third-party notices](THIRD-PARTY-NOTICES.md).

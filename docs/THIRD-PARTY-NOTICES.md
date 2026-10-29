@@ -2,7 +2,7 @@
 
 ## Scope and publication status
 
-Tidy 2.3.1 is a newly authored GPL-3.0-only application with source-built native AVIF, not a relabeling of the recovered 2.2.0 APK. The original APK remains withheld. Historical findings below do not describe the current runtime and are not retroactively cleared by the reconstruction. No rights in unrelated historical artwork, extracted assets or third-party code are asserted by the root license.
+Tidy 2.3.1 is a newly authored GPL-3.0-only application with native AVIF built from source, not a relabeling of the recovered 2.2.0 APK. The original APK remains withheld. Historical findings below do not describe the current runtime and are not retroactively cleared by the reconstruction. No rights in unrelated historical artwork, extracted assets or third-party code are asserted by the root license.
 
 The [2.3.1 release](https://github.com/faraajs/tidy/releases/tag/v2.3.1) pairs `tidy-v2.3.1-arm64-x86_64.apk` with `tidy-v2.3.1-corresponding-source.tar.gz` and `SHA256SUMS.txt`. Download matching assets together; see [build instructions](BUILD-FROM-SOURCE.md).
 
@@ -38,7 +38,7 @@ This inventory and source delivery reduce identified risks; they are not legal a
 
 ### Historical 2.2.0 record
 
-The remaining sections concern only local-only `tidy-v2.2.0-ui-dark-arm64-r3.apk`, SHA-256 `65d0ac7a45ed45181d7fd8f43fc7b9e9dec88f7f13f58371c1dbf365dfa6ed65`. Its original preferred application source and matching native source/patch/build bundle were not recovered. See its [local release record](../releases/v2.2.0/RELEASE-NOTES.md), [checksums](../releases/v2.2.0/SHA256SUMS.txt) and [recovery notes](RECOVERY-NOTES.md). A checksum establishes identity, not license clearance.
+The remaining sections concern only the local `tidy-v2.2.0-ui-dark-arm64-r3.apk`, SHA-256 `65d0ac7a45ed45181d7fd8f43fc7b9e9dec88f7f13f58371c1dbf365dfa6ed65`. Its original preferred application source and matching native source/patch/build bundle were not recovered. See its [local release record](../releases/v2.2.0/RELEASE-NOTES.md), [checksums](../releases/v2.2.0/SHA256SUMS.txt) and [recovery notes](RECOVERY-NOTES.md). A checksum establishes identity, not license clearance.
 
 ## Evidence and its limits
 
