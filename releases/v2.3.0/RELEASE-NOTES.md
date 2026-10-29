@@ -2,7 +2,7 @@
 
 ## Identity and distribution
 
-This is a newly authored, source-built reconstruction, not recovered original Kotlin or a byte-identical 2.2.0 rebuild. The old 2.2.0 APK remains withheld because its preferred source and native provenance were not established.
+This is a reconstruction written for this release and built from source, not recovered original Kotlin or a byte-identical 2.2.0 rebuild. The old 2.2.0 APK remains withheld because its preferred source and native provenance were not established.
 
 | Field | Value |
 | --- | --- |
@@ -35,7 +35,7 @@ Only readable JPEG/JPG/PNG files newly created or modified after category activa
 ## Changes and limitations
 
 - Authored Java platform-View dashboard, persistent dark/light theme, explicit Start/Pause, permission/status/error controls and a full Licenses view.
-- Source-built AVIF using pinned libavif 1.4.2/AOM 3.14.1; Android platform WebP. No old codec binaries or HEVC-linked chain, and new authored vector artwork rather than uncertain historical art.
+- AVIF built from source using pinned libavif 1.4.2/AOM 3.14.1; Android platform WebP. No old codec binaries or HEVC-linked chain, and new authored vector artwork rather than uncertain historical art.
 - Conservative NDK runtime preferred-source inputs in `native/compiler-runtime-sources.json`: immutable LLVM base and Android recipes, all 71 selected original patches, full runtime/support sources and reconstruction with 21 projected patches. The source archive also includes full matching native sources and Java preferred-source JARs/notices; it does not contain the original 2.2.0 APK or a full compiler/SDK. Source reconstruction is not a byte-identical compiler/runtime rebuild; see the [GPL System Libraries/compiler boundary](../../docs/THIRD-PARTY-NOTICES.md#gpl-notices-and-installation-of-modifications).
 - Android 11 activation, stability and fingerprint timestamps use `Os.stat`/`st_mtim` milliseconds, replacing File **and NIO** readers observed to truncate subsecond precision. `CLOSE_WRITE`/`MOVED_TO` refreshes pending CREATE metadata and bypasses empty/unstable-file cooldown without replacing an executing conversion.
 - Bounded workers, durable processed-file fingerprints, collision-safe outputs and checks before publication/deletion. No promise of atomicity against arbitrary external writers or power loss.

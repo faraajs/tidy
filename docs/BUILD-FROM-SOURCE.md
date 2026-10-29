@@ -2,7 +2,7 @@
 
 ## Current status
 
-The authored application in `app/src/main/` is a buildable reconstruction, not the recovered original Kotlin project or a byte-identical reproduction of 2.2.0. Historical `sources/`, `bytecode/` and `resources/` are preserved on [archive/2.2.0-reference](https://github.com/faraajs/tidy/tree/archive/2.2.0-reference), removed from main and never compiled. The original 2.2.0 APK remains withheld: its missing preferred application source and unmatched native provenance are not repaired by this new build. See [recovery notes](RECOVERY-NOTES.md) and [third-party notices](THIRD-PARTY-NOTICES.md).
+The authored application in `app/src/main/` is a reconstruction that can be built, not the recovered original Kotlin project or a byte-identical reproduction of 2.2.0. Historical `sources/`, `bytecode/` and `resources/` are preserved on [archive/2.2.0-reference](https://github.com/faraajs/tidy/tree/archive/2.2.0-reference), removed from main and never compiled. The original 2.2.0 APK remains withheld: its missing preferred application source and unmatched native provenance are not repaired by this new build. See [recovery notes](RECOVERY-NOTES.md) and [third-party notices](THIRD-PARTY-NOTICES.md).
 
 ## Prerequisites and commands
 
@@ -72,7 +72,7 @@ The new release certificate SHA-256 is `27c165f0a6f13f8b01ed6628bd1a2e8f61daeb3b
 
 ## Concrete reconstruction sequence
 
-The current cutover uses authored Java state/path policies, source-built native AVIF, Gallery-readable publication, scoped monitoring and a platform-View dashboard. Historical code remains evidence rather than build input. See [architecture](ARCHITECTURE.md) and [current release notes](../releases/v2.3.1/RELEASE-NOTES.md).
+The current cutover uses authored Java state/path policies, native AVIF built from source, Gallery-readable publication, scoped monitoring and a platform-View dashboard. Historical code remains evidence rather than build input. See [architecture](ARCHITECTURE.md) and [current release notes](../releases/v2.3.1/RELEASE-NOTES.md).
 
 ## Verification boundaries
 

@@ -35,7 +35,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
-/** Local lossy conversion; source retention is the default and metadata is not copied. */
+/** Lossy conversion on the device; sources are retained by default and metadata is not copied. */
 public final class MediaConverter {
     private static final long MAX_PIXELS = 16_777_216L;
     private static final int MAX_DIMENSION = 16_384;

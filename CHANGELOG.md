@@ -4,27 +4,28 @@ Current authored releases and historical recovery records are separated below. T
 
 ## Unreleased
 
+- 2026-10-30: Simplified documentation, dashboard text and notice headings. Conversion rules, permissions, identifiers and upstream license text are unchanged. Published APKs and source archives are unchanged.
 - Made the current release easier to find with a latest-release badge, prominent APK download and labeled installer/source/checksum links in the README. The GitHub About link points to the latest release, and the 2.3.1 release page includes a direct APK download guide. Release binaries and tags are unchanged.
 - Added least-permission Android CI (host tests, both-ABI debug APK and lint), Java no-build CodeQL, weekly Gradle/action Dependabot, private security-reporting guidance, ownership and issue/PR templates. CI does not claim device execution, signed-release verification or native C++ security coverage.
 - Relocated historical `sources/`, `bytecode/` and `resources/` off main to the published `archive/2.2.0-reference` branch; updated historical links while retaining recovery evidence, licenses and release records. Current app/component identities are unchanged to preserve installed-app continuity.
 - Clarified the current APK download name as `tidy-v2.3.1-arm64-x86_64.apk`; historical evidence retains its original `universal` names and hashes. No APK bytes, source bundles or published tags are changed by these repository edits.
-- Fixed clean-checkout AOM downloads by mirroring the exact retained archive on the existing release. Gitiles regenerated different archive packaging with identical source contents; the original SHA-256 pin, source commit, compiler settings and official APK remain unchanged.
+- Fixed AOM downloads in clean checkouts by mirroring the exact retained archive on the existing release. Gitiles regenerated different archive packaging with identical source contents; the original SHA-256 pin, source commit, compiler settings and official APK remain unchanged.
 
-## 2.3.1 — 2026-10-12
+## 2.3.1 (2026-10-12)
 
 - Fixed disappearance from Gallery when original deletion was enabled: explicitly scan the replacement and require a complete image row, readable matching bytes and platform-decoded dimensions before deleting anything.
 - Retain the valid output and unchanged original when Gallery indexing or platform decoding is unavailable. Unknown MediaStore dimensions are not mistaken for an invalid bitmap.
 - Pause monitoring and revoke both original-deletion consents once on upgrade, preserving 2.3 category settings, formats, counters, actual reclaimed-byte accounting, theme and processed history.
 - Removed redundant full-image decoding and published-output hashing while preserving exact-byte, source-identity and live-consent checks.
-- Enabled baseline ARM64 NEON in source-built AOM for AVIF. Optional newer ARM extensions remain off; x86_64 remains generic. WebP still uses Android's platform codec, and screenshot quality/resolution are unchanged.
+- Enabled baseline ARM64 NEON in AOM built from source for AVIF. Optional newer ARM extensions remain off; x86_64 remains generic. WebP still uses Android's platform codec, and screenshot quality/resolution are unchanged.
 - Added isolated generated-image Gallery checks and a consent-migration regression; see [release evidence](releases/v2.3.1/RELEASE-NOTES.md).
 
-## 2.3.0 — 2026-10-11
+## 2.3.0 (2026-10-11)
 
-Newly authored reconstruction, not recovery of the original Kotlin/Gradle checkout or a byte-identical 2.2.0 rebuild. This entry records source changes, not a completed GitHub upload.
+Reconstruction written for this release, not recovery of the original Kotlin/Gradle checkout or a byte-identical 2.2.0 rebuild. This entry records source changes, not a completed GitHub upload.
 
 - Added a working Java 17/Android Gradle project targeting Android 36, supporting Android 11+ and `arm64-v8a`/`x86_64`; historical `sources/`, `bytecode/`, and `resources/` are not compiled.
-- Replaced opaque recovered codec binaries with source-built libavif 1.4.2 and libaom 3.14.1, pinned source identities, matching source/license materials, and native/Java dependency notices available in the app.
+- Replaced opaque recovered codec binaries with libavif 1.4.2 and libaom 3.14.1 built from source, pinned source identities, matching source/license materials, and native/Java dependency notices available in the app.
 - Authored a native View dashboard, dark/light preference, separate category/format controls, permission controls, Start/Pause, status/counters/errors, and new vector icons.
 - Restricted input to JPEG/JPG/PNG below `Pictures/Screenshots`, `DCIM/Screenshots`, and `DCIM/Camera`, with canonical-path exclusions and activation-time boundaries renewed on Start/resume. Older untouched media and pause backlog are not swept.
 - Replaced Android 11's subsecond-truncating File/NIO modification-time reads with `Os.stat`/`st_mtim` milliseconds for activation gates, stable metadata and durable fingerprints.
@@ -41,7 +42,7 @@ Newly authored reconstruction, not recovery of the original Kotlin/Gradle checko
 
 Publication is gated on final verification and delivery of `tidy-v2.3.0-universal.apk`, `tidy-v2.3.0-corresponding-source.tar.gz`, and `SHA256SUMS.txt` together at the [v2.3.0 release page](https://github.com/faraajs/tidy/releases/tag/v2.3.0). The historical 2.2.0 APK remains withheld independently of this new release.
 
-## 2.2.0 — recovered changes
+## 2.2.0: recovered changes
 
 ### Screenshot selection recovery
 
@@ -70,4 +71,4 @@ Historical evidence records an r3 launch on SM-G770F with `Status: ok`, a live p
 - Licensed application-owned recovered code and documentation under GPL-3.0-only, without overriding third-party licenses.
 - Prepared release notes and the checksum for the local r3 APK only. The original signing key and original Kotlin/Gradle project remain missing.
 
-**The historical 2.2.0 APK remains withheld.** Recovered application Java is not necessarily its preferred form for modification, and matching native source/patch/build provenance for that binary remains unresolved. The current source-buildable 2.3.0 app is a separate artifact and does not resolve those historical obligations. See [third-party provenance](docs/THIRD-PARTY-NOTICES.md) and [historical release notes](releases/v2.2.0/RELEASE-NOTES.md).
+**The historical 2.2.0 APK remains withheld.** Recovered application Java is not necessarily its preferred form for modification, and matching native source/patch/build provenance for that binary remains unresolved. The current 2.3.0 app, which can be built from source, is a separate artifact and does not resolve those historical obligations. See [third-party provenance](docs/THIRD-PARTY-NOTICES.md) and [historical release notes](releases/v2.2.0/RELEASE-NOTES.md).

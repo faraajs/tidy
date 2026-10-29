@@ -38,7 +38,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.EnumMap;
 import java.util.Locale;
 
-/** A local-only dashboard: persisted preferences and real service/conversion state. */
+/** Dashboard for local processing, with persisted preferences and live service/conversion state. */
 public final class MainActivity extends Activity {
     private static final int NOTIFICATIONS_REQUEST = 23;
     private final Handler handler = new Handler(Looper.getMainLooper());
@@ -168,7 +168,7 @@ public final class MainActivity extends Activity {
         LinearLayout title = column();
         title.setPadding(dp(12), 0, 0, 0);
         title.addView(text("Tidy", 30, foreground, true));
-        title.addView(text("Local image conversion", 15, muted, false));
+        title.addView(text("Convert images locally", 15, muted, false));
         branding.addView(title, new LinearLayout.LayoutParams(0, -2, 1));
         content.addView(branding);
         themeSwitch = toggle("Dark theme");
@@ -383,10 +383,10 @@ public final class MainActivity extends Activity {
             boolean active = MonitorService.isRunning() && allFiles && anyCategoryEnabled()
                     && snapshot.monitoringRequested;
             String monitorStatus;
-            if (active) monitorStatus = "Monitoring active — new eligible media only";
-            else if (!allFiles) monitorStatus = "Monitoring inactive — all files access required";
-            else if (!anyCategoryEnabled()) monitorStatus = "Monitoring inactive — enable a category";
-            else if (snapshot.monitoringRequested) monitorStatus = "Monitoring requested — service not running";
+            if (active) monitorStatus = "Monitoring active: new eligible media only";
+            else if (!allFiles) monitorStatus = "Monitoring inactive: all files access required";
+            else if (!anyCategoryEnabled()) monitorStatus = "Monitoring inactive: enable a category";
+            else if (snapshot.monitoringRequested) monitorStatus = "Monitoring requested: service not running";
             else monitorStatus = "Monitoring paused";
             setText(status, monitorStatus);
             setText(monitorButton, snapshot.monitoringRequested || MonitorService.isRunning()
@@ -475,7 +475,7 @@ public final class MainActivity extends Activity {
         } catch (IOException error) {
             new AlertDialog.Builder(this).setTitle("License asset unavailable")
                     .setMessage("The bundled license notices could not be read. Reinstall the complete "
-                            + "source-built release before redistributing this app.")
+                            + "release built from the corresponding source before redistributing this app.")
                     .setPositiveButton("Close", null).show();
             return;
         }

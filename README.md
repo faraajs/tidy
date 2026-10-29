@@ -9,7 +9,7 @@ Automatic screenshot and photo conversion to AVIF or WebP on Android.
 
 ## Download Tidy 2.3.1
 
-**[Download APK 2.3.1 — Android installer (9.4 MB)](https://github.com/faraajs/tidy/releases/download/v2.3.1/tidy-v2.3.1-arm64-x86_64.apk)**
+**[Download APK 2.3.1: Android installer (9.4 MB)](https://github.com/faraajs/tidy/releases/download/v2.3.1/tidy-v2.3.1-arm64-x86_64.apk)**
 
 Requires **Android 11+** and a **64-bit arm64-v8a or x86_64** device. To install the app, choose the **`.apk` file**, not GitHub's **Source code (zip/tar.gz)** downloads.
 
@@ -17,7 +17,7 @@ Requires **Android 11+** and a **64-bit arm64-v8a or x86_64** device. To install
 
 Follow the [verification and installation guide below](#download-and-installation) before opening the APK. Android may require **Install unknown apps** permission for your browser/file manager; turn it off afterward if unnecessary.
 
-**2.3.1 is the Gallery-safety hotfix for the newly authored, source-buildable 2.3 app**, not the recovered original project or a byte-identical rebuild of 2.2.0. It uses Java/platform Views and source-built libavif/libaom. Historical `sources/`, `bytecode/`, and `resources/` are preserved on [archive/2.2.0-reference](https://github.com/faraajs/tidy/tree/archive/2.2.0-reference), not on main and not compiled into the app.
+**2.3.1 fixes Gallery output handling in the 2.3 app.** The 2.3 codebase is a new Java implementation using Android platform Views and libavif/libaom built from source. It is not the recovered original project or a byte-identical rebuild of 2.2.0. Historical `sources/`, `bytecode/`, and `resources/` are preserved on [archive/2.2.0-reference](https://github.com/faraajs/tidy/tree/archive/2.2.0-reference), not on main and not compiled into the app.
 
 The original 2.2.0 APK remains withheld because its preferred source and matching native provenance are unresolved. See [historical recovery notes](docs/RECOVERY-NOTES.md).
 
@@ -46,9 +46,9 @@ Requirements: **Android 11/API 30+** and a **64-bit `arm64-v8a` or `x86_64`** de
 
 Download these assets together from the [official v2.3.1 page](https://github.com/faraajs/tidy/releases/tag/v2.3.1), not an untrusted mirror:
 
-- [**`tidy-v2.3.1-arm64-x86_64.apk` — Android installer**](https://github.com/faraajs/tidy/releases/download/v2.3.1/tidy-v2.3.1-arm64-x86_64.apk)
-- [`tidy-v2.3.1-corresponding-source.tar.gz` — complete corresponding source](https://github.com/faraajs/tidy/releases/download/v2.3.1/tidy-v2.3.1-corresponding-source.tar.gz)
-- [`SHA256SUMS.txt` — file checksums](https://github.com/faraajs/tidy/releases/download/v2.3.1/SHA256SUMS.txt)
+- [**`tidy-v2.3.1-arm64-x86_64.apk`: Android installer**](https://github.com/faraajs/tidy/releases/download/v2.3.1/tidy-v2.3.1-arm64-x86_64.apk)
+- [`tidy-v2.3.1-corresponding-source.tar.gz`: complete corresponding source](https://github.com/faraajs/tidy/releases/download/v2.3.1/tidy-v2.3.1-corresponding-source.tar.gz)
+- [`SHA256SUMS.txt`: file checksums](https://github.com/faraajs/tidy/releases/download/v2.3.1/SHA256SUMS.txt)
 
 1. In the directory containing the downloaded assets, verify both file hashes:
    ```sh
@@ -79,7 +79,7 @@ Use `install -r` only when an existing installation has a compatible certificate
 
 ### Verification limits
 
-Both ABIs have been source-built; **13 host policy/state tests passed**. The signed 2.3.1 release passed **three isolated generated-image Gallery checks on a physical Android 13 arm64 phone**, including readable replacements before opted-in deletion and exact-source retention without a usable Gallery index. A synthetic 1080 × 2400 screenshot took **896 ms in WebP** and **1,493 ms in AVIF** on that device. These include conversion/publication, not observer stabilization or dashboard refresh, and are observations rather than latency guarantees.
+Both ABIs were built from source; **13 host policy/state tests passed**. The signed 2.3.1 release passed **three isolated generated-image Gallery checks on a physical Android 13 arm64 phone**, including readable replacements before opted-in deletion and exact-source retention without a usable Gallery index. A synthetic 1080 × 2400 screenshot took **896 ms in WebP** and **1,493 ms in AVIF** on that device. These include conversion/publication, not observer stabilization or dashboard refresh, and are observations rather than latency guarantees.
 
 Actual API 30 dashboard smoke processed a newly generated screenshot with WebP, retained its unchanged original with zero reclaimed bytes, and opened the indexed output in the real Gallery app. Upgrade smoke on the phone preserved counters/formats/theme, paused monitoring and reset deletion consent. Signature and APK/ELF **16 KiB** alignment passed. Full results and limits are in [2.3.1 release notes](releases/v2.3.1/RELEASE-NOTES.md); earlier source-bundle, fallback, boot and theme evidence remains specific to [2.3.0](releases/v2.3.0/RELEASE-NOTES.md). No all-OEM, background-survival, exhaustive accessibility or byte-identical rebuild guarantee is claimed.
 
@@ -101,7 +101,7 @@ The authored app declares **no `INTERNET` permission** and implements no uploads
 | --- | --- |
 | `app/src/main/java/id/eska/screenshotwebp/` | Maintained 2.3 application source. Application ID remains `id.eska.tidy`; the older namespace is intentional, not a second app. |
 | `app/src/main/cpp/` | Authored JNI and pinned libavif/libaom source-build configuration, not recovered native binaries. |
-| `app/src/main/res/`, `app/src/main/assets/` | Current app resources, newly authored vector icons, and bundled dependency notices. |
+| `app/src/main/res/`, `app/src/main/assets/` | Current app resources, new vector icons, and bundled dependency notices. |
 | `app/src/test/`, `app/src/androidTest/` | Host policy/state tests and custom Android conversion instrumentation. |
 | `native/dependencies.json`, `native/java-dependencies.json`, `native/compiler-runtime-sources.json` | Exact native/Java source identities, conservative NDK runtime preferred-source inputs, digests, recipes/patch records, and licenses. |
 | [`docs/BUILD-FROM-SOURCE.md`](docs/BUILD-FROM-SOURCE.md) | Current toolchain, build, signing, and source-bundle instructions. |
@@ -127,6 +127,6 @@ Device conversion, Gallery/consent/lifecycle checks and final signed-release sig
 
 ## License and third-party components
 
-Application-owned code/documentation is **GPL-3.0-only**; see [LICENSE](LICENSE) and the [GNU GPL v3 text](https://www.gnu.org/licenses/gpl-3.0.en.html). Third-party components retain their own licenses and notices, available in the app and [THIRD-PARTY-NOTICES](docs/THIRD-PARTY-NOTICES.md). Distribution must satisfy corresponding-source, notice, and applicable patent-license conditions; the new source-built codec path does not clear the unresolved old APK for redistribution.
+Application-owned code/documentation is **GPL-3.0-only**; see [LICENSE](LICENSE) and the [GNU GPL v3 text](https://www.gnu.org/licenses/gpl-3.0.en.html). Third-party components retain their own licenses and notices, available in the app and [THIRD-PARTY-NOTICES](docs/THIRD-PARTY-NOTICES.md). Distribution must satisfy corresponding-source, notice, and applicable patent-license conditions; the new codec path built from source does not clear the unresolved old APK for redistribution.
 
 There is **no warranty or legal immunity**. GPL warranty/liability exclusions apply only to the extent permitted by applicable law; they do not bind unrelated claimants or override nonwaivable rights. Auditing reduces risk, not the possibility of copyright, patent, trademark, privacy, data-loss, export, or consumer claims. This is not legal advice, legal certification, or a claim of universal AV1 patent clearance.

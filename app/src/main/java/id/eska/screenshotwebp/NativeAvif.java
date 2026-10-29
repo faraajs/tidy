@@ -6,7 +6,7 @@ import android.graphics.Bitmap;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-/** Source-built AVIF codec. Inputs are software ARGB_8888 pixels in sRGB. */
+/** AVIF codec built from source. Inputs are software ARGB_8888 pixels in sRGB. */
 public final class NativeAvif {
     static {
         System.loadLibrary("tidyavif");

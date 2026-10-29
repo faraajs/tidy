@@ -1,12 +1,12 @@
 # Contributing to Tidy
 
-The maintained 2.3 app is authored source under `app/src/main/`, built with Gradle and pinned native dependencies. `sources/`, `bytecode/`, and `resources/` preserve **historical 2.2.0 recovery references** on [archive/2.2.0-reference](https://github.com/faraajs/tidy/tree/archive/2.2.0-reference), not main; they are not compiled and are not the original preferred source. Preserve that distinction.
+The maintained 2.3 app is written under `app/src/main/`, built with Gradle and pinned native dependencies. `sources/`, `bytecode/`, and `resources/` preserve **historical 2.2.0 recovery references** on [archive/2.2.0-reference](https://github.com/faraajs/tidy/tree/archive/2.2.0-reference), not main; they are not compiled and are not the original preferred source. Preserve that distinction.
 
 ## Useful contributions
 
 - Improve the current scoped monitoring, source-retention/publication safety, conversion correctness, accessibility, or Android lifecycle behavior with focused changes and regression evidence.
 - Add policy/state unit tests and synthetic conversion fixtures for the custom Android instrumentation runner.
-- Review exact dependency source identities, build configurations, licenses/notices, and corresponding-source packaging. An upstream homepage alone is not source provenance.
+- Review exact dependency source identities, build configurations, licenses/notices, and corresponding-source packaging. An upstream homepage by itself does not establish source provenance.
 - Correct documentation using current authored methods and observed runtime evidence. Label historical findings explicitly.
 - Recover the original 2.2.0 project or matching native source/build materials as historical evidence; do not substitute current dependency sources for proof about the old APK.
 
@@ -18,7 +18,7 @@ The maintained 2.3 app is authored source under `app/src/main/`, built with Grad
 4. For behavioral changes, provide a failing-before/passing-after scenario using synthetic/disposable images. Cover the affected orientation, dimensions, metadata removal, codec/fallback, publication collisions, source mutation, retention, deletion consent, or pause behavior. Do not weaken safety checks merely to make a fixture pass.
 5. Never commit signing keys/keystores, credentials, tokens, personal media, private logs, machine/device identifiers, or local absolute paths. Keep SDKs, emulators, build products, caches, and the withheld historical APK outside tracked release inputs.
 
-Public release/commit identity uses **faraajs** and a GitHub noreply address, not a personal name/email. Do not import private workstation paths or identities into public documentation, attribution or source-archive metadata.
+Public releases and commits use **faraajs** and a GitHub noreply address, not a personal name or email. Do not import private workstation paths or identities into public documentation, attribution or source-archive metadata.
 
 ## Review expectations
 
@@ -66,7 +66,7 @@ For monitoring regressions, exercise the real `FileObserver`, not a synthetic ca
 
 Contributions to application-owned code/documentation are under **GPL-3.0-only**, consistent with [LICENSE](LICENSE). Confirm your right to contribute; identify the origin/license of imported material and preserve third-party notices. Native/Java/runtime dependency changes must update their exact source/digest records and matching source/license materials, including `native/compiler-runtime-sources.json` for the conservative NDK runtime disclosure. Retain immutable base inputs, original Android patches/recipes, reconstruction procedure and all per-file notices; do not imply a byte-identical compiler/runtime rebuild or that a full compiler/SDK must be shipped. See the [GPL System Libraries boundary](docs/THIRD-PARTY-NOTICES.md#gpl-notices-and-installation-of-modifications). Keep dated modification records in [CHANGELOG](CHANGELOG.md). License text and patent grants have conditions; neither an audit nor GPL licensing grants immunity from unrelated legal claims.
 
-The original 2.2.0 APK remains withheld until its own source/provenance obligations are resolved; publishing a new source-built app does not clear it. New binary distribution must include its matching corresponding-source and notices, not just historical Java references.
+The original 2.2.0 APK remains withheld until its own source/provenance obligations are resolved; publishing a new app built from source does not clear it. New binary distribution must include its matching corresponding-source and notices, not just historical Java references.
 
 ## Reporting an issue
 
