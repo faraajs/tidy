@@ -42,7 +42,7 @@ The remaining sections concern only local-only `tidy-v2.2.0-ui-dark-arm64-r3.apk
 
 ## Evidence and its limits
 
-The APK archive contains exactly these seven native library files under `lib/arm64-v8a/`:
+The APK archive contains exactly these seven native library files under `lib/arm64-v8a/`.
 
 - `libcoder.so`
 - `libheif.so`
@@ -54,7 +54,7 @@ The APK archive contains exactly these seven native library files under `lib/arm
 
 The inspected dependency wrapper is **`com.radzivon.bartoshyk.avif.coder.HeifCoder`**. It loads `coder` through `System.loadLibrary` and declares native encode/decode methods. Application converters invoke its AVIF path. Its HEIC capabilities and the presence of HEVC libraries do not establish an exposed HEIC application feature; nor does an unused capability exempt a bundled component from redistribution obligations.
 
-The [architecture's native-boundary evidence](ARCHITECTURE.md#native-boundary-and-unresolved-provenance) records the observed ELF `DT_NEEDED` edges:
+The [architecture's native-boundary evidence](ARCHITECTURE.md#native-boundary-and-unresolved-provenance) records the observed ELF `DT_NEEDED` edges.
 
 | Bundled library | Observed dependencies on other bundled libraries |
 | --- | --- |
@@ -63,9 +63,9 @@ The [architecture's native-boundary evidence](ARCHITECTURE.md#native-boundary-an
 | `libaom.so`, `libdav1d.so`, `libde265.so`, `libx265.so` | No other bundled library in the observed dynamic dependency lists |
 | `libandroidx.graphics.path.so` | No other bundled library in the observed dynamic dependency list; separately bundled from the codec chain |
 
-Android system libraries also occur in those dependency lists. The table is not a complete software bill of materials: dynamic edges do not reveal all statically embedded source, patches, runtime plugin behavior or which encoder actually executes for an image. In particular, this binary's `libheif.so` does not list AOM or dav1d as dynamic dependencies; both are direct `libcoder.so` dependencies.
+Android system libraries also occur in those dependency lists. The table is not a complete software bill of materials; dynamic edges do not reveal all statically embedded source, patches, runtime plugin behavior or which encoder actually executes for an image. In particular, this binary's `libheif.so` does not list AOM or dav1d as dynamic dependencies; both are direct `libcoder.so` dependencies.
 
-Read-only inspection of printable strings in the preserved APK found the following version clues. These are **observed binary text, not a source-match or unmodified-upstream claim**:
+Read-only inspection of printable strings in the preserved APK found the following version clues. These are **observed binary text, not a source-match or unmodified-upstream claim**.
 
 | Library | Observed version text / limit |
 | --- | --- |
@@ -88,8 +88,8 @@ The references below describe upstream projects and the license texts inspected 
 | Packaged component | Upstream identification and primary references | Candidate upstream terms; packaged provenance limit |
 | --- | --- | --- |
 | `libcoder.so` / `HeifCoder` | Likely [awxkee/avif-coder](https://github.com/awxkee/avif-coder), based on the JNI package and native target names. [Current LICENSE](https://github.com/awxkee/avif-coder/blob/master/LICENSE); [inspected historical LICENSE](https://github.com/awxkee/avif-coder/blob/fb5dd8eceb1eb86d0bcb5c36f4f36548c80ef50d/LICENSE); [historical native CMake recipe](https://github.com/awxkee/avif-coder/blob/fb5dd8eceb1eb86d0bcb5c36f4f36548c80ef50d/avif-coder/src/main/cpp/CMakeLists.txt). | Both inspected wrapper LICENSE files say **MIT**, copyright (c) 2023 Radzivon Bartoshyk, not BSD. Neither inspected revision has been matched to this APK. The wrapper's license does not cover all linked or embedded third-party code. |
-| `libheif.so` | [strukturag/libheif](https://github.com/strukturag/libheif); [COPYING](https://github.com/strukturag/libheif/blob/master/COPYING); [explicit source-header grant](https://github.com/strukturag/libheif/blob/master/libheif/context.h). | Library: **LGPL-3.0-or-later** in the inspected upstream header; COPYING includes LGPL v3 and GPL v3. Upstream sample applications and Go/C++ wrappers are separately MIT, not a basis for treating `libheif.so` as MIT. The exact packaged revision and its notices remain unestablished. |
-| `libaom.so` | [AOM reference source](https://aomedia.googlesource.com/aom/); [LICENSE](https://aomedia.googlesource.com/aom/+/refs/heads/main/LICENSE); [PATENTS](https://aomedia.googlesource.com/aom/+/refs/heads/main/PATENTS). | Inspected copyright license: **BSD-2-Clause**, copyright (c) 2016 Alliance for Open Media. Separate **Alliance for Open Media Patent License 1.0** accompanies it. Exact revision and embedded third-party notices remain to be matched. |
+| `libheif.so` | [strukturag/libheif](https://github.com/strukturag/libheif); [COPYING](https://github.com/strukturag/libheif/blob/master/COPYING); [explicit source-header grant](https://github.com/strukturag/libheif/blob/master/libheif/context.h). | Library, **LGPL-3.0-or-later** in the inspected upstream header; COPYING includes LGPL v3 and GPL v3. Upstream sample applications and Go/C++ wrappers are separately MIT, not a basis for treating `libheif.so` as MIT. The exact packaged revision and its notices remain unestablished. |
+| `libaom.so` | [AOM reference source](https://aomedia.googlesource.com/aom/); [LICENSE](https://aomedia.googlesource.com/aom/+/refs/heads/main/LICENSE); [PATENTS](https://aomedia.googlesource.com/aom/+/refs/heads/main/PATENTS). | Inspected copyright license, **BSD-2-Clause**, copyright (c) 2016 Alliance for Open Media. Separate **Alliance for Open Media Patent License 1.0** accompanies it. Exact revision and embedded third-party notices remain to be matched. |
 | `libdav1d.so` | [VideoLAN/dav1d](https://code.videolan.org/videolan/dav1d); [COPYING](https://code.videolan.org/videolan/dav1d/-/blob/master/COPYING). | **BSD-2-Clause**. Inspected current notice credits VideoLAN and dav1d authors, 2018–2025; use the matching revision's copyright notice for a release, not a guessed date range. |
 | `libde265.so` | [strukturag/libde265](https://github.com/strukturag/libde265); [library COPYING](https://github.com/strukturag/libde265/blob/master/libde265/COPYING); [explicit source-header grant](https://github.com/strukturag/libde265/blob/master/libde265/de265.h). | **LGPL-3.0-or-later** in the inspected upstream library header. Match the exact packaged revision and preserve its library notices; other project files or tools can have different terms. |
 | `libx265.so` | [VideoLAN/x265](https://github.com/videolan/x265); [source/x265.h license declaration](https://github.com/videolan/x265/blob/master/source/x265.h); [COPYING](https://github.com/videolan/x265/blob/master/COPYING); [upstream licensing information](https://www.x265.org/legal.html). | The inspected source header explicitly permits **GPL version 2 or any later version (GPL-2.0-or-later)** and mentions an alternative commercial license. No commercial agreement or exact packaged-source match was established. |
@@ -109,10 +109,10 @@ A `.so` filename, observed dynamic linkage or `android:extractNativeLibs` settin
 
 ### Permissive and patent notices
 
-- **MIT wrapper:** retain the matching copyright and permission notice, including its disclaimer, in copies or substantial portions. Its permissive license does not eliminate copyleft obligations arising from other linked components.
-- **BSD-2-Clause dav1d/AOM:** retain the matching copyright, conditions and disclaimer in source redistributions and reproduce them in documentation or other materials accompanying binaries.
-- **AOM PATENTS:** retain the separate applicable patent license. The inspected text requires reproduction with implementations: in the source root for source distribution, and in documentation/legal notices or other written materials for non-source distribution. Review its Necessary Claims conditions and defensive-termination provisions; the BSD copyright license alone does not replace it or establish universal freedom from patent claims.
-- **Apache-2.0:** provide the license, retain applicable copyright/patent/trademark/attribution notices, mark modified files where required and carry forward relevant NOTICE contents if supplied by the matched upstream distribution. Apache-2.0 does not grant trademark rights. URLs in this document are provenance references, not a replacement for required accompanying license texts in a future binary/source bundle.
+- **MIT wrapper.** Retain the matching copyright and permission notice, including its disclaimer, in copies or substantial portions. Its permissive license does not eliminate copyleft obligations arising from other linked components.
+- **BSD-2-Clause dav1d/AOM.** Retain the matching copyright, conditions and disclaimer in source redistributions and reproduce them in documentation or other materials accompanying binaries.
+- **AOM PATENTS.** Retain the separate applicable patent license. The inspected text requires reproduction with implementations, namely in the source root for source distribution, and in documentation/legal notices or other written materials for non-source distribution. Review its Necessary Claims conditions and defensive-termination provisions; the BSD copyright license alone does not replace it or establish universal freedom from patent claims.
+- **Apache-2.0.** Provide the license, retain applicable copyright/patent/trademark/attribution notices, mark modified files where required and carry forward relevant NOTICE contents if supplied by the matched upstream distribution. Apache-2.0 does not grant trademark rights. URLs in this document are provenance references, not a replacement for required accompanying license texts in a future binary/source bundle.
 
 ## Historical extracted AndroidX resources
 

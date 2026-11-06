@@ -1,6 +1,6 @@
-# Tidy 2.2.0 r3 — local-only release record
+# Tidy 2.2.0 r3 local-only release record
 
-**Status: prepared locally only. No public APK is published or available from this recovery repository.** APK files are excluded from Git; a source clone does not contain the binary. This document is an artifact record, not an announcement of a GitHub binary release.
+**Status. Prepared locally only. No public APK is published or available from this recovery repository.** APK files are excluded from Git; a source clone does not contain the binary. This document is an artifact record, not an announcement of a GitHub binary release.
 
 Historical recovered Java, smali and decoded resources are preserved on [archive/2.2.0-reference](https://github.com/faraajs/tidy/tree/archive/2.2.0-reference), not main. Relocating these references does not change the artifact identity or resolve the binary's source/provenance gate.
 
@@ -41,7 +41,7 @@ The original private signing key was lost. This recovered APK uses an Android de
 
 ## Evidence and known limitations
 
-- The earlier recovery record reports installation over r2 and a successful r3 smoke launch on SM-G770F: `am start -W` returned `Status: ok`, the process remained alive, and no new `id.eska.tidy` crash appeared. This is historical evidence, not a current device test or proof of all conversion/background behaviors.
+- The earlier recovery record reports installation over r2 and a successful r3 smoke launch on SM-G770F; `am start -W` returned `Status: ok`, the process remained alive, and no new `id.eska.tidy` crash appeared. This is historical evidence, not a current device test or proof of all conversion/background behaviors.
 - The original Kotlin/Gradle project is missing. This tree is not a supported buildable Android checkout.
 - apktool 2.10.0 supplied decoded resources and application smali from this final APK. Java recovery uses jadx 1.5.6; generation status, warnings, and incomplete-method limitations are in [DECOMPILATION.md](../../docs/DECOMPILATION.md). Generated Java can contain incomplete or misleading method bodies; consult the matching smali, not decompiler exception stubs, for recovered behavior.
 - Recovered application Java is not necessarily the program's preferred form for modification. Neither it nor smali alone establishes complete corresponding source.

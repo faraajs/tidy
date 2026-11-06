@@ -3,13 +3,13 @@
 Automatic screenshot and photo conversion to AVIF or WebP on Android.
 
 [![Latest release](https://img.shields.io/github/v/release/faraajs/tidy?label=Latest%20release)](https://github.com/faraajs/tidy/releases/latest)
-![License: GPL-3.0-only](https://img.shields.io/badge/license-GPL--3.0--only-blue)
+![License GPL-3.0-only](https://img.shields.io/badge/license-GPL--3.0--only-blue)
 ![Android 11+](https://img.shields.io/badge/Android-11%2B-green)
 ![64-bit ABIs](https://img.shields.io/badge/ABI-arm64--v8a%20%7C%20x86__64-blue)
 
 ## Download Tidy 2.3.1
 
-**[Download APK 2.3.1 — Android installer (9.4 MB)](https://github.com/faraajs/tidy/releases/download/v2.3.1/tidy-v2.3.1-arm64-x86_64.apk)**
+**[Download APK 2.3.1 (Android installer, 9.4 MB)](https://github.com/faraajs/tidy/releases/download/v2.3.1/tidy-v2.3.1-arm64-x86_64.apk)**
 
 Requires **Android 11+** and a **64-bit arm64-v8a or x86_64** device. To install the app, choose the **`.apk` file**, not GitHub's **Source code (zip/tar.gz)** downloads.
 
@@ -21,7 +21,7 @@ Follow the [verification and installation guide below](#download-and-installatio
 
 The original 2.2.0 APK remains withheld because its preferred source and matching native provenance are unresolved. See [historical recovery notes](docs/RECOVERY-NOTES.md).
 
-**Upgrade from 2.3.0:** that version could delete an original before its replacement was ready in Gallery. Pause it and leave original deletion off. A converted `.tidy.webp`/`.tidy.avif` file may still exist even if Gallery does not show it; do not assume the original PNG can be recovered. The 2.3.1 upgrade pauses monitoring and resets deletion consent while preserving category settings, formats, counters, theme and processed history.
+**Upgrade from 2.3.0.** That version could delete an original before its replacement was ready in Gallery. Pause it and leave original deletion off. A converted `.tidy.webp`/`.tidy.avif` file may still exist even if Gallery does not show it; do not assume the original PNG can be recovered. The 2.3.1 upgrade pauses monitoring and resets deletion consent while preserving category settings, formats, counters, theme and processed history.
 
 ## What it does
 
@@ -42,34 +42,34 @@ Deletion requires a separate confirmation for each category. It is permitted onl
 
 ## Download and installation
 
-Requirements: **Android 11/API 30+** and a **64-bit `arm64-v8a` or `x86_64`** device. The APK contains these two ABIs, not every CPU or device; 32-bit ARM/x86 are unsupported.
+Requirements. **Android 11/API 30+** and a **64-bit `arm64-v8a` or `x86_64`** device. The APK contains these two ABIs, not every CPU or device; 32-bit ARM/x86 are unsupported.
 
-Download these assets together from the [official v2.3.1 page](https://github.com/faraajs/tidy/releases/tag/v2.3.1), not an untrusted mirror:
+Download these assets together from the [official v2.3.1 page](https://github.com/faraajs/tidy/releases/tag/v2.3.1), not an untrusted mirror.
 
-- [**`tidy-v2.3.1-arm64-x86_64.apk` — Android installer**](https://github.com/faraajs/tidy/releases/download/v2.3.1/tidy-v2.3.1-arm64-x86_64.apk)
-- [`tidy-v2.3.1-corresponding-source.tar.gz` — complete corresponding source](https://github.com/faraajs/tidy/releases/download/v2.3.1/tidy-v2.3.1-corresponding-source.tar.gz)
-- [`SHA256SUMS.txt` — file checksums](https://github.com/faraajs/tidy/releases/download/v2.3.1/SHA256SUMS.txt)
+- [**`tidy-v2.3.1-arm64-x86_64.apk` (Android installer)**](https://github.com/faraajs/tidy/releases/download/v2.3.1/tidy-v2.3.1-arm64-x86_64.apk)
+- [`tidy-v2.3.1-corresponding-source.tar.gz` (complete corresponding source)](https://github.com/faraajs/tidy/releases/download/v2.3.1/tidy-v2.3.1-corresponding-source.tar.gz)
+- [`SHA256SUMS.txt` (file checksums)](https://github.com/faraajs/tidy/releases/download/v2.3.1/SHA256SUMS.txt)
 
-1. In the directory containing the downloaded assets, verify both file hashes:
+1. In the directory containing the downloaded assets, verify both file hashes.
    ```sh
    sha256sum -c SHA256SUMS.txt
    ```
    A checksum detects changed bytes but does not authenticate the publisher if the APK and checksum are both replaced. Compare with the official release record.
-2. Using Android SDK Build Tools, verify the APK signature:
+2. Using Android SDK Build Tools, verify the APK signature.
    ```sh
    apksigner verify --verbose --print-certs tidy-v2.3.1-arm64-x86_64.apk
    ```
-   The **official release certificate**, unchanged since 2.3.0 (`CN=Tidy Release, O=Tidy`), has SHA-256:
+   The **official release certificate**, unchanged since 2.3.0 (`CN=Tidy Release, O=Tidy`), has this SHA-256.
    ```text
    27c165f0a6f13f8b01ed6628bd1a2e8f61daeb3b33438c6808f41f331aa45389
    ```
    Stop if verification fails or the certificate differs from the official release record. This is not the historical 2.2.0 debug certificate or the lost original signing key.
-3. **Back up images independently.** An official 2.3.0 installation can be updated in place to 2.3.1 without uninstalling; monitoring and deletion consent are reset once. Android cannot update an app signed with a different certificate: back up media/settings before manually uninstalling such a package, then install the new APK. Uninstalling removes local settings. Tidy never uninstalls anything itself; same-certificate installation remains subject to Android's installer checks.
+3. **Back up images independently.** An official 2.3.0 installation can be updated in place to 2.3.1 without uninstalling; monitoring and deletion consent are reset once. Android cannot update an app signed with a different certificate. Back up media/settings before manually uninstalling such a package, then install the new APK. Uninstalling removes local settings. Tidy never uninstalls anything itself; same-certificate installation remains subject to Android's installer checks.
 4. Enable **Install unknown apps** for the browser/file manager you use, open the APK, and follow Android's installer. Turn that permission off afterward if unnecessary.
 5. Open Tidy, grant all-files access and notification permission as applicable, choose a category/format, and enable the category. Leave **Delete originals** off. Start monitoring explicitly and check the dashboard and ongoing notification. Battery-optimization exemption is optional and does not override vendor restrictions.
 6. Create a disposable JPEG/PNG in one of the listed folders **after starting**. Inspect output pixels, orientation, dimensions, metadata removal, and original retention before using important media.
 
-Optional ADB installation after the same checks:
+Optional ADB installation after the same checks.
 
 ```sh
 adb -s <device-serial> install tidy-v2.3.1-arm64-x86_64.apk
@@ -106,7 +106,7 @@ The authored app declares **no `INTERNET` permission** and implements no uploads
 | `native/dependencies.json`, `native/java-dependencies.json`, `native/compiler-runtime-sources.json` | Exact native/Java source identities, conservative NDK runtime preferred-source inputs, digests, recipes/patch records, and licenses. |
 | [`docs/BUILD-FROM-SOURCE.md`](docs/BUILD-FROM-SOURCE.md) | Current toolchain, build, signing, and source-bundle instructions. |
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md), [`docs/UI-DESIGN.md`](docs/UI-DESIGN.md) | Current behavior/UI and explicitly separated historical comparisons. |
-| [Historical recovery archive](https://github.com/faraajs/tidy/tree/archive/2.2.0-reference) | `sources/`, `bytecode/`, `resources/`: **2.2.0 references removed from main, not compiled**; decompiled Java, smali and decoded APK resources. |
+| [Historical recovery archive](https://github.com/faraajs/tidy/tree/archive/2.2.0-reference) | `sources/`, `bytecode/`, `resources/`; **2.2.0 references removed from main, not compiled**; decompiled Java, smali and decoded APK resources. |
 | [`docs/RECOVERY-NOTES.md`](docs/RECOVERY-NOTES.md), [`releases/v2.2.0/`](releases/v2.2.0/RELEASE-NOTES.md) | Historical recovery/artifact evidence; the old APK remains withheld. |
 
 ## Build and contribute

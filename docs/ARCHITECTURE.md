@@ -1,8 +1,8 @@
-# Architecture: authored 2.3 and historical 2.2 evidence
+# Architecture of authored 2.3 and historical 2.2 evidence
 
 The maintained application is the **newly authored 2.3 reconstruction, currently 2.3.1**, not recovered Kotlin source or a byte-identical replacement for 2.2. Its application ID is `id.eska.tidy`, namespace `id.eska.screenshotwebp`, minimum Android API 30 and target/compile API 36. Java 17 platform Views and source-built native code are compiled from [`app/`](../app/); `sources/`, `bytecode/` and `resources/` are historical references, not build inputs. Release builds target `arm64-v8a` and `x86_64`.
 
-Historical `sources/`, `bytecode/` and `resources/` paths below refer to the [archive/2.2.0-reference branch](https://github.com/faraajs/tidy/tree/archive/2.2.0-reference), not main. The current source namespace and published activity/service/receiver component identities are retained intentionally: renaming them can break installed component references or grants even when the application ID stays the same.
+Historical `sources/`, `bytecode/` and `resources/` paths below refer to the [archive/2.2.0-reference branch](https://github.com/faraajs/tidy/tree/archive/2.2.0-reference), not main. The current source namespace and published activity/service/receiver component identities are retained intentionally. Renaming them can break installed component references or grants even when the application ID stays the same.
 
 This document describes implemented source paths. It does not certify physical-arm64 or all-OEM compatibility, UI accessibility or crash-proof recovery. Build and device evidence belongs in the [source-build record](BUILD-FROM-SOURCE.md) and release notes. The original 2.2 APK remains withheld; authoring 2.3 does not resolve its missing corresponding source or native provenance.
 
@@ -29,7 +29,7 @@ All Java components below are in [`app/src/main/java/id/eska/screenshotwebp/`](.
 
 `AppStateStore` uses device-protected SharedPreferences `state` and `tidy_ui`; `dark_mode` defaults to true. The one-time schema marker is `v23_safe_state`. When unlocked, the theme can be imported from the older credential-protected `tidy_ui`. State writes use checked synchronous commits.
 
-Fresh installation: both categories disabled, monitoring unrequested, deletion off independently for each category, AVIF selected, zero counters and an empty-result message. Migration preserves supported format choices, nonnegative category counts and fallback count, but **does not carry over category activation, deletion or monitoring consent**. Historical saved-byte totals are not imported into reclaimed-storage accounting. Consequently a migrated conversion count can include historical successes while reclaimed bytes start at zero.
+Fresh installation. Both categories disabled, monitoring unrequested, deletion off independently for each category, AVIF selected, zero counters and an empty-result message. Migration preserves supported format choices, nonnegative category counts and fallback count, but **does not carry over category activation, deletion or monitoring consent**. Historical saved-byte totals are not imported into reclaimed-storage accounting. Consequently a migrated conversion count can include historical successes while reclaimed bytes start at zero.
 
 The one-time `v231_gallery_consent` upgrade gate separately clears monitoring and both deletion consents, without erasing 2.3 category enablement/activation, formats, real reclaimed-byte totals, counters, theme or processed history. A later explicit Start renews activation boundaries normally; renewed consent survives subsequent process restarts.
 
@@ -41,14 +41,14 @@ Processed fingerprints hash canonical path, millisecond mtime from `Os.stat`/`st
 
 ## Authored 2.3 discovery and lifecycle
 
-Only regular readable JPEG/JPG/PNG inputs (case-insensitive) below these shared-storage roots are eligible:
+Only regular readable JPEG/JPG/PNG inputs (case-insensitive) below these shared-storage roots are eligible.
 
 | Category | Exact roots, including eligible descendants |
 | --- | --- |
 | `SCREENSHOTS` | `Pictures/Screenshots`, `DCIM/Screenshots` |
 | `PHOTOS` | `DCIM/Camera` |
 
-Both lexical and canonical paths must remain descendants with separator-safe boundaries. A redirected root, symlink escape, hidden component, or `Android`/`cache` component is rejected. The root itself is not an input. There is **no traversal of arbitrary shared storage**, downloads or messaging folders. Generated `.avif`/`.webp` files cannot feed back into either pipeline. Both categories require enabled consent and `mtime >= activatedAtMillis`: this is an mtime rule for new/newly modified media, not proof of capture time.
+Both lexical and canonical paths must remain descendants with separator-safe boundaries. A redirected root, symlink escape, hidden component, or `Android`/`cache` component is rejected. The root itself is not an input. There is **no traversal of arbitrary shared storage**, downloads or messaging folders. Generated `.avif`/`.webp` files cannot feed back into either pipeline. Both categories require enabled consent and `mtime >= activatedAtMillis`. This is an mtime rule for new/newly modified media, not proof of capture time.
 
 `start()` schedules immediate reconciliation followed by a 20-second fixed delay. Scans attach observers to eligible directory trees; creation, close-write and moved-to events offer files, while directory/self changes request reconciliation. Offered files wait 350 ms and must retain length/mtime before dispatch. `CLOSE_WRITE` or `MOVED_TO` replaces a pending CREATE snapshot and clears that file's empty/unstable-file cooldown; it never replaces an executing conversion. Busy/failed files otherwise have a 20-second cooldown, not a tight retry loop.
 
@@ -79,11 +79,11 @@ Decode reads bounds first, then uses software ARGB_8888/sRGB. Screenshots keep t
 
 Fallback occurs when the selected codec yields no valid encoded candidate, not simply when its target is missed. Screenshots allow AVIF → WebP; selected WebP screenshots have no fallback. Photos allow either direction. Output-write/publication failure is an error, not a second-codec publication retry. Size targets and storage savings are not guaranteed; a valid larger output can be kept **without deleting its source**.
 
-EXIF orientations **1–8** are normalized in pixels, including transpose/transverse and mirrored rotations; unreadable EXIF can fail conversion, and transform failure is not silently replaced by untransformed pixels. Input metadata is not copied: output loses source GPS, EXIF/XMP, capture/camera identity and original ICC/HDR information. Orientation normalization is not lossless compression or metadata preservation. Native AVIF encodes 8-bit YUV444 with lossless alpha, explicit color signaling and one codec thread; decode is bounded to an 8-bit still image without unapplied container transforms.
+EXIF orientations **1–8** are normalized in pixels, including transpose/transverse and mirrored rotations; unreadable EXIF can fail conversion, and transform failure is not silently replaced by untransformed pixels. Input metadata is not copied. Output loses source GPS, EXIF/XMP, capture/camera identity and original ICC/HDR information. Orientation normalization is not lossless compression or metadata preservation. Native AVIF encodes 8-bit YUV444 with lossless alpha, explicit color signaling and one codec thread; decode is bounded to an 8-bit still image without unapplied container transforms.
 
 Java/native bounds limit bitmap dimensions to **16,384 per axis**, total pixels to **16,777,216**, and encoded candidates to **64 MiB**; source capture also rejects empty/nonregular inputs and files over **256 MiB**. Bitmaps, native images, byte buffers and bitmap locks are released on success/failure paths. These bounds reduce exposure, not a guarantee that every bounded image fits available memory; memory failure becomes a conversion error with source retention.
 
-The JNI library also contains the NDK static C++ runtime. [`native/compiler-runtime-sources.json`](../native/compiler-runtime-sources.json) records conservative preferred-source inputs for libc++, ABI, unwinder and compiler-rt portions selected by the link: immutable LLVM runtime/support sources, exact Android recipes and 71 selected original patches. Its reconstruction procedure applies 21 projected runtime/support patches in metadata order; it does not rebuild or certify byte-identical compiler/runtime binaries. Full NDK LLVM, native and Java notices are bundled in the app. See the [System Libraries/compiler boundary](THIRD-PARTY-NOTICES.md#gpl-notices-and-installation-of-modifications).
+The JNI library also contains the NDK static C++ runtime. [`native/compiler-runtime-sources.json`](../native/compiler-runtime-sources.json) records conservative preferred-source inputs for libc++, ABI, unwinder and compiler-rt portions selected by the link, namely immutable LLVM runtime/support sources, exact Android recipes and 71 selected original patches. Its reconstruction procedure applies 21 projected runtime/support patches in metadata order; it does not rebuild or certify byte-identical compiler/runtime binaries. Full NDK LLVM, native and Java notices are bundled in the app. See the [System Libraries/compiler boundary](THIRD-PARTY-NOTICES.md#gpl-notices-and-installation-of-modifications).
 
 ## Authored 2.3 publication and source safety
 
@@ -120,17 +120,17 @@ Historical `MonitorService.onStartCommand` constructs `MediaMonitor`, `MediaConv
 
 ## Media discovery and queue flow
 
-The historical SCREENSHOTS category is broader than a screenshot folder: eligible canonical JPG/JPEG/PNG descendants throughout shared storage, outside `DCIM/Camera`, enter it. Downloads/messaging images can qualify. Camera descendants are PHOTOS. Hidden/technical parents (Android, thumbnails, cache/caches) are excluded; existing AVIF/WebP outputs are not inputs. Photo scans traverse the camera tree; screenshot scans traverse other shared storage.
+The historical SCREENSHOTS category is broader than a screenshot folder. Eligible canonical JPG/JPEG/PNG descendants throughout shared storage, outside `DCIM/Camera`, enter it. Downloads/messaging images can qualify. Camera descendants are PHOTOS. Hidden/technical parents (Android, thumbnails, cache/caches) are excluded; existing AVIF/WebP outputs are not inputs. Photo scans traverse the camera tree; screenshot scans traverse other shared storage.
 
 Both categories require activation, but only photos require whole-second mtime **strictly newer** than activation. Historical screenshots bypass age filtering and can process pre-existing files. Startup reconciles immediately, then after five seconds and every twenty seconds. `CLOSE_WRITE`/`MOVED_TO` (`0x88`) offer completed files; directory creation/move-in requests reconciliation.
 
-Canonical-path and category/path/mtime-seconds/length/requested-format signatures reserve in-flight work. They are removed on completion or error: **no durable processed-file ledger** is established, so retained inputs can be reconsidered. One screenshot executor and two photo workers perform a 350 ms length/mtime check and one dispatch. The retained `MAX_RETRIES` constant does not establish a retry loop. Queued jobs capture enqueue-time configuration; preference edits are not evidence of cancellation. Queues are memory-only, not WorkManager/database jobs.
+Canonical-path and category/path/mtime-seconds/length/requested-format signatures reserve in-flight work. They are removed on completion or error; **no durable processed-file ledger** is established, so retained inputs can be reconsidered. One screenshot executor and two photo workers perform a 350 ms length/mtime check and one dispatch. The retained `MAX_RETRIES` constant does not establish a retry loop. Queued jobs capture enqueue-time configuration; preference edits are not evidence of cancellation. Queues are memory-only, not WorkManager/database jobs.
 
 ## Conversion and fallback
 
 ### Screenshot-category path
 
-Historical `ScreenshotMediaConverter.convert` decodes without photo sampling, applies EXIF orientation and encodes full oriented dimensions at quality **55**. AVIF is tried before WebP when encoding, verification or publication fails; selected WebP has one attempt. No scale/quality target search is performed. The **100 KiB** target is reported, not enforced: a published screenshot can replace its source despite being above target or larger than the source.
+Historical `ScreenshotMediaConverter.convert` decodes without photo sampling, applies EXIF orientation and encodes full oriented dimensions at quality **55**. AVIF is tried before WebP when encoding, verification or publication fails; selected WebP has one attempt. No scale/quality target search is performed. The **100 KiB** target is reported, not enforced; a published screenshot can replace its source despite being above target or larger than the source.
 
 ### Photo path
 
@@ -140,7 +140,7 @@ Photo fallback switches either direction only when no valid candidate exists, no
 
 ## Orientation, publication and deletion limits
 
-Historical converters read AndroidX EXIF orientation and transform pixels for 2–8. Unreadable orientation defaults to normal; failed transform can fall back to the untransformed bitmap rather than block deletion. General EXIF is not copied: GPS, capture/camera tags, thumbnails and color/HDR preservation cannot be promised.
+Historical converters read AndroidX EXIF orientation and transform pixels for 2–8. Unreadable orientation defaults to normal; failed transform can fall back to the untransformed bitmap rather than block deletion. General EXIF is not copied. GPS, capture/camera tags, thumbnails and color/HDR preservation cannot be promised.
 
 - Photos choose the original stem with output extension and collision suffix ` (n)`, write hidden UUID `.tmp`, verify, publish with `File.renameTo`, verify final and delete source. Deletion failure attempts new-output removal and returns failure.
 - Screenshots use the original stem/output extension, moving an existing destination to hidden UUID `.bak` before replacement; verify temp/final, delete source, remove old-output backup on success, and attempt cleanup/restoration on failure. Existing output replacement differs from photos and from authored 2.3.
@@ -160,8 +160,8 @@ Success increments count and adds `max(sourceBytes - outputBytes, 0)` regardless
 
 Historical AVIF uses `com.radzivon.bartoshyk.avif.coder.HeifCoder`, lazily created, loading `coder` and JNI `encodeAvifImpl`/`decodeImpl`. The app requests lossy AVIF, speed SEVEN and automatic surface/chroma options. WebP uses Android Bitmap compression.
 
-The historical arm64 APK contains `libcoder.so`, `libheif.so`, `libaom.so`, `libdav1d.so`, `libde265.so`, `libx265.so` and `libandroidx.graphics.path.so`. Wrapper HEIC methods/bundled HEVC libraries do not establish user-facing HEIC support: the output model has AVIF/WebP only.
+The historical arm64 APK contains `libcoder.so`, `libheif.so`, `libaom.so`, `libdav1d.so`, `libde265.so`, `libx265.so` and `libandroidx.graphics.path.so`. Wrapper HEIC methods/bundled HEVC libraries do not establish user-facing HEIC support; the output model has AVIF/WebP only.
 
-Inspected ELF `DT_NEEDED` edges: `libcoder.so` directly depends on libheif, libaom, libdav1d, libde265 and libx265, plus libc/libm/libdl and liblog/libjnigraphics/libandroid. `libheif.so` directly lists libde265/libx265 and libc/libm/libdl, **not** libaom/libdav1d. AOM/de265/x265 and the separately bundled AndroidX path library list libc/libm/libdl; dav1d lists libc only. These are linkage observations, not proof of per-image execution or absence of static components. The path library is not an observed codec-chain dependency; Android system libraries are dependencies, not recovered app source.
+Inspected ELF `DT_NEEDED` edges. `libcoder.so` directly depends on libheif, libaom, libdav1d, libde265 and libx265, plus libc/libm/libdl and liblog/libjnigraphics/libandroid. `libheif.so` directly lists libde265/libx265 and libc/libm/libdl, **not** libaom/libdav1d. AOM/de265/x265 and the separately bundled AndroidX path library list libc/libm/libdl; dav1d lists libc only. These are linkage observations, not proof of per-image execution or absence of static components. The path library is not an observed codec-chain dependency; Android system libraries are dependencies, not recovered app source.
 
 Library names/JNI declarations do not recover C/C++ source, exact revisions/build flags or license obligations. The historical corresponding-source/provenance gap remains unresolved even though 2.3 uses a separate source-built codec; see [third-party notices](THIRD-PARTY-NOTICES.md).

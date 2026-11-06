@@ -2,11 +2,11 @@
 
 ## Current status
 
-The authored application in `app/src/main/` is a buildable reconstruction, not the recovered original Kotlin project or a byte-identical reproduction of 2.2.0. Historical `sources/`, `bytecode/` and `resources/` are preserved on [archive/2.2.0-reference](https://github.com/faraajs/tidy/tree/archive/2.2.0-reference), removed from main and never compiled. The original 2.2.0 APK remains withheld: its missing preferred application source and unmatched native provenance are not repaired by this new build. See [recovery notes](RECOVERY-NOTES.md) and [third-party notices](THIRD-PARTY-NOTICES.md).
+The authored application in `app/src/main/` is a buildable reconstruction, not the recovered original Kotlin project or a byte-identical reproduction of 2.2.0. Historical `sources/`, `bytecode/` and `resources/` are preserved on [archive/2.2.0-reference](https://github.com/faraajs/tidy/tree/archive/2.2.0-reference), removed from main and never compiled. The original 2.2.0 APK remains withheld; its missing preferred application source and unmatched native provenance are not repaired by this new build. See [recovery notes](RECOVERY-NOTES.md) and [third-party notices](THIRD-PARTY-NOTICES.md).
 
 ## Prerequisites and commands
 
-Use JDK **17**, Android SDK command-line tools, and these SDK packages:
+Use JDK **17**, Android SDK command-line tools, and these SDK packages.
 
 ```sh
 sdkmanager 'platform-tools' 'platforms;android-36' 'build-tools;36.0.0' \
@@ -15,9 +15,9 @@ sdkmanager 'platform-tools' 'platforms;android-36' 'build-tools;36.0.0' \
 
 Accept the SDK licenses as appropriate. Set `JAVA_HOME` to JDK 17 and `ANDROID_HOME` to your SDK outside the checkout (or use an untracked `local.properties` with `sdk.dir`). The wrapper pins **Gradle 9.4.1** and its official distribution SHA-256 in `gradle/wrapper/gradle-wrapper.properties`; the project pins **AGP 9.2.1**. Initial wrapper/plugin/Maven resolution needs network access; this does not give the app runtime network access.
 
-The checked-in wrapper JAR matches the official Gradle `v9.4.1` tag byte-for-byte: SHA-256 `55243ef57851f12b070ad14f7f5bb8302daceeebc5bce5ece5fa6edb23e1145c`. Its Apache-2.0 text is embedded at `META-INF/LICENSE`; the accompanying [Gradle NOTICE](licenses/Gradle-9.4.1-NOTICE.txt) describes build tooling, not runtime components bundled in Tidy.
+The checked-in wrapper JAR matches the official Gradle `v9.4.1` tag byte-for-byte, with SHA-256 `55243ef57851f12b070ad14f7f5bb8302daceeebc5bce5ece5fa6edb23e1145c`. Its Apache-2.0 text is embedded at `META-INF/LICENSE`; the accompanying [Gradle NOTICE](licenses/Gradle-9.4.1-NOTICE.txt) describes build tooling, not runtime components bundled in Tidy.
 
-From the repository or extracted corresponding-source bundle:
+From the repository or extracted corresponding-source bundle.
 
 ```sh
 ./gradlew assembleDebug testDebugUnitTest assembleDebugAndroidTest --max-workers=2 --no-daemon
@@ -32,14 +32,14 @@ The published application ID, source namespace and manifest component names inte
 
 ## Native corresponding source and license gate
 
-The current JNI library `tidyavif` builds AVIF encode/decode from exact source archives:
+The current JNI library `tidyavif` builds AVIF encode/decode from exact source archives.
 
 | Component | Commit | Archive SHA-256 |
 | --- | --- | --- |
 | libavif 1.4.2 | `c5240fc79fe5c2407e10afd35f5505ef6333ea49` | `5e9aa73e43af8021a57d744712ee0bc145267863afb7c9b118723a15dbd4cfbf` |
 | AOM 3.14.1 | `03087864cf4bea6abb0d28f95cf7843511413d8f` | `74328f5160eb58ea3b560a7a4d388b9486779b8a298a425c674cb6d414f5cf45` |
 
-[`native/dependencies.json`](../native/dependencies.json) records upstream provenance, archive download URLs, full source locations, flags, embedded components and license hashes. CMake verifies archives in `.native-sources/archives/` before extraction; when absent, it fetches an archive with the same mandatory digest. AOM uses the exact retained archive mirrored on the v2.3.1 release: Gitiles can regenerate different tar packaging for the same commit even with identical file contents. The pin is not relaxed or replaced to accept that packaging. The complete corresponding-source bundle already contains this exact archive. Arbitrary unpacked-source overrides are not used. External libyuv and libsharpyuv are disabled, but libavif's embedded scalar libyuv sources are compiled and retain their notices. No historical HeifCoder/libheif/x265/HEVC chain is used. WebP comes from Android's platform Bitmap codec.
+[`native/dependencies.json`](../native/dependencies.json) records upstream provenance, archive download URLs, full source locations, flags, embedded components and license hashes. CMake verifies archives in `.native-sources/archives/` before extraction; when absent, it fetches an archive with the same mandatory digest. AOM uses the exact retained archive mirrored on the v2.3.1 release; Gitiles can regenerate different tar packaging for the same commit even with identical file contents. The pin is not relaxed or replaced to accept that packaging. The complete corresponding-source bundle already contains this exact archive. Arbitrary unpacked-source overrides are not used. External libyuv and libsharpyuv are disabled, but libavif's embedded scalar libyuv sources are compiled and retain their notices. No historical HeifCoder/libheif/x265/HEVC chain is used. WebP comes from Android's platform Bitmap codec.
 
 For AOM, `arm64-v8a` uses baseline NEON and the NDK Clang integrated assembler. Optional ARM CRC32, dot-product, I8MM, SVE and SVE2 extensions remain disabled. `x86_64` uses the generic implementation and does not require NASM. This optimization affects AVIF, not Android's platform WebP codec; dimensions, quality and one codec thread per call are unchanged.
 
@@ -51,16 +51,16 @@ The NDK-provided static C++/ABI/unwind/compiler-rt archive portions selected by 
 
 The manifest identifies immutable LLVM base `3c92011b600bdf70424e2547594dd461fe411a41` and Android `llvm_android` recipes/patch revision `2a4ee244d6dd0dcb8365590b898f7a40ec3cb87a` for NDK `27.1.12297006` / Clang `r522817b`, patch level 2. Source inputs include complete libc++, libc++abi, libunwind and compiler-rt directories, retained LLVM CMake/header/support subtrees, the Android recipes, source information, full notices, exact archive hashes and per-file inventories. All **71 selected original patches** are retained, even where a patch only affects compiler sources outside the runtime subset.
 
-To reconstruct the patched runtime/support source subset from the bundled inputs, use **Python 3.12+** and **GNU patch**, from the extracted source-bundle root, choosing a new output directory:
+To reconstruct the patched runtime/support source subset from the bundled inputs, use **Python 3.12+** and **GNU patch**, from the extracted source-bundle root, choosing a new output directory.
 
 ```sh
 python3 .native-sources/toolchain/reconstruct-runtime.py \
   native/compiler-runtime-sources.json /absolute/new-output-directory
 ```
 
-The script verifies retained runtime inputs and original patches, extracts immutable base sources without changing them, and follows the manifest's `patchesInApplicationOrder`. The manifest selects the 71 patches from `PATCHES.json` in metadata-array order using `version_range.from <= 522817 < version_range.until` (null means unbounded). The alphabetically sorted `clang_source_info.md` list is **not application order**; the manifest records the single `cherry/` patch-link correction. Only complete `diff --git` sections under retained runtime/support subtrees are projected, then applied with `--fuzz=0`, failing on rejected hunks. The recorded source reconstruction applied **21 projected patches** (15 touching runtime directories); exact-context line offsets occurred. This reconstructs source only: no compiler/runtime binary was rebuilt or tested by that procedure.
+The script verifies retained runtime inputs and original patches, extracts immutable base sources without changing them, and follows the manifest's `patchesInApplicationOrder`. The manifest selects the 71 patches from `PATCHES.json` in metadata-array order using `version_range.from <= 522817 < version_range.until` (null means unbounded). The alphabetically sorted `clang_source_info.md` list is **not application order**; the manifest records the single `cherry/` patch-link correction. Only complete `diff --git` sections under retained runtime/support subtrees are projected, then applied with `--fuzz=0`, failing on rejected hunks. The recorded source reconstruction applied **21 projected patches** (15 touching runtime directories); exact-context line offsets occurred. This reconstructs source only; no compiler/runtime binary was rebuilt or tested by that procedure.
 
-Correspondence is anchored in the installed NDK source information and its identified official Android recipes, not an independently byte-identical runtime rebuild. Full LLVM compiler sources/binaries, bootstrap/build environment and prebuilt SDK/sysroot remain external; no app/compiler/runtime byte-for-byte reproducibility is asserted. Gitiles can regenerate archive packaging: the recorded SHA-256 values pin the retained download bytes, while per-file inventories record source contents independently.
+Correspondence is anchored in the installed NDK source information and its identified official Android recipes, not an independently byte-identical runtime rebuild. Full LLVM compiler sources/binaries, bootstrap/build environment and prebuilt SDK/sysroot remain external; no app/compiler/runtime byte-for-byte reproducibility is asserted. Gitiles can regenerate archive packaging; the recorded SHA-256 values pin the retained download bytes, while per-file inventories record source contents independently.
 
 The release corresponding-source archive `tidy-v2.3.1-corresponding-source.tar.gz` includes authored application source, tests, wrapper/build/install materials, dependency manifests, exact native archives and full native sources, exact Java preferred-source JARs and metadata, conservative runtime base/patched sources and reconstruction inputs, complete original Android patches/recipes, and full notices/licenses. It excludes SDK/AVD installations, private configuration, signing keys, build products and the original 2.2.0 APK. Gradle/plugin/Maven tooling needs its normal resolution cache or repositories; this is not an entirely offline SDK or full compiler-source bundle. Verify the archive's contents and hashes during release packaging.
 
@@ -76,7 +76,7 @@ The current cutover uses authored Java state/path policies, source-built native 
 
 ## Verification boundaries
 
-The [Android CI workflow](../.github/workflows/android.yml) installs the SDK packages above on Ubuntu with JDK 17 and runs:
+The [Android CI workflow](../.github/workflows/android.yml) installs the SDK packages above on Ubuntu with JDK 17 and runs.
 
 ```sh
 CMAKE_BUILD_PARALLEL_LEVEL=2 ./gradlew :app:testDebugUnitTest :app:assembleDebug :app:lintDebug --max-workers=2 --no-daemon --continue
