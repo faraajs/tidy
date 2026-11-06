@@ -278,7 +278,7 @@ public final class AppStateStore {
         synchronized (LOCK) {
             String countKey = key(result.category, "count");
             long reclaimed = reclaimedBytes(result.sourceBytes, result.outputBytes, result.originalDeleted);
-            String summary = result.category.label() + ": " + result.format.name() + ", "
+            String summary = result.category.label() + " · " + result.format.name() + ", "
                     + result.width + " × " + result.height + ", " + result.outputBytes + " bytes; "
                     + (result.originalDeleted ? "original deleted, " + reclaimed + " bytes reclaimed"
                     : "original retained, no space reclaimed")
@@ -314,7 +314,7 @@ public final class AppStateStore {
                 detail = "Operation failed. Check access and available storage.";
             }
             commit(prefs.edit().putString("v23_error",
-                    (category == null ? "Monitoring" : category.label()) + ": " + detail));
+                    (category == null ? "Monitoring" : category.label()) + " · " + detail));
         }
     }
 

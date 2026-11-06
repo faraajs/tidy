@@ -225,8 +225,8 @@ public final class MainActivity extends Activity {
 
         LinearLayout about = card(content, "Privacy and version");
         about.addView(text("Tidy " + versionName() + " · Android 11 or newer\n"
-                + "Release architectures: arm64-v8a and x86_64\n"
-                + "This device: " + Build.SUPPORTED_ABIS[0], 15, foreground, false));
+                + "Release architectures · arm64-v8a and x86_64\n"
+                + "This device · " + Build.SUPPORTED_ABIS[0], 15, foreground, false));
         about.addView(text("Processing stays on this device. No network permission, uploads, analytics or "
                 + "telemetry. Preferences and conversion history are stored locally. "
                 + "Tidy is GPL-3.0-only; codec and dependency notices are bundled below.", 15, muted, false));
@@ -371,36 +371,36 @@ public final class MainActivity extends Activity {
                         ? "Codec failure may fall back to WebP."
                         : category == MediaCategory.PHOTOS ? "Codec failure may fall back to AVIF."
                         : "WebP screenshots have no codec fallback.";
-                setText(views.format, "Selected: " + (config.format == OutputFormat.AVIF ? "AVIF" : "WebP")
+                setText(views.format, "Selected · " + (config.format == OutputFormat.AVIF ? "AVIF" : "WebP")
                         + ". " + fallback);
             }
-            setText(summary, "Screenshots converted: " + snapshot.screenshotCount
-                    + "\nPhotos converted: " + snapshot.photoCount
-                    + "\nReclaimed storage: " + bytes(snapshot.savedBytes)
-                    + "\nCodec fallbacks: " + snapshot.fallbackCount);
-            setText(progress, "Queued: " + snapshot.pending + " · Processing: " + snapshot.processing);
+            setText(summary, "Screenshots converted · " + snapshot.screenshotCount
+                    + "\nPhotos converted · " + snapshot.photoCount
+                    + "\nReclaimed storage · " + bytes(snapshot.savedBytes)
+                    + "\nCodec fallbacks · " + snapshot.fallbackCount);
+            setText(progress, "Queued · " + snapshot.pending + " · Processing · " + snapshot.processing);
             boolean allFiles = Environment.isExternalStorageManager();
             boolean active = MonitorService.isRunning() && allFiles && anyCategoryEnabled()
                     && snapshot.monitoringRequested;
             String monitorStatus;
-            if (active) monitorStatus = "Monitoring active — new eligible media only";
-            else if (!allFiles) monitorStatus = "Monitoring inactive — all files access required";
-            else if (!anyCategoryEnabled()) monitorStatus = "Monitoring inactive — enable a category";
-            else if (snapshot.monitoringRequested) monitorStatus = "Monitoring requested — service not running";
+            if (active) monitorStatus = "Monitoring active, new eligible media only";
+            else if (!allFiles) monitorStatus = "Monitoring inactive, all files access required";
+            else if (!anyCategoryEnabled()) monitorStatus = "Monitoring inactive, enable a category";
+            else if (snapshot.monitoringRequested) monitorStatus = "Monitoring requested, service not running";
             else monitorStatus = "Monitoring paused";
             setText(status, monitorStatus);
             setText(monitorButton, snapshot.monitoringRequested || MonitorService.isRunning()
                     ? "Pause monitoring" : "Start monitoring");
             setText(lastResult, snapshot.lastResult == null || snapshot.lastResult.isEmpty()
-                    ? "Last result: No conversions yet" : "Last result: " + snapshot.lastResult);
+                    ? "Last result · No conversions yet" : "Last result · " + snapshot.lastResult);
             setText(lastError, snapshot.lastError == null || snapshot.lastError.isEmpty()
-                    ? "Last error: None recorded" : "Last error: " + snapshot.lastError);
+                    ? "Last error · None recorded" : "Last error · " + snapshot.lastError);
             PowerManager power = (PowerManager) getSystemService(POWER_SERVICE);
             boolean batteryExempt = power != null && power.isIgnoringBatteryOptimizations(getPackageName());
             boolean notifications = notificationsAllowed();
-            setText(accessStatus, "All files access: " + (allFiles ? "Allowed" : "Not allowed")
-                    + "\nNotifications: " + (notifications ? "Allowed" : "Not allowed")
-                    + "\nBattery optimization: " + (batteryExempt ? "Unrestricted" : "Optimized"));
+            setText(accessStatus, "All files access · " + (allFiles ? "Allowed" : "Not allowed")
+                    + "\nNotifications · " + (notifications ? "Allowed" : "Not allowed")
+                    + "\nBattery optimization · " + (batteryExempt ? "Unrestricted" : "Optimized"));
             setText(notificationButton, notifications ? "Notification settings" : "Allow notifications");
         } finally {
             refreshing = false;

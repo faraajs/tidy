@@ -10,16 +10,16 @@ Current authored releases and historical recovery records are separated below. T
 - Clarified the current APK download name as `tidy-v2.3.1-arm64-x86_64.apk`; historical evidence retains its original `universal` names and hashes. No APK bytes, source bundles or published tags are changed by these repository edits.
 - Fixed clean-checkout AOM downloads by mirroring the exact retained archive on the existing release. Gitiles regenerated different archive packaging with identical source contents; the original SHA-256 pin, source commit, compiler settings and official APK remain unchanged.
 
-## 2.3.1 — 2026-10-12
+## 2.3.1 (2026-10-12)
 
-- Fixed disappearance from Gallery when original deletion was enabled: explicitly scan the replacement and require a complete image row, readable matching bytes and platform-decoded dimensions before deleting anything.
+- Fixed disappearance from Gallery when original deletion was enabled by scanning the replacement and requiring a complete image row, readable matching bytes and platform-decoded dimensions before deleting anything.
 - Retain the valid output and unchanged original when Gallery indexing or platform decoding is unavailable. Unknown MediaStore dimensions are not mistaken for an invalid bitmap.
 - Pause monitoring and revoke both original-deletion consents once on upgrade, preserving 2.3 category settings, formats, counters, actual reclaimed-byte accounting, theme and processed history.
 - Removed redundant full-image decoding and published-output hashing while preserving exact-byte, source-identity and live-consent checks.
 - Enabled baseline ARM64 NEON in source-built AOM for AVIF. Optional newer ARM extensions remain off; x86_64 remains generic. WebP still uses Android's platform codec, and screenshot quality/resolution are unchanged.
 - Added isolated generated-image Gallery checks and a consent-migration regression; see [release evidence](releases/v2.3.1/RELEASE-NOTES.md).
 
-## 2.3.0 — 2026-10-11
+## 2.3.0 (2026-10-11)
 
 Newly authored reconstruction, not recovery of the original Kotlin/Gradle checkout or a byte-identical 2.2.0 rebuild. This entry records source changes, not a completed GitHub upload.
 
@@ -34,21 +34,21 @@ Newly authored reconstruction, not recovery of the original Kotlin/Gradle checko
 - Implemented lossy AVIF/WebP conversion and category-specific fallback, oriented pixel output, photo resizing/size search, and deliberate EXIF/XMP/GPS removal. Size targets and savings are not guaranteed.
 - Added scoped monitoring, persistent deduplication, live configuration checks, opt-in restart handling, and special-use foreground service. No network permission, telemetry, or uploads.
 - Migrated available legacy formats/counters while resetting monitoring/category/deletion consent and excluding unproven historical savings.
-- Added conservative NDK runtime preferred sources via `native/compiler-runtime-sources.json`: immutable LLVM runtime/support inputs, exact Android recipes and 71 selected original patches, with 21 projected runtime/support patches applied by the source reconstruction procedure. This is not a byte-identical compiler/runtime rebuild or a requirement to bundle the full compiler/SDK.
+- Added conservative NDK runtime preferred sources via `native/compiler-runtime-sources.json`, covering immutable LLVM runtime/support inputs, exact Android recipes and 71 selected original patches, with 21 projected runtime/support patches applied by the source reconstruction procedure. This is not a byte-identical compiler/runtime rebuild or a requirement to bundle the full compiler/SDK.
 - Introduced a **new release signing certificate**, not the historical debug key. Different-certificate installations require backup and manual uninstall before installation.
 - Verified both ABI builds, 12 host tests and all 19 Android conversion/state scenarios against the signed API 30 x86_64 release, plus real unavailable-codec fallback and close-write checks. Exercised dashboard/theme persistence, scoped serial burst/moved-to handling, pause/resume, durable restart deduplication and actual opt-in/no-consent boot behavior. Signature and APK/ELF 16 KiB alignment passed. No physical arm64, all-OEM or byte-for-byte reproducibility claim.
 - Removed invalid drawable-to-mipmap aliases; minimum API 30 uses the authored adaptive launcher icons, and release vital lint passes without suppressing the resource error.
 
 Publication is gated on final verification and delivery of `tidy-v2.3.0-universal.apk`, `tidy-v2.3.0-corresponding-source.tar.gz`, and `SHA256SUMS.txt` together at the [v2.3.0 release page](https://github.com/faraajs/tidy/releases/tag/v2.3.0). The historical 2.2.0 APK remains withheld independently of this new release.
 
-## 2.2.0 — recovered changes
+## 2.2.0 (recovered changes)
 
 ### Screenshot selection recovery
 
 - Restored visible AVIF/WebP screenshot format chips.
 - Persisted the screenshot format selection and passed it to the converter.
 - Kept AVIF as the default. Added a one-time migration from the old forced-AVIF build's legacy `screenshot_format=WEBP` value to AVIF, before a fresh user choice.
-- Fixed the first recovery build's launch `VerifyError` in `AppStateStore.migrateLegacyState()`: preserved `p0` as the store object and used `v0` for the migration editor.
+- Fixed the first recovery build's launch `VerifyError` in `AppStateStore.migrateLegacyState()` by preserving `p0` as the store object and using `v0` for the migration editor.
 
 The historical patch left the existing screenshot converter, AVIF-to-WebP fallback, serial screenshot queue, orientation handling, output verification/replacement path, and photo/48MP pipeline unchanged. This records patch scope, not proof that the historical replacement path was safe; see [historical safety limits](docs/ARCHITECTURE.md#orientation-publication-and-deletion-limits).
 

@@ -151,12 +151,12 @@ public final class AppStateStoreTest {
     @Test public void monitoringFailuresAllowNoCategoryAndPreserveOnlyPathFreeDetails() {
         AppStateStore store = new AppStateStore(new MemoryPreferences(), new MemoryPreferences());
         store.recordFailure(null, "Shared storage unavailable");
-        assertEquals("Monitoring: Shared storage unavailable", store.snapshot().lastError);
+        assertEquals("Monitoring · Shared storage unavailable", store.snapshot().lastError);
         store.recordFailure(MediaCategory.PHOTOS, "Unable to read /private/user/photo.jpg");
         assertFalse(store.snapshot().lastError.contains("/private"));
         assertFalse(store.snapshot().lastError.contains("original retained"));
         store.recordFailure(null, null);
-        assertTrue(store.snapshot().lastError.startsWith("Monitoring: "));
+        assertTrue(store.snapshot().lastError.startsWith("Monitoring · "));
     }
 
     private static String fingerprint(int value) {

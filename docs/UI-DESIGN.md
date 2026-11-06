@@ -1,10 +1,10 @@
-# UI: authored 2.3 dashboard and historical 2.2 evidence
+# UI of the authored 2.3 dashboard and historical 2.2 evidence
 
-The maintained 2.3 UI is implemented in [`MainActivity.java`](../app/src/main/java/id/eska/screenshotwebp/MainActivity.java), an Android `Activity` with programmatic **platform Views**, not Jetpack Compose/Material3. It is a newly authored reconstruction, not recovery of the old Kotlin UI or a claim of visual parity with the historical APK. Application ID: `id.eska.tidy`; namespace: `id.eska.screenshotwebp`; minimum Android API 30, target API 36.
+The maintained 2.3 UI is implemented in [`MainActivity.java`](../app/src/main/java/id/eska/screenshotwebp/MainActivity.java), an Android `Activity` with programmatic **platform Views**, not Jetpack Compose/Material3. It is a newly authored reconstruction, not recovery of the old Kotlin UI or a claim of visual parity with the historical APK. Application ID `id.eska.tidy`; namespace `id.eska.screenshotwebp`; minimum Android API 30, target API 36.
 
 Historical `sources/`, `bytecode/` and `resources/` references below are preserved on [archive/2.2.0-reference](https://github.com/faraajs/tidy/tree/archive/2.2.0-reference), not main or current app inputs.
 
-The signed 2.3 release was visually exercised on an API 30 full AOSP x86_64 emulator: dark/light dashboard rendering, committed theme persistence after cold relaunch, explicit monitoring controls, counters, serial screenshot burst, category isolation, pause/resume, restart deduplication and actual opt-in/no-consent boot behavior. Earlier Android 36 ATD conversion checks are separate from this surface evidence. The emulator's System UI stalled during reboot and was recovered. This is not exhaustive accessibility, physical-arm64 or all-OEM certification; see the [release record](../releases/v2.3.0/RELEASE-NOTES.md) and [architecture](ARCHITECTURE.md).
+The signed 2.3 release was visually exercised on an API 30 full AOSP x86_64 emulator, dark/light dashboard rendering, committed theme persistence after cold relaunch, explicit monitoring controls, counters, serial screenshot burst, category isolation, pause/resume, restart deduplication and actual opt-in/no-consent boot behavior. Earlier Android 36 ATD conversion checks are separate from this surface evidence. The emulator's System UI stalled during reboot and was recovered. This is not exhaustive accessibility, physical-arm64 or all-OEM certification; see the [release record](../releases/v2.3.0/RELEASE-NOTES.md) and [architecture](ARCHITECTURE.md).
 
 ## Authored 2.3 dashboard structure
 
@@ -19,7 +19,7 @@ One scrollable dashboard remains available whether monitoring is active or pause
 | Android permissions | Actual All files/notifications/battery status, OS permission/settings actions; battery exemption is optional. |
 | Privacy and version | Installed version, Android 11 minimum, release/device architectures, local-only processing and Open source licenses dialog. |
 
-The category folder text is produced by `PathPolicy.roots`: screenshots only under shared-storage `Pictures/Screenshots` and `DCIM/Screenshots`; photos only under `DCIM/Camera`, including eligible descendants. It is not the historical “all non-camera shared storage” policy. Only JPEG/JPG/PNG inputs qualify; generated AVIF/WebP outputs are excluded. Enabling creates an activation epoch; Start after pause renews enabled epochs, ignoring the pause backlog. Eligibility uses millisecond file modification time from `Os.stat`/`st_mtim`, not verified camera capture time; Android 11 File/NIO readers truncate that precision.
+The category folder text is produced by `PathPolicy.roots`. Screenshots only under shared-storage `Pictures/Screenshots` and `DCIM/Screenshots`; photos only under `DCIM/Camera`, including eligible descendants. It is not the historical “all non-camera shared storage” policy. Only JPEG/JPG/PNG inputs qualify; generated AVIF/WebP outputs are excluded. Enabling creates an activation epoch; Start after pause renews enabled epochs, ignoring the pause backlog. Eligibility uses millisecond file modification time from `Os.stat`/`st_mtim`, not verified camera capture time; Android 11 File/NIO readers truncate that precision.
 
 ## Authored 2.3 theme, icons and insets
 
@@ -55,11 +55,11 @@ The permission buttons use Android's All files settings; notification permission
 
 **All sections below are historical.** Existing headings/anchors are retained for references to the inspected `2.2.0` UI-dark arm64 r3 APK; they do not describe the new View dashboard. The old implementation was Compose/Material3 under `id.eska.screenshotwebp`, with largely Indonesian visible strings. Static inspection was not a new launch, screenshot comparison, accessibility audit or conversion device test.
 
-Primary evidence: [MainActivity bytecode](https://github.com/faraajs/tidy/blob/archive/2.2.0-reference/bytecode/id/eska/screenshotwebp/MainActivity.smali), [button-label composables](https://github.com/faraajs/tidy/blob/archive/2.2.0-reference/bytecode/id/eska/screenshotwebp/ComposableSingletons$MainActivityKt.smali), [AppState](https://github.com/faraajs/tidy/blob/archive/2.2.0-reference/bytecode/id/eska/screenshotwebp/AppState.smali), [state store](https://github.com/faraajs/tidy/blob/archive/2.2.0-reference/bytecode/id/eska/screenshotwebp/AppStateStore.smali), [extracted resources](https://github.com/faraajs/tidy/blob/archive/2.2.0-reference/resources/res/) and [manifest](https://github.com/faraajs/tidy/blob/archive/2.2.0-reference/resources/AndroidManifest.xml). See [recovery notes](RECOVERY-NOTES.md).
+Primary evidence is [MainActivity bytecode](https://github.com/faraajs/tidy/blob/archive/2.2.0-reference/bytecode/id/eska/screenshotwebp/MainActivity.smali), [button-label composables](https://github.com/faraajs/tidy/blob/archive/2.2.0-reference/bytecode/id/eska/screenshotwebp/ComposableSingletons$MainActivityKt.smali), [AppState](https://github.com/faraajs/tidy/blob/archive/2.2.0-reference/bytecode/id/eska/screenshotwebp/AppState.smali), [state store](https://github.com/faraajs/tidy/blob/archive/2.2.0-reference/bytecode/id/eska/screenshotwebp/AppStateStore.smali), [extracted resources](https://github.com/faraajs/tidy/blob/archive/2.2.0-reference/resources/res/) and [manifest](https://github.com/faraajs/tidy/blob/archive/2.2.0-reference/resources/AndroidManifest.xml). See [recovery notes](RECOVERY-NOTES.md).
 
 ## Earlier design intention
 
-The historical recovery workspace's `2026-08-16-tidy-dashboard-ui-design.md` specified a UI/theme/icon-only refresh, retaining conversion behavior:
+The historical recovery workspace's `2026-08-16-tidy-dashboard-ui-design.md` specified a UI/theme/icon-only refresh, retaining conversion behavior.
 
 - Dark navy dashboard, rounded cards/chips, accessible contrast and blue-purple accents from the supplied icon.
 - Header branding/subtitle, monitoring status/service controls, actual conversion/saved-byte totals, separate category cards with format/settings/result/error.
@@ -85,9 +85,9 @@ Historical Compose/Material3 uses lazy lists, cards, switches, selectors and per
 
 The historical Screenshot label covers eligible non-camera images throughout shared storage, including older files. Historical photo sampling can reduce resolution. Neither broad scope nor old screenshot age bypass is the authored 2.3 policy.
 
-## Theme: the important divergence
+## Theme (the important divergence)
 
-The historical patch is a boolean override, not the specified Always dark/Follow system pair:
+The historical patch is a boolean override, not the specified Always dark/Follow system pair.
 
 1. `isDarkMode()` reads ordinary activity `tidy_ui/dark_mode`, default true, separate from device-protected `state`.
 2. True uses `createDarkColorScheme()`.

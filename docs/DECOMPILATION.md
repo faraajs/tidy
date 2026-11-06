@@ -4,12 +4,12 @@ This is historical 2.2.0 transformation evidence. All `sources/`, `bytecode/` an
 
 ## Provenance and status
 
-These references were generated from `tidy-v2.2.0-ui-dark-arm64-r3.apk`, the preserved Tidy 2.2.0 r3 APK:
+These references were generated from `tidy-v2.2.0-ui-dark-arm64-r3.apk`, the preserved Tidy 2.2.0 r3 APK.
 
-- SHA-256: `65d0ac7a45ed45181d7fd8f43fc7b9e9dec88f7f13f58371c1dbf365dfa6ed65`.
-- Artifact size supplied with the recovery: 31,140,384 bytes.
-- Application ID: `id.eska.tidy`; implementation namespace: `id.eska.screenshotwebp`.
-- Decompiler: **JADX 1.5.6**, as reported by `jadx --version`.
+- SHA-256 `65d0ac7a45ed45181d7fd8f43fc7b9e9dec88f7f13f58371c1dbf365dfa6ed65`.
+- Artifact size supplied with the recovery is 31,140,384 bytes.
+- Application ID `id.eska.tidy`; implementation namespace `id.eska.screenshotwebp`.
+- Decompiler **JADX 1.5.6**, as reported by `jadx --version`.
 
 **This is generated read-only reference, not recovered original Kotlin, a buildable checkout, or complete corresponding source for the APK.** No application behavior has been rewritten to make decompiler output compile. The APK was used only as input. Application smali remains authoritative when Java reconstruction is incomplete or misleading.
 
@@ -25,7 +25,7 @@ jadx --no-res --threads-count 4 --show-bad-code -d "$JADX_OUT" "$APK"
 
 The main process **returned exit code 3**, and the captured output ended with **`ERROR - finished with errors, count: 240`**. The last progress message was `4405 of 4406 (99%)`; the command then terminated with errors, rather than reporting a clean 100% success. The default log did not enumerate the 240 errors individually. Failure details embedded in the application Java are inventoried below. The aggregate includes the entire APK, not just retained application files; its value must not be described as 240 application failures.
 
-Selected captured log lines, omitting repeated progress messages only:
+Selected captured log lines, omitting repeated progress messages only.
 
 ```text
 INFO  - loading ...
@@ -34,7 +34,7 @@ INFO  - progress: 4405 of 4406 (99%)
 ERROR - finished with errors, count: 240
 ```
 
-The legacy screenshot converter failed to reconstruct. A separate targeted simple-mode attempt used:
+The legacy screenshot converter failed to reconstruct. A separate targeted simple-mode attempt used.
 
 ```sh
 SIMPLE_OUT=$(mktemp -d)
@@ -44,9 +44,9 @@ jadx --no-res --threads-count 4 --show-bad-code \
   --single-class-output "$SIMPLE_OUT/ScreenshotConverter.java" "$APK"
 ```
 
-That process also **returned exit code 3**, with `ERROR - finished with errors, count: 2`. Its generated method contained both the type-inference failure and a simple-mode code-generation failure (`NullPointerException`: `type` was null during `ArgType.getPrimitiveType()`). It still emitted a method-not-decompiled exception body. This unsuccessful extra output is not substituted for the main Java reference.
+That process also **returned exit code 3**, with `ERROR - finished with errors, count: 2`. Its generated method contained both the type-inference failure and a simple-mode code-generation failure (`NullPointerException`, `type` was null during `ArgType.getPrimitiveType()`). It still emitted a method-not-decompiled exception body. This unsuccessful extra output is not substituted for the main Java reference.
 
-Raw-instruction fallback mode recovered a separate readable instruction listing:
+Raw-instruction fallback mode recovered a separate readable instruction listing.
 
 ```sh
 FALLBACK_OUT=$(mktemp -d)
@@ -58,7 +58,7 @@ jadx --no-res --threads-count 4 --show-bad-code \
 
 This targeted fallback process **returned exit code 0** (`INFO  - done`). Its output is preserved as [`ScreenshotConverter.fallback.java.txt`](https://github.com/faraajs/tidy/blob/archive/2.2.0-reference/sources/instructions/id/eska/screenshotwebp/ScreenshotConverter.fallback.java.txt), not as runnable Java and not as a claimed correction of the main failed decompilation.
 
-The active monitor's structured `process(...)` also contains unresolved types and a decompiler type-inference warning stack trace, so a separate fallback reference was generated:
+The active monitor's structured `process(...)` also contains unresolved types and a decompiler type-inference warning stack trace, so a separate fallback reference was generated.
 
 ```sh
 MONITOR_OUT=$(mktemp -d)
@@ -70,7 +70,7 @@ jadx --no-res --threads-count 4 --show-bad-code \
 
 This targeted fallback process **returned exit code 0** (`INFO  - done`). Its full-class instruction output is [`MediaMonitor.fallback.java.txt`](https://github.com/faraajs/tidy/blob/archive/2.2.0-reference/sources/instructions/id/eska/screenshotwebp/MediaMonitor.fallback.java.txt). Fallback output preserves register operations, jumps, and exception-handler targets rather than restoring Kotlin structure. Cross-check it with smali; successful fallback generation does not prove the structured Java is correct.
 
-A fresh full resource/smali transformation was also generated for the integration owner's comparison, without overwriting the repository copies:
+A fresh full resource/smali transformation was also generated for the integration owner's comparison, without overwriting the repository copies.
 
 ```sh
 APKTOOL_JAR=apktool_2.10.0.jar
@@ -107,10 +107,10 @@ The progress denominator of 4,406 is JADX's processing count, **not** a Java-fil
 
 ### Failed method
 
-[`ScreenshotConverter.java`](https://github.com/faraajs/tidy/blob/archive/2.2.0-reference/sources/id/eska/screenshotwebp/ScreenshotConverter.java), `convert(File, File)`:
+[`ScreenshotConverter.java`](https://github.com/faraajs/tidy/blob/archive/2.2.0-reference/sources/id/eska/screenshotwebp/ScreenshotConverter.java), `convert(File, File)`.
 
 - `JADX ERROR: Type inference failed`.
-- `JadxOverflowException`: type-inference updates reached the limit at `updateSeq = 7461`.
+- `JadxOverflowException`; type-inference updates reached the limit at `updateSeq = 7461`.
 - The generated method comment says the dump was skipped at **746 instruction units** and suggests `--comments-level debug` to see the dump.
 - The emitted `throw new UnsupportedOperationException("Method not decompiled: ...")` is **a decompiler placeholder, not an exception body recovered from the app**.
 - Read the separate [fallback instructions](https://github.com/faraajs/tidy/blob/archive/2.2.0-reference/sources/instructions/id/eska/screenshotwebp/ScreenshotConverter.fallback.java.txt) and [authoritative smali](https://github.com/faraajs/tidy/blob/archive/2.2.0-reference/bytecode/id/eska/screenshotwebp/ScreenshotConverter.smali) instead of inferring that this converter always throws at runtime.
@@ -123,14 +123,14 @@ These are counts of literal diagnostic markers, not counts of known application 
 | --- | ---: | --- |
 | `MainActivity$Dashboard$lambda$0$0$$inlined$items$default$2.java` | 1 | Superclass call moved in the synthetic constructor; JADX explicitly warns that this can break semantics. |
 | `MainActivity.java` | 7 | Four mutable-state getters with failed multi-variable inference; two inlined lazy-item constructors with moved superclass calls; `CategoryCard$lambda$0` with an unreachable block removed (39 instructions). |
-| `MediaConverter.java` | 2 | `convert(...)`: duplicated blocks during cleanup/publication reconstruction. |
-| `MediaMonitor.java` | 24 | Constructors, `observeTree(...)` and its anonymous observer constructor, and `process(...)`: failed inference, unresolved types, duplicated code, moved superclass call. The `process(...)` warning includes an `UnsupportedOperationException` **inside a decompiler stack trace**, not an app throw. |
-| `MonitorService.java` | 1 | `onStartCommand(...)`: failed multi-variable inference and misleading synthetic-default-argument reconstruction. |
-| `ScreenshotMediaConverter.java` | 10 | Constructors and `convert(...)`: failed inference; `publish(...)`: duplicated blocks. |
+| `MediaConverter.java` | 2 | `convert(...)`. Duplicated blocks during cleanup/publication reconstruction. |
+| `MediaMonitor.java` | 24 | Constructors, `observeTree(...)` and its anonymous observer constructor, and `process(...)`. Failed inference, unresolved types, duplicated code, moved superclass call. The `process(...)` warning includes an `UnsupportedOperationException` **inside a decompiler stack trace**, not an app throw. |
+| `MonitorService.java` | 1 | `onStartCommand(...)`. Failed multi-variable inference and misleading synthetic-default-argument reconstruction. |
+| `ScreenshotMediaConverter.java` | 10 | Constructors and `convert(...)`. Failed inference; `publish(...)`. Duplicated blocks. |
 | `ScreenshotMonitor.java` | 2 | Constructor multi-variable inference and unresolved anonymous observer type in `start()`. |
 | **Total** | **47** | |
 
-Examples to inspect before reasoning from Java:
+Examples to inspect before reasoning from Java.
 
 - `MediaMonitor.process(...)` starts with `??` variable types. Its fallback listing retains the active path's stability checks, converter selection, and callbacks without pretending these are valid Java local declarations. The retained retry constant is not evidence of an implemented retry loop.
 - `MediaMonitor.observeTree(...)` and `ScreenshotMonitor.start()` show `??` observer variables; their anonymous classes are nonetheless accounted for and their smali is preserved.

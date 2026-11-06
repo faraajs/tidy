@@ -310,7 +310,7 @@ public final class MediaMonitor implements AutoCloseable {
             }
             if (detail.length() > 160) detail = detail.substring(0, 160);
             error(candidate.category, "Image operation failed (" + failure.getClass().getSimpleName()
-                    + "): " + detail);
+                    + "); " + detail);
         } catch (LinkageError failure) {
             failed = true;
             error(candidate.category, "The image codec could not be loaded; original retained.");

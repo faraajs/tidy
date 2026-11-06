@@ -248,7 +248,7 @@ public final class MonitorService extends Service {
         String text = snapshot.pending + " pending · " + snapshot.processing + " processing"
                 + " · " + (snapshot.screenshotCount + snapshot.photoCount) + " converted";
         if (snapshot.lastError != null && !snapshot.lastError.isEmpty()) {
-            text += "\nLast error: " + snapshot.lastError;
+            text += "\nLast error · " + snapshot.lastError;
         } else if (snapshot.lastResult != null && !snapshot.lastResult.isEmpty()) {
             text += "\n" + snapshot.lastResult;
         }

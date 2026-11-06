@@ -45,7 +45,7 @@ The historical notes report that the screenshot converter, AVIF-to-WebP fallback
 
 The first repacked build crashed on launch with a Dalvik `VerifyError` in `AppStateStore.migrateLegacyState()`. A migration branch reused `p0` for `SharedPreferences`, then accessed it as an `AppStateStore`. The fix kept `p0` typed as the store and used `v0` for the migration editor.
 
-The corrected artifact was `tidy-v2.2.0-webp-selection-crashfix.apk`. The historical notes report re-decoding, a passing format-selection regression test, installation over the debug-signed 2.2.0 build without uninstalling, and a smoke launch on an SM-G770F: the process remained alive and `MainActivity` was resumed.
+The corrected artifact was `tidy-v2.2.0-webp-selection-crashfix.apk`. The historical notes report re-decoding, a passing format-selection regression test, installation over the debug-signed 2.2.0 build without uninstalling, and a smoke launch on an SM-G770F; the process remained alive and `MainActivity` was resumed.
 
 ### arm64 package pruning
 
@@ -65,7 +65,7 @@ The first UI revision could fail immediately because the patched `MainActivity.o
 
 ### Remaining UI verifier fix, r3
 
-A later connected-device logcat identified the remaining r2 fault: `MainActivity.Header` left `v0` holding `MainActivity$$ExternalSyntheticLambda28`, while the generated `updateScope` path needed the original integer flags. The r3 patch saved the integer in `v26`, invoked the theme button, and restored `v0`.
+A later connected-device logcat identified the remaining r2 fault. `MainActivity.Header` left `v0` holding `MainActivity$$ExternalSyntheticLambda28`, while the generated `updateScope` path needed the original integer flags. The r3 patch saved the integer in `v26`, invoked the theme button, and restored `v0`.
 
 The historical notes report that `tidy-v2.2.0-ui-dark-arm64-r3.apk` was installed over r2 on an SM-G770F. `am start -W` returned `Status: ok`, the process stayed alive, and no new `id.eska.tidy` crash appeared. At that stage the notes recorded retaining r3 and the known-good arm64 rollback. This repository's preserved release record concerns r3 only.
 
@@ -76,7 +76,7 @@ The historical notes report that `tidy-v2.2.0-ui-dark-arm64-r3.apk` was installe
 - Where Java recovery is incomplete, the matching smali from the final APK is the authoritative recovered application representation. Decompiler-generated exception bodies are not evidence that the original application threw those exceptions.
 - The package ID and implementation namespace differ intentionally; they describe one application, not separate packages to install.
 
-For example, with the stated tool versions and the local APK available, extraction can be performed into separate working directories:
+For example, with the stated tool versions and the local APK available, extraction can be performed into separate working directories.
 
 ```sh
 apktool d -f releases/v2.2.0/tidy-v2.2.0-ui-dark-arm64-r3.apk -o decoded-r3
@@ -89,13 +89,13 @@ These commands describe extraction, not a supported source build, and do not by 
 
 The recovered baseline used the original `Screenshot WebP` signing certificate. Its private keystore was no longer present after cleanup. The repacked artifacts therefore used a local Android debug keystore; the original signing key has not been recovered and no private key is published.
 
-Android rejects an in-place update when the installed application and APK have different signing certificates. Switching from an original-signed baseline or the historical debug-signed recovery to the new 2.3.0 certificate requires manually uninstalling first, which removes local app settings. Historical updates between same-debug-certificate recovery revisions did not require uninstalling. See the [current installation instructions](../README.md). Back up important media: conversion is lossy and optional original deletion is irreversible.
+Android rejects an in-place update when the installed application and APK have different signing certificates. Switching from an original-signed baseline or the historical debug-signed recovery to the new 2.3.0 certificate requires manually uninstalling first, which removes local app settings. Historical updates between same-debug-certificate recovery revisions did not require uninstalling. See the [current installation instructions](../README.md). Back up important media. Conversion is lossy and optional original deletion is irreversible.
 
 ## Evidence boundaries and current verification
 
 The launch results and regression checks above are **historical evidence from the earlier recovery**, not checks repeated for the current public-source preparation. The SM-G770F is the only device named by that historical record; no current device compatibility sweep is claimed.
 
-Historical source-publication preparation observed:
+Historical source-publication preparation observed.
 
 - The original APK and local release copy match the recorded SHA-256; `sha256sum -c SHA256SUMS.txt` returns `OK`.
 - Android `apksigner verify --verbose --print-certs` verifies the preserved APK's v3 signature and the Android Debug certificate fingerprint recorded above.
